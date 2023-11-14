@@ -2,30 +2,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="님이 보고싶은 영화"
+        android:text="슝슝이 님이 보고싶은 영화"
         android:layout_marginTop="30px"
-        android:layout_marginLeft="20px"
-        android:background="#EEEEEE"/>
+        android:layout_marginHorizontal="15dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:background="#FCE1E1E1"
+        android:fontFamily="@font/nanumGothicBold" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="1"/>
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:background="#EEEEEE"
+        tools:ignore="SpeakableTextPresentCheck"/>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="3dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@color/black"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="님이 본 영화"
-        android:layout_marginLeft="20px"
-        android:background="#EEEEEE"/>
+        android:text="슝슝이 님이 본 영화"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="15dp"
+        android:textSize="20dp"
+        android:background="#EEEEEE"
+        android:textColor="@color/black"
+        android:fontFamily="@font/nanumGothicBold"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="1"/>
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:background="#EEEEEE"
+        tools:ignore="SpeakableTextPresentCheck"/>
 
 
 
