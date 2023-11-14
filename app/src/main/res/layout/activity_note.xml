@@ -14,7 +14,7 @@
         <ImageView
             android:id="@+id/poster"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/upload"
@@ -63,8 +63,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20px"
-        android:lines="1"/>
+        android:layout_marginHorizontal="20px"
+        android:lines="1"
+        android:background="#EEEEEE"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -76,8 +77,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20px"
-        android:lines="4" />
+        android:layout_marginHorizontal="20px"
+        android:lines="4"
+        android:background="#EEEEEE"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -88,7 +90,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20px"
-        android:lines="12" />
+        android:layout_marginHorizontal="20px"
+        android:lines="12"
+        android:background="#EEEEEE"/>
 
 </LinearLayout>
