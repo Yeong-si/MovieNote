@@ -8,7 +8,7 @@
 
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -16,39 +16,71 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <Button
+        <android.widget.Button
             android:id="@+id/upload"
-            android:layout_width="90dp"
-            android:layout_height="45dp"
+            android:layout_width="75dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
-            android:text="업로드" />
+            android:layout_marginTop="5dp"
+            android:text="업로드"
+            android:background="#8A8A8A"/>
 
         <TextView
             android:id="@+id/moviename"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_below="@+id/upload"
             android:text="영화" />
 
         <TextView
-            android:id="@+id/date"
+            android:id="@+id/dateName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_below="@+id/moviename"
             android:text="일시" />
 
         <TextView
+            android:id="@+id/date"
+            android:layout_width="80dp"
+            android:layout_height="20dp"
+            android:layout_above="@+id/ratingStar"
+            android:layout_toRightOf="@+id/dateName"
+            android:background="#EEEEEE"/>
+
+        <ImageView
+            android:id="@+id/date_btn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/iconcalendar"
+            android:layout_toRightOf="@id/date"
+            android:layout_above="@id/ratingStar"/>
+        
+
+        <TextView
             android:id="@+id/score"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/date"
+            android:layout_height="20dp"
+            android:layout_below="@+id/dateName"
             android:text="평점" />
+
+        <RatingBar
+            android:id="@+id/ratingStar"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_above="@+id/open"
+            android:layout_toRightOf="@+id/score"
+            android:isIndicator="false"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:max="5"
+            android:background="#EEEEEE" />
 
         <TextView
             android:id="@+id/open"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_below="@+id/score"
             android:text="공개" />
 

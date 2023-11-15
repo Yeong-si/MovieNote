@@ -11,10 +11,12 @@ public class Movie extends Fragment {
     public static void main(){
         String text = null;
         try {
-            //text = URLEncoder.encode("keyword","UTF-8");
+            text = URLEncoder.encode("keyword","UTF-8");
         }catch (Exception e){
 
         }
+
+        String apiURL = "https://openapi.naver.com/v1/search/movie.json"+text;
     }
 
 }
