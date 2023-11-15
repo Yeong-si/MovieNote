@@ -1,34 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BaseActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".BaseActivity">
 
-    <Button
-        android:id="@+id/MovieSearchButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="감상평 검색"
-        android:textColor="#000000"
-        android:background="#FFFFFF"/>
-
-    <Button
-        android:id="@+id/PartySearchButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="파티 검색"
-        android:textColor="#000000"
-        android:background="#FFFFFF"/>
-
-    <Button
+    <android.widget.Button
         android:id="@+id/PartyInformationButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="@drawable/edgecolor"
         android:text="파티 정보"
-        android:textColor="#000000"
-        android:background="#FFFFFF"/>
+        app:layout_constraintBottom_toTopOf="@+id/PartySearchButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MovieSearchButton"
+        app:layout_constraintVertical_bias="0.5"
+        android:textStyle="bold"/>
 
-</LinearLayout>
+    <android.widget.Button
+        android:id="@+id/MovieSearchButton"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="@drawable/edgecolor"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="8dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="8dp"
+        android:text="감상평 검색"
+        app:layout_constraintBottom_toTopOf="@+id/PartyInformationButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        android:textStyle="bold"/>
+
+    <android.widget.Button
+        android:id="@+id/PartySearchButton"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="@drawable/edgecolor"
+        android:text="파티 검색"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PartyInformationButton"
+        app:layout_constraintVertical_bias="0.5"
+        android:textStyle="bold"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
