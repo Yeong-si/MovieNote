@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <font-family xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <font android:fontWeight="400"
-        android:font="@font/nanumGothicLight"/>
 
     <font android:fontWeight="400"
-        android:font="@font/nanumGothic"/>
+        android:font="@font/nanumbarungothic"/>
 
     <font android:fontWeight="400"
-        android:font="@font/nanumGothicBold"/>
+        android:font="@font/nanumbarungothicbold"/>
 
-    <font android:font="@font/nanumGothicExtraBold"/>
+    <font android:fontWeight="400"
+        android:font="@font/nanumbarungothiclight"/>
+
+    <font android:fontWeight="400"
+        android:font="@font/nanumbarungothicultralight"/>
 
 
 
