@@ -3,7 +3,9 @@ package com.example.movienote;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.RatingBar;
 
@@ -43,6 +45,13 @@ public class NoteActivity extends AppCompatActivity {
                     }, year, month, day);
 
             dateDialog.show();
+        });
+
+        binding.upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(NoteActivity.this, FinishedMovieActivity.class));
+            }
         });
 
 
