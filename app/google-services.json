@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "848459953568",
+    "project_id": "movienote-e5070",
+    "storage_bucket": "movienote-e5070.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848459953568:android:a6b8fdc3cfbc84f00820c5",
+        "android_client_info": {
+          "package_name": "com.example.movienote"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApjmJxZsn1kNVqIc-NwQasqxgcsIDwX6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
