@@ -22,6 +22,7 @@ public class NoteActivity extends AppCompatActivity {
         binding = ActivityNoteBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
+        //평점 변경
         binding.ratingStar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -29,6 +30,7 @@ public class NoteActivity extends AppCompatActivity {
             }
         });
 
+        //캘린더 날짜 선택
         binding.dateBtn.setOnClickListener(view -> {
             Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
@@ -46,7 +48,17 @@ public class NoteActivity extends AppCompatActivity {
 
             dateDialog.show();
         });
-
+        //공개 비공개 버튼
+        binding.openBtn.setOnClickListener(view -> {
+            if(binding.openNote.getVisibility() == View.VISIBLE){
+                binding.openNote.setVisibility(View.INVISIBLE);
+                binding.closedNote.setVisibility(View.VISIBLE);
+            }else {
+                binding.openNote.setVisibility(View.VISIBLE);
+                binding.closedNote.setVisibility(View.INVISIBLE);
+            }
+        });
+        //업로드 후 노트화면으로 가기
         binding.upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
