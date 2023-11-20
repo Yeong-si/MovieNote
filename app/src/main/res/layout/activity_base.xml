@@ -22,7 +22,7 @@
         android:textStyle="bold"/>
 
     <android.widget.Button
-        android:id="@+id/MovieSearchButton"
+        android:id="@+id/MovieNoteSearchButton"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:background="@drawable/edgecolor"

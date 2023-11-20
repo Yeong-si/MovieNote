@@ -17,15 +17,15 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         binding = ActivityBaseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.MovieSearchButton.setOnClickListener(this);
+        binding.MovieNoteSearchButton.setOnClickListener(this);
         binding.PartySearchButton.setOnClickListener(this);
         binding.PartyInformationButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == binding.MovieSearchButton){
-            Intent intent = new Intent(getApplicationContext(), MovieSearchActivity.class);
+        if (v == binding.MovieNoteSearchButton){
+            Intent intent = new Intent(getApplicationContext(), MovieNoteSearchActivity.class);
             startActivity(intent);
         } else if (v == binding.PartySearchButton) {
             Intent intent = new Intent(getApplicationContext(), PartySearchActivity.class);
