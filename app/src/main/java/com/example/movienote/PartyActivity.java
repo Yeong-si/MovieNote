@@ -4,16 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.movienote.databinding.ActivityPartySearchBinding;
+import com.example.movienote.databinding.ActivityPartyBinding;
 
-public class PartySearchActivity extends AppCompatActivity {
+public class PartyActivity extends AppCompatActivity {
 
-    ActivityPartySearchBinding binding;
+    ActivityPartyBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityPartySearchBinding.inflate(getLayoutInflater());
+        binding = ActivityPartyBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
     }
 }

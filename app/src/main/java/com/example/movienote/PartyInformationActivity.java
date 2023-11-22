@@ -4,11 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.movienote.databinding.ActivityPartyInformationBinding;
+
 public class PartyInformationActivity extends AppCompatActivity {
 
+    ActivityPartyInformationBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_party_information);
+
+        binding = ActivityPartyInformationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
     }
 }

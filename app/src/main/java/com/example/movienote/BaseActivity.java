@@ -20,6 +20,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         binding.MovieNoteSearchButton.setOnClickListener(this);
         binding.PartySearchButton.setOnClickListener(this);
         binding.PartyInformationButton.setOnClickListener(this);
+        binding.PartyButton.setOnClickListener(this);
     }
 
     @Override
@@ -32,6 +33,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if (v == binding.PartyInformationButton) {
             Intent intent = new Intent(getApplicationContext(), PartyInformationActivity.class);
+            startActivity(intent);
+        } else if (v == binding.PartyButton) {
+            Intent intent = new Intent(getApplicationContext(), PartyActivity.class);
             startActivity(intent);
         }
     }
