@@ -1,3 +1,5 @@
+// 사용자가 자신이 속한 파티들을 볼 수 있는 액티비티
+
 package com.example.movienote;
 
 import androidx.appcompat.app.AppCompatActivity;

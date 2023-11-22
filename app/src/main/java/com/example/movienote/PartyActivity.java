@@ -1,3 +1,5 @@
+// ott를 공유할 파티원들을 구하는 글을 올릴 수 있는 액티비티
+
 package com.example.movienote;
 
 import androidx.appcompat.app.AppCompatActivity;

@@ -1,3 +1,5 @@
+// 공유하고 싶은 ott 서비스의 파티를 검색하는 액티비티
+
 package com.example.movienote;
 
 import androidx.appcompat.app.AppCompatActivity;
