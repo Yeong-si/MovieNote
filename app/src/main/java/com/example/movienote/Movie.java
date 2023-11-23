@@ -15,6 +15,11 @@ public class Movie extends Fragment {
 
     public static void main(String input ){
 
+        StringBuilder urlBuilder = new StringBuilder("http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&nation=대한민국");/*URL*/
+        urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=서비스키");/*Service Key*/
+        urlBuilder.append("&" + URLEncoder.encode("val001","UTF-8") + "=" + URLEncoder.encode("2018", "UTF-8"));/*상영년도*/
+        urlBuilder.append("&" + URLEncoder.encode("val002","UTF-8") + "=" + URLEncoder.encode("01", "UTF-8"));/*상영 월*/
+        URL url = new URL(urlBuilder.toString());
     }
 
 }
