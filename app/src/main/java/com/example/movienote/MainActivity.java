@@ -32,6 +32,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        Thread thread = new Thread(){
+//            public void run(){
+//                Movie api = new Movie();
+//
+//            }
+//        };
+
     }
 
 }

@@ -28,6 +28,9 @@
             android:name=".BaseActivity"
             android:exported="false" />
         <activity
+            android:name=".MovieSearchActivity"
+            android:exported="true"/>
+        <activity
             android:name=".NoteActivity"
             android:exported="true">
             <intent-filter>

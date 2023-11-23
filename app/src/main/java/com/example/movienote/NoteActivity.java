@@ -48,7 +48,10 @@ public class NoteActivity extends AppCompatActivity {
 
             dateDialog.show();
         });
+
         //공개 비공개 버튼
+        //추후 공개.비공개 여부로 sns 검색창에 뜰지말지 결정하기.
+        //노트가 파이어베이스로 넘어가서 서버에 저장가능하도록 해보기
         binding.openBtn.setOnClickListener(view -> {
             if(binding.openNote.getVisibility() == View.VISIBLE){
                 binding.openNote.setVisibility(View.INVISIBLE);
@@ -58,14 +61,14 @@ public class NoteActivity extends AppCompatActivity {
                 binding.closedNote.setVisibility(View.INVISIBLE);
             }
         });
-        //업로드 후 노트화면으로 가기
+
+        //업로드 후 노트화면으로 가기(업로드부분 짜야함)
         binding.upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(NoteActivity.this, FinishedMovieActivity.class));
             }
         });
-
 
 
     }
