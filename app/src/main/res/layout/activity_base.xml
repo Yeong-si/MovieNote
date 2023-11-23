@@ -11,20 +11,23 @@
         android:id="@+id/PartyInformationButton"
         android:layout_width="250dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="109dp"
         android:background="@drawable/edgecolor"
         android:text="파티 정보"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/PartySearchButton"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/PartySearchButton"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MovieSearchButton"
-        app:layout_constraintVertical_bias="0.5"
-        android:textStyle="bold"/>
+        app:layout_constraintStart_toEndOf="@+id/PartySearchButton"
+        app:layout_constraintStart_toStartOf="@+id/PartySearchButton"
+        app:layout_constraintTop_toBottomOf="@+id/MovieNoteSearchButton"
+        app:layout_constraintVertical_bias="0.5" />
 
     <android.widget.Button
-        android:id="@+id/MovieSearchButton"
+        android:id="@+id/MovieNoteSearchButton"
         android:layout_width="250dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="109dp"
         android:background="@drawable/edgecolor"
         android:minWidth="0dp"
         android:minHeight="0dp"
@@ -33,26 +36,43 @@
         android:paddingRight="16dp"
         android:paddingBottom="8dp"
         android:text="감상평 검색"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/PartyInformationButton"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/PartyInformationButton"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/PartyInformationButton"
+        app:layout_constraintStart_toStartOf="@+id/PartyInformationButton"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        android:textStyle="bold"/>
+        app:layout_constraintVertical_bias="0.5" />
 
     <android.widget.Button
         android:id="@+id/PartySearchButton"
         android:layout_width="250dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="110dp"
         android:background="@drawable/edgecolor"
         android:text="파티 검색"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/PartyButton"
+        app:layout_constraintEnd_toEndOf="@+id/PartyButton"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="@+id/PartyButton"
+        app:layout_constraintTop_toBottomOf="@+id/PartyInformationButton"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <android.widget.Button
+        android:id="@+id/PartyButton"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="@drawable/edgecolor"
+        android:text="파티 만들기"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toEndOf="@+id/MovieNoteSearchButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PartyInformationButton"
-        app:layout_constraintVertical_bias="0.5"
-        android:textStyle="bold"/>
+        app:layout_constraintVertical_bias="0.803" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
