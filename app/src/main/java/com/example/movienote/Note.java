@@ -6,14 +6,14 @@ import java.io.File;
 import java.util.Calendar;
 
 public class Note {
-    private String writer;
-    private String movieTitle;
-    private Calendar calendar;
-    private float rating;
-    private boolean visible;
-    private String noteTitle;
-    private String comment;
-    private File note;
+    private String writer; // 작성자
+    private String movieTitle; // 영화 제목
+    private Calendar calendar; // 일시
+    private float rating; // 평점
+    private boolean visible; // 공개 여부
+    private String noteTitle; // 감상문 제목
+    private String comment; // 기억하고 싶은 나의 한 줄
+    private File note; // 본문
 
     public Note() {}
     public Note(String writer,String movieTitle,Calendar calendar,float rating,boolean visible,String noteTitle,String comment,File note) {

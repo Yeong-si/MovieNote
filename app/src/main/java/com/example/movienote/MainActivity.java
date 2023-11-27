@@ -11,15 +11,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
-    private FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
-
-        initializeCloudFirestore();
 
         binding.finishedMoviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,8 +39,5 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        };
 
-    }
-    private void initializeCloudFirestore() {
-        db = FirebaseFirestore.getInstance();
     }
 }

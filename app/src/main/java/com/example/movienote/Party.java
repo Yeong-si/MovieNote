@@ -8,7 +8,7 @@ import com.google.firebase.firestore.ServerTimestamp;
 import java.util.List;
 
 public class Party {
-    private String writer;
+    private String writer; // 작성자
     private String title; // 파티원 구하는 글의 제목
     private String subscription; // 구독할 요금제 종류
     private List<String> member; // 현재 멤버

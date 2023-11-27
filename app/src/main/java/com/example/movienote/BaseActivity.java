@@ -9,9 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.movienote.databinding.ActivityBaseBinding;
+import com.google.firebase.Firebase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
+    FirebaseFirestore db;
     private ActivityBaseBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +22,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
         binding = ActivityBaseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        db = FirebaseFirestore.getInstance(); // 액티비티로부터 firestore 클라우드의 개체로 접근함
 
         binding.MovieNoteSearchButton.setOnClickListener(this);
         binding.PartySearchButton.setOnClickListener(this);
