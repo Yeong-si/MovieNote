@@ -8,6 +8,7 @@ import com.google.firebase.firestore.ServerTimestamp;
 import java.util.List;
 
 public class Party {
+    private String writer;
     private String title; // 파티원 구하는 글의 제목
     private String subscription; // 구독할 요금제 종류
     private List<String> member; // 현재 멤버
@@ -19,7 +20,8 @@ public class Party {
     private String password; // 공유하는 비밀번호
 
     public Party() {}
-    public Party(String title,String subscription,List<String> member,Long accountNumber,String bankName,String accountHolderName,Long price,String id,String password) {
+    public Party(String writer,String title,String subscription,List<String> member,Long accountNumber,String bankName,String accountHolderName,Long price,String id,String password) {
+        this.writer = writer;
         this.accountHolderName = accountHolderName;
         this.accountNumber = accountNumber;
         this.bankName = bankName;
@@ -30,6 +32,9 @@ public class Party {
         this.id = id;
         this.password = password;
     }
+
+    public String getWriter() {return writer;}
+    public void setWriter(String writer) {this.writer = writer;}
 
     public String getAccountHolderName() {return accountHolderName;}
     public void setAccountHolerName(String accountHolderName) {this.accountHolderName = accountHolderName;}
