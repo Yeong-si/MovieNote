@@ -28,8 +28,8 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ott_icon"
                     android:adjustViewBounds="true"
-                    android:maxHeight="200"
-                    android:maxWidth="200"/>
+                    android:maxHeight="200dp"
+                    android:maxWidth="200dp"/>
 
             </LinearLayout>
 
