@@ -25,7 +25,7 @@ public class PartyInformationActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ArrayList<Party> partyArrayList;
-    PartySearchAdapter partySearchAdapter;
+    PartyInformationAdapter partyInformationAdapter;
     FirebaseFirestore db;
     ProgressDialog progressDialog;
     ActivityPartyInformationBinding binding;
@@ -47,9 +47,9 @@ public class PartyInformationActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         partyArrayList = new ArrayList<Party>();
-        partySearchAdapter = new PartySearchAdapter(PartyInformationActivity.this,partyArrayList);
+        partyInformationAdapter = new PartyInformationAdapter(PartyInformationActivity.this,partyArrayList);
 
-        recyclerView.setAdapter(partySearchAdapter);
+        recyclerView.setAdapter(partyInformationAdapter);
 
         EventChangeListener();
     }
@@ -77,7 +77,7 @@ public class PartyInformationActivity extends AppCompatActivity {
                                 partyArrayList.add(dc.getDocument().toObject(Party.class));
                             }
 
-                            partySearchAdapter.notifyDataSetChanged();
+                            partyInformationAdapter.notifyDataSetChanged();
                             if (progressDialog.isShowing()) {
                                 progressDialog.dismiss();
                             }

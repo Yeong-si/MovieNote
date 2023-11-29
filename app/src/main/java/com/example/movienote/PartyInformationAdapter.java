@@ -1,9 +1,11 @@
 package com.example.movienote;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,12 +44,14 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
         holder.subscription.setText(party.getSubscription());
         holder.id.setText(party.getId());
         holder.password.setText(party.getPassword());
-        holder.member1.setText(party.getMember().get(1));
-        holder.member2.setText(party.getMember().get(2));
-        holder.member3.setText(party.getMember().get(3));
-        holder.member4.setText(party.getMember().get(4));
         holder.accountNumber.setText(party.getAccountNumber().toString());
         holder.bankName.setText(party.getBankName());
+
+        for (int i=0;i<party.getMember().size();i++){
+            TextView textView = new TextView(context);
+            textView.setText(party.getMember().get(i));
+            holder.gridLayout.addView(textView);
+        }
     }
 
     @Override
@@ -55,8 +59,9 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
 
     public static class PartyInformationViewHolder extends RecyclerView.ViewHolder {
 
-        TextView subscription,member_size,price,id,password,accountHolderName,accountNumber,member1,member2,member3,member4,bankName;
+        TextView subscription,member_size,price,id,password,accountHolderName,accountNumber,bankName;
         ImageView ott_icon;
+        GridLayout gridLayout;
         public PartyInformationViewHolder(@NonNull View itemView) {
 
             super(itemView);
@@ -67,12 +72,10 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
             password = itemView.findViewById(R.id.password);
             accountHolderName = itemView.findViewById(R.id.accountHolderName);
             accountNumber = itemView.findViewById(R.id.accountNumber);
-            member1 = itemView.findViewById(R.id.member1);
-            member2 = itemView.findViewById(R.id.member2);
-            member3 = itemView.findViewById(R.id.member3);
-            member4 = itemView.findViewById(R.id.member4);
 
             ott_icon = itemView.findViewById(R.id.ott_icon);
+
+            gridLayout = itemView.findViewById(R.id.gridLayout);
         }
     }
 }
