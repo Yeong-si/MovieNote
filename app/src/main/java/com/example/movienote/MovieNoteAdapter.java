@@ -9,13 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.DocumentReference;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.MovieNoteViewHolder> {
@@ -32,7 +25,7 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
     @Override
     public MovieNoteAdapter.MovieNoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.item1,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_movie_note,parent,false);
 
         return new MovieNoteViewHolder(view);
     }
