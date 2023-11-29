@@ -13,41 +13,74 @@ public class Note {
     private boolean visible; // 공개 여부
     private String noteTitle; // 감상문 제목
     private String comment; // 기억하고 싶은 나의 한 줄
-    private File note; // 본문
+    private String note; // 본문
 
     public Note() {}
-    public Note(String writer,String movieTitle,Calendar calendar,float rating,boolean visible,String noteTitle,String comment,File note) {
+
+    public Note(String writer, String movieTitle, Calendar calendar, float rating, boolean visible, String noteTitle, String comment, String note) {
         this.writer = writer;
-        this.calendar = calendar;
-        this.note = note;
-        this.comment = comment;
-        this.noteTitle = noteTitle;
-        this.visible = visible;
         this.movieTitle = movieTitle;
+        this.calendar = calendar;
+        this.rating = rating;
+        this.visible = visible;
+        this.noteTitle = noteTitle;
+        this.comment = comment;
+        this.note = note;
+    }
+
+    public String getWriter() {
+        return writer;
+    }
+    public void setWriter(String writer) {
+        this.writer = writer;
+    }
+
+    public String getMovieTitle() {
+        return movieTitle;
+    }
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
+    }
+
+    public Calendar getCalendar() {
+        return calendar;
+    }
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
-    public String getWriter() {return writer;}
-    public void setWriter(String writer) {this.writer = writer;}
+    public boolean isVisible() {
+        return visible;
+    }
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 
-    public Calendar getCalendar() {return calendar;}
-    public void setCalendar(Calendar calendar) {this.calendar = calendar;}
+    public String getNoteTitle() {
+        return noteTitle;
+    }
+    public void setNoteTitle(String noteTitle) {
+        this.noteTitle = noteTitle;
+    }
 
-    public File getNote() {return note;}
-    public void setNote(File note) {this.note = note;}
+    public String getComment() {
+        return comment;
+    }
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-    public String getComment() {return comment;}
-    public void setComment(String comment) {this.comment = comment;}
-
-    public String getNoteTitle() {return noteTitle;}
-    public void setNoteTitle(String noteTitle) {this.noteTitle = noteTitle;}
-
-    public boolean getVisible() {return visible;}
-    public void setVisible(boolean visible) {this.visible = visible;}
-
-    public String getMovieTitle() {return movieTitle;}
-    public void setMovieTitle(String movieTitle) {this.movieTitle = movieTitle;}
-
-    public float getRating() {return rating;}
-    public void setRating(float rating) {this.rating = rating;}
+    public String getNote() {
+        return note;
+    }
+    public void setNote(String note) {
+        this.note = note;
+    }
 }
