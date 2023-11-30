@@ -3,12 +3,17 @@
 package com.example.movienote;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.movienote.databinding.ActivityBaseBinding;
+import com.google.firebase.Firebase;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
