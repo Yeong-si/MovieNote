@@ -46,10 +46,10 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
             @Override
             public void onClick(View v) {
                 // 원래 버튼 텍스트 저장
-                String originalText = id.getText().toString();
+                String originalText = holder.id.getText().toString();
 
                 // 클립보드에 복사할 텍스트
-                String temporaryText = "temporaryText";
+                String temporaryText = party.getId();
 
                 // 클립보드에 텍스트 복사
                 ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -57,25 +57,25 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                 clipboard.setPrimaryClip(clip);
 
                 // 원하는 텍스트로 버튼 텍스트 변경
-                id.setText(temporaryText);
+                holder.id.setText(temporaryText);
 
                 // 일정 시간 후에 버튼 텍스트를 원래대로 변경
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        id.setText(originalText);
+                        holder.id.setText(originalText);
                     }
                 }, 3000);  // 5000 밀리초(5초) 후에 실행
             }
         });
-        password.setOnClickListener(new View.OnClickListener() {
+        holder.password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 원래 버튼 텍스트 저장
-                String originalText = password.getText().toString();
+                String originalText = holder.password.getText().toString();
 
                 // 클립보드에 복사할 텍스트
-                String temporaryText = "Temporary Text";
+                String temporaryText = party.getPassword();
 
                 // 클립보드에 텍스트 복사
                 ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -83,25 +83,25 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                 clipboard.setPrimaryClip(clip);
 
                 // 원하는 텍스트로 버튼 텍스트 변경
-                password.setText(temporaryText);
+                holder.password.setText(temporaryText);
 
                 // 일정 시간 후에 버튼 텍스트를 원래대로 변경
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        password.setText(originalText);
+                        holder.password.setText(originalText);
                     }
                 }, 3000);  // 5000 밀리초(5초) 후에 실행
             }
         });
-        accountNumber.setOnClickListener(new View.OnClickListener() {
+        holder.accountNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 원래 버튼 텍스트 저장
-                String originalText = accountNumber.getText().toString();
+                String originalText = holder.accountNumber.getText().toString();
 
                 // 클립보드에 복사할 텍스트
-                String temporaryText = "Temporary Text";
+                String temporaryText = party.getAccountNumber().toString();
 
                 // 클립보드에 텍스트 복사
                 ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -109,25 +109,25 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                 clipboard.setPrimaryClip(clip);
 
                 // 원하는 텍스트로 버튼 텍스트 변경
-                accountNumber.setText(temporaryText);
+                holder.accountNumber.setText(temporaryText);
 
                 // 일정 시간 후에 버튼 텍스트를 원래대로 변경
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        accountNumber.setText(originalText);
+                        holder.accountNumber.setText(originalText);
                     }
                 }, 3000);  // 5000 밀리초(5초) 후에 실행
             }
         });
-        accountHolderName.setOnClickListener(new View.OnClickListener() {
+        holder.accountHolderName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 원래 버튼 텍스트 저장
-                String originalText = accountHolderName.getText().toString();
+                String originalText = holder.accountHolderName.getText().toString();
 
                 // 클립보드에 복사할 텍스트
-                String temporaryText = "Temporary Text";
+                String temporaryText = party.getAccountHolderName();
 
                 // 클립보드에 텍스트 복사
                 ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -135,25 +135,25 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                 clipboard.setPrimaryClip(clip);
 
                 // 원하는 텍스트로 버튼 텍스트 변경
-                accountHolderName.setText(temporaryText);
+                holder.accountHolderName.setText(temporaryText);
 
                 // 일정 시간 후에 버튼 텍스트를 원래대로 변경
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        accountHolderName.setText(originalText);
+                        holder.accountHolderName.setText(originalText);
                     }
                 }, 3000);  // 5000 밀리초(5초) 후에 실행
             }
         });
-        price.setOnClickListener(new View.OnClickListener() {
+        holder.price.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 원래 버튼 텍스트 저장
-                String originalText = price.getText().toString();
+                String originalText = holder.price.getText().toString();
 
                 // 클립보드에 복사할 텍스트
-                String temporaryText = "Temporary Text";
+                String temporaryText = party.getPrice().toString();
 
                 // 클립보드에 텍스트 복사
                 ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -161,25 +161,25 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                 clipboard.setPrimaryClip(clip);
 
                 // 원하는 텍스트로 버튼 텍스트 변경
-                price.setText(temporaryText);
+                holder.price.setText(temporaryText);
 
                 // 일정 시간 후에 버튼 텍스트를 원래대로 변경
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        price.setText(originalText);
+                        holder.price.setText(originalText);
                     }
                 }, 3000);  // 5000 밀리초(5초) 후에 실행
             }
         });
-        bankName.setOnClickListener(new View.OnClickListener() {
+        holder.bankName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 원래 버튼 텍스트 저장
-                String originalText = bankName.getText().toString();
+                String originalText = holder.bankName.getText().toString();
 
                 // 클립보드에 복사할 텍스트
-                String temporaryText = "Temporary Text";
+                String temporaryText = party.getBankName();
 
                 // 클립보드에 텍스트 복사
                 ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -187,19 +187,17 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                 clipboard.setPrimaryClip(clip);
 
                 // 원하는 텍스트로 버튼 텍스트 변경
-                bankName.setText(temporaryText);
+                holder.bankName.setText(temporaryText);
 
                 // 일정 시간 후에 버튼 텍스트를 원래대로 변경
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        bankName.setText(originalText);
+                        holder.bankName.setText(originalText);
                     }
                 }, 3000);  // 5000 밀리초(5초) 후에 실행
             }
         });
-
-
 
         for (int i=0;i<party.getMember().size();i++){
             TextView textView = new TextView(context);
@@ -232,164 +230,6 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
             ott_icon = itemView.findViewById(R.id.ott_icon);
 
             gridLayout = itemView.findViewById(R.id.gridLayout);
-
-            id.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // 원래 버튼 텍스트 저장
-                    String originalText = id.getText().toString();
-
-                    // 클립보드에 복사할 텍스트
-                    String temporaryText = "temporaryText";
-
-                    // 클립보드에 텍스트 복사
-                    ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("label", temporaryText);
-                    clipboard.setPrimaryClip(clip);
-
-                    // 원하는 텍스트로 버튼 텍스트 변경
-                    id.setText(temporaryText);
-
-                    // 일정 시간 후에 버튼 텍스트를 원래대로 변경
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            id.setText(originalText);
-                        }
-                    }, 3000);  // 5000 밀리초(5초) 후에 실행
-                }
-            });
-            password.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // 원래 버튼 텍스트 저장
-                    String originalText = password.getText().toString();
-
-                    // 클립보드에 복사할 텍스트
-                    String temporaryText = "Temporary Text";
-
-                    // 클립보드에 텍스트 복사
-                    ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("label", temporaryText);
-                    clipboard.setPrimaryClip(clip);
-
-                    // 원하는 텍스트로 버튼 텍스트 변경
-                    password.setText(temporaryText);
-
-                    // 일정 시간 후에 버튼 텍스트를 원래대로 변경
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            password.setText(originalText);
-                        }
-                    }, 3000);  // 5000 밀리초(5초) 후에 실행
-                }
-            });
-            accountNumber.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // 원래 버튼 텍스트 저장
-                    String originalText = accountNumber.getText().toString();
-
-                    // 클립보드에 복사할 텍스트
-                    String temporaryText = "Temporary Text";
-
-                    // 클립보드에 텍스트 복사
-                    ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("label", temporaryText);
-                    clipboard.setPrimaryClip(clip);
-
-                    // 원하는 텍스트로 버튼 텍스트 변경
-                    accountNumber.setText(temporaryText);
-
-                    // 일정 시간 후에 버튼 텍스트를 원래대로 변경
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            accountNumber.setText(originalText);
-                        }
-                    }, 3000);  // 5000 밀리초(5초) 후에 실행
-                }
-            });
-            accountHolderName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // 원래 버튼 텍스트 저장
-                    String originalText = accountHolderName.getText().toString();
-
-                    // 클립보드에 복사할 텍스트
-                    String temporaryText = "Temporary Text";
-
-                    // 클립보드에 텍스트 복사
-                    ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("label", temporaryText);
-                    clipboard.setPrimaryClip(clip);
-
-                    // 원하는 텍스트로 버튼 텍스트 변경
-                    accountHolderName.setText(temporaryText);
-
-                    // 일정 시간 후에 버튼 텍스트를 원래대로 변경
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            accountHolderName.setText(originalText);
-                        }
-                    }, 3000);  // 5000 밀리초(5초) 후에 실행
-                }
-            });
-            price.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // 원래 버튼 텍스트 저장
-                    String originalText = price.getText().toString();
-
-                    // 클립보드에 복사할 텍스트
-                    String temporaryText = "Temporary Text";
-
-                    // 클립보드에 텍스트 복사
-                    ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("label", temporaryText);
-                    clipboard.setPrimaryClip(clip);
-
-                    // 원하는 텍스트로 버튼 텍스트 변경
-                    price.setText(temporaryText);
-
-                    // 일정 시간 후에 버튼 텍스트를 원래대로 변경
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            price.setText(originalText);
-                        }
-                    }, 3000);  // 5000 밀리초(5초) 후에 실행
-                }
-            });
-            bankName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // 원래 버튼 텍스트 저장
-                    String originalText = bankName.getText().toString();
-
-                    // 클립보드에 복사할 텍스트
-                    String temporaryText = "Temporary Text";
-
-                    // 클립보드에 텍스트 복사
-                    ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("label", temporaryText);
-                    clipboard.setPrimaryClip(clip);
-
-                    // 원하는 텍스트로 버튼 텍스트 변경
-                    bankName.setText(temporaryText);
-
-                    // 일정 시간 후에 버튼 텍스트를 원래대로 변경
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            bankName.setText(originalText);
-                        }
-                    }, 3000);  // 5000 밀리초(5초) 후에 실행
-                }
-            });
-
         }
     }
 }
