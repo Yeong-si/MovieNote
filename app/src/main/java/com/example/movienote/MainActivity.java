@@ -8,6 +8,8 @@ import android.view.View;
 
 import com.example.movienote.databinding.ActivityMainBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -32,12 +34,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        Thread thread = new Thread(){
-//            public void run(){
-//                Movie api = new Movie();
-//
-//            }
-//        };
 
     }
 }
