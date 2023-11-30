@@ -20,6 +20,8 @@
             android:layout_marginEnd="29dp"
             android:layout_marginBottom="16dp"
             android:text="참여"
+            android:textStyle="bold"
+            android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/constraintLayout4"
             app:layout_constraintStart_toStartOf="parent" />
@@ -102,7 +104,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/ott_icon"
             android:layout_width="157dp"
             android:layout_height="129dp"
             app:layout_constraintBottom_toTopOf="@+id/button"
