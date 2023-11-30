@@ -36,7 +36,6 @@ public class PartySearchAdapter extends RecyclerView.Adapter<PartySearchAdapter.
 
         Party party = partyArrayList.get(position);
 
-        holder.title.setText(party.getTitle());
         holder.member_size.setText(party.getMember().size());
         holder.price.setText(party.getPrice().toString());
         holder.subscription.setText(party.getSubscription());
@@ -50,7 +49,6 @@ public class PartySearchAdapter extends RecyclerView.Adapter<PartySearchAdapter.
         TextView title,price,member_size,subscription;
         public PartySearchViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.title);
             price = itemView.findViewById(R.id.price);
             member_size = itemView.findViewById(R.id.member_size);
             subscription = itemView.findViewById(R.id.subscription);
