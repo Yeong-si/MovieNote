@@ -152,7 +152,7 @@ public class NoteActivity extends AppCompatActivity {
                 }
                 note = new Note(currentUser.getUid().toString(),currentUser.getDisplayName(),binding.moviename.getText().toString(),binding.date.getText().toString(),
                         binding.ratingStar.getRating(),visible,binding.noteTitle.getText().toString(),
-                        binding.comment.getText().toString(),binding.note.getText().toString());
+                        binding.comment.getText().toString(),binding.note.getText().toString(), binding.genreChoicebtn.getText().toString());
 
                 //note.setNoteTitle(binding.moviename1.getText().toString());
                 //note.set
@@ -167,6 +167,7 @@ public class NoteActivity extends AppCompatActivity {
                 data1.put("rating",note.getRating());
                 data1.put("calendar",note.getCalendar());
                 data1.put("invisible",note.isVisible());
+                data1.put("genre",note.getGenre());
 
                 noteReference.document(currentUser.getDisplayName()).set(data1);
 

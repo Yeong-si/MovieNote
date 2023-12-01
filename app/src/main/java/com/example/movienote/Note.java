@@ -14,10 +14,11 @@ public class Note {
     private String noteTitle; // 감상문 제목
     private String comment; // 기억하고 싶은 나의 한 줄
     private String note; // 본문
+    private String genre; //장르
 
     public Note() {}
 
-    public Note(String uid,String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note) {
+    public Note(String uid,String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note, String genre) {
         this.writer = writer;
         this.uid = uid;
         this.movieTitle = movieTitle;
@@ -27,6 +28,7 @@ public class Note {
         this.noteTitle = noteTitle;
         this.comment = comment;
         this.note = note;
+        this.genre = genre;
     }
 
     public String getUid() {
@@ -93,4 +95,6 @@ public class Note {
     public void setNote(String note) {
         this.note = note;
     }
+
+    public String getGenre(){ return genre; }
 }
