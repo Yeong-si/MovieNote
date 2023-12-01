@@ -11,10 +11,22 @@ import android.widget.RatingBar;
 
 import com.bumptech.glide.Glide;
 import com.example.movienote.databinding.ActivityNoteBinding;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NoteActivity extends AppCompatActivity {
+
+    FirebaseUser currentUser;
+    CollectionReference noteReference;
+    FirebaseFirestore db;
 
     ActivityNoteBinding binding;
     @Override
@@ -77,13 +89,34 @@ public class NoteActivity extends AppCompatActivity {
 
         //업로드 후 노트화면으로 가기(업로드부분 짜야함)
         binding.upload.setOnClickListener(new View.OnClickListener() {
-            Note note = new Note();
+            Note note;
             @Override
             public void onClick(View v) {
+                boolean visible;
+
+                if (binding.openNote.getVisibility() == View.VISIBLE){
+                    visible = true;
+                }else {
+                    visible =false;
+                }
+                note = new Note(currentUser.getDisplayName(),binding.moviename.getText().toString(),binding.date.getText().toString(),
+                        binding.ratingStar.getRating(),visible,binding.noteTitle.getText().toString(),
+                        binding.comment.getText().toString(),binding.note.getText().toString());
 
                 //note.setNoteTitle(binding.moviename1.getText().toString());
                 //note.set
+                noteReference = FirebaseFirestore.getInstance().collection("Note");
+                Map<String, Object> data1 = new HashMap<>();
+                data1.put("writer", note.getWriter());
+                data1.put("movieTitle", note.getMovieTitle());
+                data1.put("note", note.getNote());
+                data1.put("noteTitle", note.getNoteTitle());
+                data1.put("regions", Arrays.asList("west_coast", "norcal"));
+                data1.put("comment",note.getComment());
+                data1.put("rating",note.getRating());
+                data1.put("invisible",note.isVisible());
 
+                noteReference.document(currentUser.getDisplayName()).set(data1);
 
                 startActivity(new Intent(NoteActivity.this, FinishedMovieActivity.class));
             }
@@ -91,4 +124,9 @@ public class NoteActivity extends AppCompatActivity {
 
 
     }
+    public void addNote(String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note){
+
+    }
+        //Note note = new Note();
+
 }

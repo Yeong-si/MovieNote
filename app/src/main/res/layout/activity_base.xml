@@ -7,6 +7,7 @@
     android:orientation="vertical"
     tools:context=".BaseActivity">
 
+
     <android.widget.Button
         android:id="@+id/PartyInformationButton"
         android:layout_width="250dp"
@@ -74,5 +75,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PartyInformationButton"
         app:layout_constraintVertical_bias="0.803" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

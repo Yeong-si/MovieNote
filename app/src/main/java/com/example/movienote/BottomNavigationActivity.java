@@ -95,6 +95,7 @@ public class BottomNavigationActivity extends AppCompatActivity{
 //                }
 //            });
 
+
             navigationBarView.setOnItemReselectedListener(new NavigationBarView.OnItemReselectedListener() {
                 @Override
                 public void onNavigationItemReselected(@NonNull MenuItem item) {
