@@ -26,9 +26,6 @@ import java.util.Map;
 public class NoteActivity extends AppCompatActivity {
 
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-    CollectionReference noteReference;
-    FirebaseFirestore db;
-
     ActivityNoteBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +103,7 @@ public class NoteActivity extends AppCompatActivity {
 
                 //note.setNoteTitle(binding.moviename1.getText().toString());
                 //note.set
-                noteReference = FirebaseFirestore.getInstance().collection("Note");
+                CollectionReference noteReference = FirebaseFirestore.getInstance().collection("Note");
                 Map<String, Object> data1 = new HashMap<>();
                 data1.put("uid",currentUser.getUid());
                 data1.put("writer", note.getWriter());
