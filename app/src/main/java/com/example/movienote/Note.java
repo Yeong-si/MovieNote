@@ -6,8 +6,6 @@ import java.util.List;
 
 public class Note {
     private String writer; // 작성자
-    private List<Note> noteList;
-    private String genre; // 장르
     private String movieTitle; // 영화 제목
     private String calendar; //캘린더
     private float rating; // 평점
@@ -21,20 +19,12 @@ public class Note {
     public Note(String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note) {
         this.writer = writer;
         this.movieTitle = movieTitle;
+        this.calendar = calendar;
         this.rating = rating;
         this.visible = visible;
         this.noteTitle = noteTitle;
         this.comment = comment;
         this.note = note;
-        this.genre = genre;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
     }
 
     public String getWriter() {
