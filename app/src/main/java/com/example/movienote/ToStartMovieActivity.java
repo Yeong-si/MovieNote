@@ -24,7 +24,9 @@ public class ToStartMovieActivity extends AppCompatActivity {
         binding.plusstartmovieBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ToStartMovieActivity.this, MovieSearchActivity.class));
+                Intent intent = new Intent(ToStartMovieActivity.this, MovieSearchActivity.class);
+                intent.putExtra("what","toStart");
+                startActivity(intent);
             }
         });
     }

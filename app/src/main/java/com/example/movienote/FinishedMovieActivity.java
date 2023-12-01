@@ -50,7 +50,9 @@ public class FinishedMovieActivity extends AppCompatActivity {
         binding.plusmovieBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FinishedMovieActivity.this, MovieSearchActivity.class));
+                Intent intent = new Intent(FinishedMovieActivity.this, MovieSearchActivity.class);
+                intent.putExtra("what","Finished");
+                startActivity(intent);
             }
         });
 
