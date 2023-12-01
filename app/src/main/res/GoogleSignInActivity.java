@@ -1,4 +1,4 @@
-package com.example.movienote;
+package com.example.test;
 
 import android.content.Intent;
 import android.content.IntentSender;

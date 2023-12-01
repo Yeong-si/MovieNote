@@ -1,4 +1,4 @@
-package com.example.movienote;
+package com.example.test;
 
 import android.os.Bundle;
 import android.webkit.WebView;

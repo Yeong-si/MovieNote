@@ -1,4 +1,4 @@
-package com.example.movienote;
+package com.example.test;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.example.movienote.databinding.ActivityChartBinding;
+import com.example.test.databinding.ActivityChartBinding;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -186,12 +186,11 @@ public class PieChartActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
 
-                    if (itemId == R.id.page_1) {
-                        // Respond to navigation item 1 click
-                        Intent intent = new Intent(PieChartActivity.this, PieChartActivity.class);
-                        startActivity(intent);
-                        return true;
-                    }
+//                    if (itemId == R.id.page_1) {
+//                        // Respond to navigation item 1 click
+//                        transferTo(FavoritesFragment.newInstance("param1", "param2"));
+//                        return true;
+//                    }
 
                 if (itemId == R.id.page_2) {
                     // Respond to navigation item 2 click
@@ -200,12 +199,11 @@ public class PieChartActivity extends AppCompatActivity {
                     return true;
                 }
 
-                    if (itemId == R.id.page_3) {
-                        // Respond to navigation item 3 click
-                        Intent intent = new Intent(PieChartActivity.this, PieChartActivity.class);
-                        startActivity(intent);
-                        return true;
-                    }
+//                    if (itemId == R.id.page_3) {
+//                        // Respond to navigation item 3 click
+//                        transferTo(PlacesFragment.newInstance("param1", "param2"));
+//                        return true;
+//                    }
 
                 if (itemId == R.id.page_4) {
                     // Respond to navigation item 4 click
