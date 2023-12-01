@@ -17,11 +17,13 @@ public class Note {
     private String noteTitle; // 감상문 제목
     private String comment; // 기억하고 싶은 나의 한 줄
     private String note; // 본문
+    private String genre; //장르
+
     private @NonNull LocalDateTime timestamp;
 
     public Note() {}
 
-    public Note(String uid,String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note,@NonNull LocalDateTime timestamp) {
+    public Note(String uid,String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note,@NonNull LocalDateTime timestamp,String genre) {
         this.writer = writer;
         this.uid = uid;
         this.movieTitle = movieTitle;
@@ -32,6 +34,7 @@ public class Note {
         this.comment = comment;
         this.note = note;
         this.timestamp = timestamp;
+        this.genre = genre;
     }
 
     @NonNull
@@ -106,5 +109,8 @@ public class Note {
     }
     public void setNote(String note) {
         this.note = note;
+    }
+    public String getGenre(){
+        return genre;
     }
 }

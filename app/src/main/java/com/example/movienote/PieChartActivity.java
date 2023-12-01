@@ -77,6 +77,7 @@ public class PieChartActivity extends AppCompatActivity {
         binding.pieChart.setUsePercentValues(true);
 
         db = FirebaseFirestore.getInstance();
+        //통계내기
         calculateStatistics("Note","genre");
 
 
