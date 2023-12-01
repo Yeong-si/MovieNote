@@ -14,14 +14,19 @@ import com.example.movienote.databinding.ActivityNoteBinding;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NoteActivity extends AppCompatActivity {
 
     FirebaseUser currentUser;
-    CollectionReference note;
+    CollectionReference noteReference;
+    FirebaseFirestore db;
 
     ActivityNoteBinding binding;
     @Override
@@ -100,8 +105,19 @@ public class NoteActivity extends AppCompatActivity {
 
                 //note.setNoteTitle(binding.moviename1.getText().toString());
                 //note.set
-                note = FirebaseFirestore.getInstance().collection("Note")
+                noteReference = FirebaseFirestore.getInstance().collection("Note");
+                Map<String, Object> data1 = new HashMap<>();
+                data1.put("writer", note.getWriter());
+                data1.put("genre", note.getGenre());
+                data1.put("movieTitle", note.getMovieTitle());
+                data1.put("note", note.getNote());
+                data1.put("noteTitle", note.getNoteTitle());
+                data1.put("regions", Arrays.asList("west_coast", "norcal"));
+                data1.put("comment",note.getComment());
+                data1.put("rating",note.getRating());
+                data1.put("invisible",note.isVisible());
 
+                noteReference.document(currentUser.getDisplayName()).set(data1);
 
                 startActivity(new Intent(NoteActivity.this, FinishedMovieActivity.class));
             }
