@@ -121,7 +121,7 @@ public class NoteActivity extends AppCompatActivity {
 
                             // 선택한 항목을 기반으로 genre 텍스트 업데이트
                             if (selectedPosition >= 0 && selectedPosition < genres.length) {
-                                binding.genre.setText(genres[selectedPosition]);
+                                binding.genreChoicebtn.setText(genres[selectedPosition]);
                                 Log.d("MyApp", "Genre updated: " + genres[selectedPosition]);
                             } else {
                                 Log.e("MyApp", "Invalid position: " + selectedPosition);

@@ -158,15 +158,6 @@
                 android:text="장르"
                 android:textSize="15dp"  />
 
-            <TextView
-                android:id="@+id/genre"
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:layout_toRightOf="@id/genreChoice"
-                android:layout_below="@id/closedNote"
-                android:layout_marginTop="2dp"
-                android:layout_marginLeft="3dp" />
-
             <android.widget.Button
                 android:id="@+id/genreChoicebtn"
                 android:layout_width="80dp"
