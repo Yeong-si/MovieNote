@@ -61,7 +61,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
-    //chart
+    //chart 라이브러리
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 }

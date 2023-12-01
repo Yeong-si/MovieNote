@@ -28,13 +28,15 @@ public class BottomNavigationActivity extends AppCompatActivity{
             navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    int itemId = item.getItemId();
 
-//                    if (itemId == R.id.page_1) {
-//                        // Respond to navigation item 1 click
-//                        transferTo(FavoritesFragment.newInstance("param1", "param2"));
-//                        return true;
-//                    }
+                    int itemId = item.getItemId();
+                    if (itemId == R.id.page_1) {
+                        // Respond to navigation item 1 click
+                        Intent intent = new Intent(BottomNavigationActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        //transferTo(FavoritesFragment.newInstance(, "param2"));
+                        return true;
+                    }
 
                     if (itemId == R.id.page_2) {
                         // Respond to navigation item 2 click
@@ -43,11 +45,11 @@ public class BottomNavigationActivity extends AppCompatActivity{
                         return true;
                     }
 
-//                    if (itemId == R.id.page_3) {
-//                        // Respond to navigation item 3 click
-//                        transferTo(PlacesFragment.newInstance("param1", "param2"));
-//                        return true;
-//                    }
+                    if (itemId == R.id.page_3) {
+                       // Respond to navigation item 3 click
+                        Intent intent = new Intent(BottomNavigationActivity.this, BaseActivity.class);
+                        return true;
+                    }
 
                     if (itemId == R.id.page_4) {
                         // Respond to navigation item 4 click

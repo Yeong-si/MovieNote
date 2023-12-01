@@ -11,10 +11,13 @@ import android.widget.RatingBar;
 
 import com.bumptech.glide.Glide;
 import com.example.movienote.databinding.ActivityNoteBinding;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Calendar;
 
 public class NoteActivity extends AppCompatActivity {
+
+    FirebaseUser currentUser;
 
     ActivityNoteBinding binding;
     @Override
@@ -77,9 +80,19 @@ public class NoteActivity extends AppCompatActivity {
 
         //업로드 후 노트화면으로 가기(업로드부분 짜야함)
         binding.upload.setOnClickListener(new View.OnClickListener() {
-            Note note = new Note();
+            Note note;
             @Override
             public void onClick(View v) {
+                boolean visible;
+
+                if (binding.openNote.getVisibility() == View.VISIBLE){
+                    visible = true;
+                }else {
+                    visible =false;
+                }
+                note = new Note((currentUser.getDisplayName(),binding.moviename.getText().toString(),binding.date.getText().toString(),
+                        binding.ratingStar.getRating(),visible,binding.noteTitle.getText().toString(),
+                        binding.comment.getText().toString(),binding.note.getText().toString());
 
                 //note.setNoteTitle(binding.moviename1.getText().toString());
                 //note.set
@@ -91,4 +104,7 @@ public class NoteActivity extends AppCompatActivity {
 
 
     }
+    public void addNote(String writer, String movieTitle, Calendar calendar, float rating, boolean visible, String noteTitle, String comment, String note)
+        //Note note = new Note();
+
 }

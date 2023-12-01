@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.movienote.databinding.ActivityChartBinding;
+import com.github.mikephil.*;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -188,7 +189,7 @@ public class PieChartActivity extends AppCompatActivity {
 
                     if (itemId == R.id.page_1) {
                         // Respond to navigation item 1 click
-                        Intent intent = new Intent(PieChartActivity.this, PieChartActivity.class);
+                        Intent intent = new Intent(PieChartActivity.this, MainActivity.class);
                         startActivity(intent);
                         return true;
                     }
@@ -202,7 +203,7 @@ public class PieChartActivity extends AppCompatActivity {
 
                     if (itemId == R.id.page_3) {
                         // Respond to navigation item 3 click
-                        Intent intent = new Intent(PieChartActivity.this, PieChartActivity.class);
+                        Intent intent = new Intent(PieChartActivity.this, BaseActivity.class);
                         startActivity(intent);
                         return true;
                     }
