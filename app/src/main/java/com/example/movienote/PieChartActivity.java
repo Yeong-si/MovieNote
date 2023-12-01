@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -26,9 +27,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -53,14 +57,16 @@ import java.util.concurrent.Executors;
 
 public class PieChartActivity extends AppCompatActivity {
 
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
     Executor executor = Executors.newSingleThreadExecutor();
 
     public static String format_Month = "M";
     Date currentTime = Calendar.getInstance().getTime();
+    private FirebaseFirestore db;
     ArrayList<Note> noteArrayList;
 
-    private FirebaseFirestore db;
-    private int romance = 0, action = 0,animation = 0, sf = 0, horror = 0,drama = 0,comedy = 0;
+    private int romance = 10, action = 0,animation = 0, sf = 0, horror = 0,drama = 0,comedy = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -77,8 +83,32 @@ public class PieChartActivity extends AppCompatActivity {
         binding.pieChart.setUsePercentValues(true);
 
         db = FirebaseFirestore.getInstance();
-        String userUid = FirebaseAuth.getInstance().getUid().toString(); // replace with the actual user UID
-        fetchUserNotes(userUid);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String userUid = user.getUid();
+            fetchUserNotes(userUid);
+        }
+        noteArrayList = new ArrayList<Note>();
+
+        db.collection("Note").whereEqualTo("uid",user.getUid())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                        if (error != null) {
+                            Log.e("FireStore error",error.getMessage());
+                            return;
+                        }
+
+                        for(DocumentChange dc: value.getDocumentChanges()) {
+
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                noteArrayList.add(dc.getDocument().toObject(Note.class));
+                            }
+
+                        }
+                    }
+                });
 
         //통계내기
         calculateUserStatistics();
@@ -268,7 +298,7 @@ public class PieChartActivity extends AppCompatActivity {
     }
 
     private void fetchUserNotes(String userUid) {
-        db.collection("Note") // replace with your actual notes collection name
+        db.collection("Note")
                 .whereEqualTo("uid", userUid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -285,6 +315,7 @@ public class PieChartActivity extends AppCompatActivity {
 
                             // Calculate genre-based statistics for the user's notes
                             calculateUserStatistics();
+
                         } else {
                             Exception exception = task.getException();
                             if (exception != null) {
@@ -326,10 +357,6 @@ public class PieChartActivity extends AppCompatActivity {
                 // Add more cases for other genres if needed
             }
         }
-    }
-
-    public int getItemCount() {
-        return noteArrayList.size();
     }
 
     private String parseJson(String jsonData) {
