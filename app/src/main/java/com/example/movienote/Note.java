@@ -4,6 +4,7 @@ package com.example.movienote;
 
 public class Note {
     private String writer; // 작성자
+    private String genre; // 장르
     private String movieTitle; // 영화 제목
     private float rating; // 평점
     private boolean visible; // 공개 여부
@@ -21,6 +22,15 @@ public class Note {
         this.noteTitle = noteTitle;
         this.comment = comment;
         this.note = note;
+        this.genre = genre;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public String getWriter() {
