@@ -1,25 +1,39 @@
 package com.example.movienote;
 
+import android.app.Person;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.movienote.databinding.ActivityChartBinding;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -32,12 +46,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class PieChartActivity extends AppCompatActivity {
+
+    Executor executor = Executors.newSingleThreadExecutor();
 
     public static String format_Month = "M";
     Date currentTime = Calendar.getInstance().getTime();
     ArrayList<Note> noteArrayList;
+
+    private FirebaseFirestore db;
+    public int fieldValueCount[] = new int[7];
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +75,21 @@ public class PieChartActivity extends AppCompatActivity {
         // 백분율로 표시하여 파이 차트의 전체 합이 100%가 되도록 보여준다.
         binding.pieChart.setUsePercentValues(true);
 
+        db = FirebaseFirestore.getInstance();
+        calculateStatistics("Note","genre");
+
+
+
+
         // 넣고 싶은 데이터 설정
         List<PieEntry> dataList = new ArrayList<>();
-        dataList.add(new PieEntry(10F, "로맨스"));
-        dataList.add(new PieEntry(30F, "액션"));
-        dataList.add(new PieEntry(25F, "애니메이션"));
-        dataList.add(new PieEntry(35F, "드라마"));
-        dataList.add(new PieEntry(20F, "코미디"));
-        dataList.add(new PieEntry(50F, "호러"));
-        dataList.add(new PieEntry(50F, "SF"));
+        dataList.add(new PieEntry(fieldValueCount[0], "로맨스"));
+        dataList.add(new PieEntry(fieldValueCount[1], "액션"));
+        dataList.add(new PieEntry(fieldValueCount[2], "애니메이션"));
+        dataList.add(new PieEntry(fieldValueCount[3], "드라마"));
+        dataList.add(new PieEntry(fieldValueCount[4], "코미디"));
+        dataList.add(new PieEntry(fieldValueCount[5], "호러"));
+        dataList.add(new PieEntry(fieldValueCount[6], "SF"));
 
 
         // 값에 따른 색상 지정
@@ -182,6 +209,20 @@ public class PieChartActivity extends AppCompatActivity {
         spannableString2.setSpan(new ForegroundColorSpan(Color.parseColor("#F765A3")), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         binding.othermovie.setText(spannableString2);
 
+        executor.execute(() -> {
+            String movies = Movie.MovieSearch(selectedDataList.get(0).getLabel());
+            runOnUiThread(() -> {
+                if (movies != null) {
+                    String posterUrl = parseJson(movies);
+                    Glide.with(this)
+                            .load(posterUrl)
+                            .into(binding.recommend1);
+                } else {
+                    Log.e("MovieSearchActivity", "검색 결과가 null입니다.");
+                }
+            });
+        });
+
 //        BottomNavigationView navigationBarView = findViewById(R.id.bottom_navigation);
 //        navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
 //            @Override
@@ -222,7 +263,88 @@ public class PieChartActivity extends AppCompatActivity {
 
 
     }
+
+    public void calculateStatistics(String collectionPath, String field) {
+        db.collection(collectionPath)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            int totalDocuments = task.getResult().size();
+
+                            // 각 문서에서 필드 값을 가져와 통계를 계산
+                            for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                                Object fieldValue = document.get(field);
+
+                                // 필드 값이 존재하면 특정 값의 개수를 증가
+                                updateFieldValueCount(fieldValue);
+                            }
+                        } else {
+                            // 에러 처리
+                            Exception exception = task.getException();
+                            if (exception != null) {
+                                exception.printStackTrace();
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void updateFieldValueCount(Object fieldValue) {
+        // 필드 값이 null이 아닌 경우에만 특정 값의 개수를 증가
+        if (fieldValue != null) {
+            String[] genres = {"로맨스", "액션", "애니메이션", "드라마", "코미디", "호러", "SF"};
+            for (int i = 0; i < genres.length; i++) {
+                if (fieldValue.equals(genres[i])) {
+                    fieldValueCount[i]++;
+                    break; // 필드 값이 일치하면 루프 중단
+                }
+            }
+        }
+    }
+
     public int getItemCount() {
         return noteArrayList.size();
+    }
+
+    private String parseJson(String jsonData) {
+        String movies = "";
+
+        if (jsonData != null) {
+            try {
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jsonObject = jsonParser.parse(jsonData).getAsJsonObject();
+                JsonArray data = jsonObject.getAsJsonArray("Data");
+
+                JsonObject dataParsing = data.get(0).getAsJsonObject();
+                JsonArray result = dataParsing.getAsJsonArray("Result");
+                //Log.d("result", String.valueOf(result));
+
+                for (JsonElement element : result) {
+                    JsonObject resultObject = element.getAsJsonObject();
+
+                    //Log.d("title",title);
+                    String posterUrl = resultObject.get("posters").getAsString();
+                    String[] poster = posterUrl.split("\\|");
+                    MovieItem movie;
+                    if (poster[0].length()==0){
+                        return "https://ifh.cc/g/MJ7jPL.png";
+                    }else{
+                        return poster[0];
+                    }
+
+                }
+            } catch (JsonParseException e) {
+                e.printStackTrace();
+                Log.e("LSY", "JsonParseException: " + e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e("LSY", "Exception: " + e.getMessage());
+            }}else {
+            Log.e("MovieSearchActivity", "JSON data is null");
+        }
+
+        return movies;
     }
 }
