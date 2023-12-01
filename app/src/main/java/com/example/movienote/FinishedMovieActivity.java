@@ -50,7 +50,7 @@ public class FinishedMovieActivity extends AppCompatActivity {
         binding.plusmovieBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FinishedMovieActivity.this, MovieSearchActivity.class));
+                startActivity(new Intent(FinishedMovieActivity.this, FinishedMovieActivity.class));
             }
         });
 
@@ -59,10 +59,13 @@ public class FinishedMovieActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         db = FirebaseFirestore.getInstance();
+
         noteArrayList = new ArrayList<Note>();
         movieNoteAdapter = new MovieNoteAdapter(FinishedMovieActivity.this,noteArrayList);
-        EventChangeListener();
+
         recyclerView.setAdapter(movieNoteAdapter);
+
+        EventChangeListener();
     }
 
     private void EventChangeListener() {
