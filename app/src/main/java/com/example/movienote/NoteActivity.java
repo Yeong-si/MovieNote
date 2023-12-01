@@ -108,7 +108,6 @@ public class NoteActivity extends AppCompatActivity {
                 noteReference = FirebaseFirestore.getInstance().collection("Note");
                 Map<String, Object> data1 = new HashMap<>();
                 data1.put("writer", note.getWriter());
-                data1.put("genre", note.getGenre());
                 data1.put("movieTitle", note.getMovieTitle());
                 data1.put("note", note.getNote());
                 data1.put("noteTitle", note.getNoteTitle());
