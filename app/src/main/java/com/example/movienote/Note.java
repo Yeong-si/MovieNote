@@ -9,6 +9,7 @@ public class Note {
     private List<Note> noteList;
     private String genre; // 장르
     private String movieTitle; // 영화 제목
+    private String calendar; //캘린더
     private float rating; // 평점
     private boolean visible; // 공개 여부
     private String noteTitle; // 감상문 제목
@@ -17,7 +18,7 @@ public class Note {
 
     public Note() {}
 
-    public Note(String writer, String movieTitle, float rating, boolean visible, String noteTitle, String comment, String note) {
+    public Note(String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note) {
         this.writer = writer;
         this.movieTitle = movieTitle;
         this.rating = rating;

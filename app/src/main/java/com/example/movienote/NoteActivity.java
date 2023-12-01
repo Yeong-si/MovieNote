@@ -11,13 +11,17 @@ import android.widget.RatingBar;
 
 import com.bumptech.glide.Glide;
 import com.example.movienote.databinding.ActivityNoteBinding;
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 
 public class NoteActivity extends AppCompatActivity {
 
     FirebaseUser currentUser;
+    CollectionReference note;
 
     ActivityNoteBinding binding;
     @Override
@@ -90,12 +94,13 @@ public class NoteActivity extends AppCompatActivity {
                 }else {
                     visible =false;
                 }
-                note = new Note((currentUser.getDisplayName(),binding.moviename.getText().toString(),binding.date.getText().toString(),
+                note = new Note(currentUser.getDisplayName(),binding.moviename.getText().toString(),binding.date.getText().toString(),
                         binding.ratingStar.getRating(),visible,binding.noteTitle.getText().toString(),
                         binding.comment.getText().toString(),binding.note.getText().toString());
 
                 //note.setNoteTitle(binding.moviename1.getText().toString());
                 //note.set
+                note = FirebaseFirestore.getInstance().collection("Note")
 
 
                 startActivity(new Intent(NoteActivity.this, FinishedMovieActivity.class));
@@ -104,7 +109,9 @@ public class NoteActivity extends AppCompatActivity {
 
 
     }
-    public void addNote(String writer, String movieTitle, Calendar calendar, float rating, boolean visible, String noteTitle, String comment, String note)
+    public void addNote(String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note){
+
+    }
         //Note note = new Note();
 
 }
