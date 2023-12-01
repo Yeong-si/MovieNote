@@ -2,12 +2,15 @@ package com.example.movienote;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.movienote.databinding.ActivityNoteBinding;
@@ -26,7 +29,23 @@ import java.util.Map;
 public class NoteActivity extends AppCompatActivity {
 
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-    ActivityNoteBinding binding;
+    CollectionReference noteReference;
+    FirebaseFirestore db;
+
+    private AlertDialog listDialog;
+    private DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            if (dialog == listDialog) {
+                //목록 dialog의 항목이 선택되었을 때 항목 문자열 획득
+                String[] data = getResources().getStringArray(R.array.dialog_array);
+                showToast(data[which] + " 선택 하셨습니다.");
+            }
+        }
+    };
+
+
+        ActivityNoteBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -85,6 +104,36 @@ public class NoteActivity extends AppCompatActivity {
             }
         });
 
+        binding.genreChoicebtn.setOnClickListener(view -> {
+            // 목록 다이얼로그 띄우기
+            listDialog = new AlertDialog.Builder(this)
+                    .setTitle("장르 선택")
+                    .setSingleChoiceItems(R.array.dialog_array, 0, dialogListener)
+                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // 선택한 항목의 인덱스 가져오기
+                            int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+
+                            // 리소스에서 항목 배열 가져오기
+                            String[] genres = getResources().getStringArray(R.array.dialog_array);
+
+                            // 선택한 항목을 기반으로 genre 텍스트 업데이트
+                            if (selectedPosition >= 0 && selectedPosition < genres.length) {
+                                binding.genre.setText(genres[selectedPosition]);
+                            }
+
+                            // 다이얼로그 닫기
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("취소", null)
+                    .create();
+
+            listDialog.show();
+        });
+
+
         //업로드 후 노트화면으로 가기(업로드부분 짜야함)
         binding.upload.setOnClickListener(new View.OnClickListener() {
             Note note;
@@ -103,7 +152,7 @@ public class NoteActivity extends AppCompatActivity {
 
                 //note.setNoteTitle(binding.moviename1.getText().toString());
                 //note.set
-                CollectionReference noteReference = FirebaseFirestore.getInstance().collection("Note");
+                noteReference = FirebaseFirestore.getInstance().collection("Note");
                 Map<String, Object> data1 = new HashMap<>();
                 data1.put("uid",currentUser.getUid());
                 data1.put("writer", note.getWriter());
@@ -125,7 +174,12 @@ public class NoteActivity extends AppCompatActivity {
     }
     public void addNote(String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note){
 
+
     }
         //Note note = new Note();
 
+    private void showToast(String message) {
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        toast.show();
+    }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dialog_array">
+        <item>로맨스</item>
+        <item>액션</item>
+        <item>애니메이션</item>
+        <item>드라마</item>
+        <item>코미디</item>
+        <item>호러</item>
+        <item>SF</item>
+    </string-array>
+</resources>
