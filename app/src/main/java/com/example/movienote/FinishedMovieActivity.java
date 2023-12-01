@@ -43,10 +43,9 @@ public class FinishedMovieActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
 
-        binding.title.setText(user.getDisplayName()+"님이 본 영화");
         user = FirebaseAuth.getInstance().getCurrentUser();
+        binding.title.setText(user.getDisplayName()+"님이 본 영화");
 
-        binding.title.setText("어쩌고"+"님이 본 영화");
 
         binding.plusmovieBtn.setOnClickListener(new View.OnClickListener() {
             @Override
