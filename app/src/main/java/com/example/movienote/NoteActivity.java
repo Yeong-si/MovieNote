@@ -21,8 +21,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -146,9 +148,10 @@ public class NoteActivity extends AppCompatActivity {
                 }else {
                     visible =false;
                 }
+
                 note = new Note(currentUser.getUid().toString(),currentUser.getDisplayName(),binding.moviename.getText().toString(),binding.date.getText().toString(),
                         binding.ratingStar.getRating(),visible,binding.noteTitle.getText().toString(),
-                        binding.comment.getText().toString(),binding.note.getText().toString());
+                        binding.comment.getText().toString(),binding.note.getText().toString(), LocalDateTime.now());
 
                 //note.setNoteTitle(binding.moviename1.getText().toString());
                 //note.set
@@ -164,7 +167,7 @@ public class NoteActivity extends AppCompatActivity {
                 data1.put("calendar",note.getCalendar());
                 data1.put("invisible",note.isVisible());
 
-                noteReference.document(currentUser.getDisplayName()).set(data1);
+                noteReference.document(note.getNoteTitle()).set(data1);
 
                 startActivity(new Intent(NoteActivity.this, FinishedMovieActivity.class));
             }
