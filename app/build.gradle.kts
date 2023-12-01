@@ -60,4 +60,10 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+
+    //chart
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+}
+repositories {
+    maven { url = uri("https://jitpack.io") }
 }

@@ -1,6 +1,9 @@
 package com.example.movienote;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     List<MovieItem> array;
     Context context;
+    private OnClickListener onClickListener;
 
     public MovieAdapter(List<MovieItem> array, Context context){
         this.array = array;
@@ -32,7 +36,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MovieAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        MovieItem item = array.get(position);
         String image=array.get(position).getImage();
         String title=array.get(position).getTitle();
         holder.textTitle.setText(title);
@@ -40,13 +45,39 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         Glide.with(context)
                 .load(image)
                 .into(holder.image);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if (onClickListener != null) {
+                        Log.d("LSY", "널이다");
+                        onClickListener.onClick(position, item);
+                        Intent intent = new Intent(v.getContext(), NoteActivity.class);
+                        intent.putExtra("title", item.getTitle());
+                        intent.putExtra("image", item.getImage());
 
+                        v.getContext().startActivity(intent);//onClickListener.onC
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d("LSY", "처리안됨");
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return array.size();
     }
+
+            public void setOnClickListener(OnClickListener onClickListener) {
+                this.onClickListener = onClickListener;
+            }
+
+            public interface OnClickListener {
+                void onClick(int position, MovieItem model);
+            }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView image;

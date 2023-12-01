@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/userinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="40dp" >
+
+        <ImageView
+            android:id="@+id/userpic"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:src="@mipmap/ic_user" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_weight="1"
+            android:text="로그인이 필요합니다"
+            android:textSize="20dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/userinfo"
+        android:paddingHorizontal="80dp">
+
+    <LinearLayout
+        android:id="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="bottom">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:textSize="25dp"
+            android:layout_weight="1"
+            android:text="로그인" />
+
+        <ImageButton
+            android:id="@+id/loginbtn"
+            android:layout_width="40dp"
+            android:layout_height="38dp"
+            android:layout_gravity="right"
+            android:src="@drawable/btn_effect" />
+    </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_weight="1"
+                android:textSize="25dp"
+                android:text="로그아웃" />
+
+            <ImageButton
+                android:id="@+id/logoutbtn"
+                android:layout_width="40dp"
+                android:layout_height="38dp"
+                android:layout_gravity="right"
+                android:src="@drawable/btn_effect" />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/appinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="bottom">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:textSize="25dp"
+            android:layout_weight="1"
+            android:text="앱 정보" />
+
+        <ImageButton
+            android:id="@+id/appinfobtn"
+            android:layout_width="40dp"
+            android:layout_height="38dp"
+            android:layout_gravity="right"
+            android:src="@drawable/btn_effect" />
+
+    </LinearLayout>
+
+    </LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_navigation_menu" />
+</RelativeLayout>

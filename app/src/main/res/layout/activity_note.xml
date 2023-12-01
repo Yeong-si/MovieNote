@@ -4,137 +4,161 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp">
         <ImageView
             android:id="@+id/poster"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <android.widget.Button
-            android:id="@+id/upload"
-            android:layout_width="75dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:text="업로드"
-            android:background="#8A8A8A"/>
-
-        <TextView
-            android:id="@+id/moviename"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_below="@+id/upload"
-            android:text="영화"
-            android:textSize="15dp"/>
-
-        <TextView
-            android:id="@+id/dateName"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_below="@+id/moviename"
-            android:text="일시"
-            android:textSize="15dp"/>
-
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="80dp"
-            android:layout_height="20dp"
-            android:layout_above="@+id/ratingStar"
-            android:layout_toRightOf="@+id/dateName"
-            android:background="#EEEEEE"
-            android:layout_marginTop="2dp"
-            android:layout_marginLeft="3dp"/>
-
-        <ImageView
-            android:id="@+id/date_btn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/iconcalendar"
-            android:layout_toRightOf="@id/date"
-            android:layout_above="@id/ratingStar"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp"/>
-        
-
-        <TextView
-            android:id="@+id/score"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_below="@+id/dateName"
-            android:text="평점"
-            android:textSize="15dp"/>
-
-        <RatingBar
-            android:id="@+id/ratingStar"
-            style="@style/Widget.AppCompat.RatingBar.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_above="@+id/open"
-            android:layout_toRightOf="@+id/score"
-            android:isIndicator="false"
-            android:numStars="5"
-            android:stepSize="0.5"
-            android:max="5"
-            android:background="#EEEEEE"
-            android:layout_marginTop="2dp"
-            android:layout_marginLeft="3dp"/>
-
-        <TextView
-            android:id="@+id/open"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_below="@+id/score"
-            android:text="공개"
-            android:textSize="15dp"/>
-
-        <TextView
-            android:id="@+id/openNote"
-            android:layout_width="80dp"
-            android:layout_height="20dp"
-            android:layout_below="@id/ratingStar"
-            android:layout_toRightOf="@+id/open"
-            android:background="#EEEEEE"
-            android:layout_marginTop="2dp"
-            android:text="공개"
-            android:gravity="center"
-            android:textSize="12dp"
-            android:layout_marginLeft="3dp"
-            android:visibility="invisible"/>
-
-        <TextView
-            android:id="@+id/closedNote"
-            android:layout_width="80dp"
-            android:layout_height="20dp"
-            android:layout_below="@id/ratingStar"
-            android:layout_toRightOf="@+id/open"
-            android:background="#EEEEEE"
-            android:layout_marginTop="2dp"
-            android:text="비공개"
-            android:gravity="center"
-            android:textSize="12dp"
-            android:layout_marginLeft="3dp"/>
-
-        <ImageView
-            android:id="@+id/openBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_toRightOf="@id/closedNote"
-            android:layout_below="@id/ratingStar"
+            android:layout_width="100dp"
+            android:layout_height="130dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="10dp"
             android:src="@drawable/changeicon"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp"/>
+            android:layout_marginTop="35dp"
+            android:layout_marginLeft="10dp"/>
 
-    </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <android.widget.Button
+                android:id="@+id/upload"
+                android:layout_width="75dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
+                android:background="#8A8A8A"
+                android:text="업로드" />
+
+            <TextView
+                android:id="@+id/moviename1"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_below="@+id/upload"
+                android:text="영화"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/moviename"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_below="@+id/upload"
+                android:layout_marginLeft="3dp"
+                android:layout_toRightOf="@+id/moviename1"
+                android:background="#EEEEEE"
+                android:text="영화제목"
+                android:layout_marginBottom="3dp"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/dateName"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_below="@+id/moviename"
+                android:text="일시"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_above="@+id/ratingStar"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@+id/dateName"
+                android:background="#EEEEEE" />
+
+            <ImageView
+                android:id="@+id/date_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_above="@id/ratingStar"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@id/date"
+                android:src="@drawable/iconcalendar" />
+
+
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_below="@+id/dateName"
+                android:text="평점"
+                android:textSize="15dp" />
+
+            <RatingBar
+                android:id="@+id/ratingStar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_above="@+id/open"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@+id/score"
+                android:background="#EEEEEE"
+                android:isIndicator="false"
+                android:max="5"
+                android:numStars="5"
+                android:stepSize="0.5" />
+
+            <TextView
+                android:id="@+id/open"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_below="@+id/score"
+                android:text="공개"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/openNote"
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_below="@id/ratingStar"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@+id/open"
+                android:background="#EEEEEE"
+                android:gravity="center"
+                android:text="공개"
+                android:textSize="12dp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/closedNote"
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_below="@id/ratingStar"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@+id/open"
+                android:background="#EEEEEE"
+                android:gravity="center"
+                android:text="비공개"
+                android:textSize="12dp" />
+
+            <ImageView
+                android:id="@+id/openBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@id/ratingStar"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@id/closedNote"
+                android:src="@drawable/changeicon" />
+
+        </RelativeLayout>
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20px"
+        android:layout_marginTop="10dp"
         android:text="제목" />
 
     <EditText
@@ -166,9 +190,11 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginHorizontal="20px"
         android:lines="12"
-        android:background="#EEEEEE"/>
+        android:background="#EEEEEE"
+        android:layout_marginBottom="10dp"/>
 
 </LinearLayout>

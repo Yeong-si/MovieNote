@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
@@ -26,7 +27,6 @@ public class MovieSearchActivity extends AppCompatActivity {
 
     Executor executor = Executors.newSingleThreadExecutor();
     ActivityMovieSearchBinding binding;
-
     RecyclerView recyclerView;
     LinearLayoutManager manager;
     List<MovieItem> array;
@@ -73,6 +73,28 @@ public class MovieSearchActivity extends AppCompatActivity {
                 }
             }
         });
+
+        adapter.setOnClickListener(new MovieAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position, MovieItem model) {
+                Log.d("LSY", "클릭 완료");
+                // 클릭된 아이템의 정보를 가져와서 NoteActivity로 전환하는 Intent를 생성
+                String title = array.get(position).getTitle();
+                String image = array.get(position).getImage();
+                //Log.d("LSY", title);
+                //Log.d("LSY", image);
+
+                Intent intent = new Intent(MovieSearchActivity.this, NoteActivity.class);
+                //intent.putExtra(NEXT_SCREEN,model);
+                intent.putExtra("title", title);
+                intent.putExtra("image", image);
+                Log.d("LSY", "데이터 넘김");
+
+                // NoteActivity 시작
+                startActivity(intent);
+            }
+        });
+
     }
     private List<MovieItem> parseJson(String jsonData) {
         List<MovieItem> movies = new ArrayList<>();

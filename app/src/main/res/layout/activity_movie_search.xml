@@ -17,7 +17,9 @@
         android:hint="영화 제목을 입력해 주세요"
         android:autofillHints="username"
         android:layout_weight="1"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:singleLine="true"/>
+
     <android.widget.Button
         android:id="@+id/search_button"
         android:layout_width="wrap_content"
