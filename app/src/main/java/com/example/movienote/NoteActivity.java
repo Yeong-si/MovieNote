@@ -171,7 +171,7 @@ public class NoteActivity extends AppCompatActivity {
                 data1.put("calendar",note.getCalendar());
                 data1.put("invisible",note.isVisible());
 
-                noteReference.document(note.getNoteTitle()).set(data1);
+                noteReference.document(note.getTimestamp().toString()).set(data1);
 
                 startActivity(new Intent(NoteActivity.this, FinishedMovieActivity.class));
             }
