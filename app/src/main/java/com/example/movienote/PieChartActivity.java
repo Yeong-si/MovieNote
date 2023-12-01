@@ -37,6 +37,8 @@ public class PieChartActivity extends AppCompatActivity {
 
     public static String format_Month = "M";
     Date currentTime = Calendar.getInstance().getTime();
+    ArrayList<Note> noteArrayList;
+
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -218,5 +220,9 @@ public class PieChartActivity extends AppCompatActivity {
 //            }
 //        });
 
+
+    }
+    public int getItemCount() {
+        return noteArrayList.size();
     }
 }
