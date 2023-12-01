@@ -10,16 +10,16 @@ import java.util.List;
 public class Party {
     private String subscription; // 구독할 요금제 종류
     private List<String> member; // 현재 멤버
-    private Long accountNumber; // 계좌번호
+    private String accountNumber; // 계좌번호
     private String bankName; // 이체할 은행이름
     private String accountHolderName; // 수취인
-    private Long price; // 가격
+    private String price; // 월 청구액
     private String id; // 공유하는 아이디
     private String password; // 공유하는 비밀번호
 
     public Party() {}
 
-    public Party(String subscription, List<String> member, Long accountNumber, String bankName, String accountHolderName, Long price, String id, String password) {
+    public Party(String subscription, List<String> member, String accountNumber, String bankName, String accountHolderName, String price, String id, String password) {
         this.subscription = subscription;
         this.member = member;
         this.accountNumber = accountNumber;
@@ -46,11 +46,11 @@ public class Party {
         this.member = member;
     }
 
-    public Long getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(Long accountNumber) {
+    public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 
@@ -70,11 +70,11 @@ public class Party {
         this.accountHolderName = accountHolderName;
     }
 
-    public Long getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

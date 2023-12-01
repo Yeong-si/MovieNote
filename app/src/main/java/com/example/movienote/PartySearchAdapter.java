@@ -46,7 +46,7 @@ public class PartySearchAdapter extends RecyclerView.Adapter<PartySearchAdapter.
 
     public static class PartySearchViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title,price,member_size,subscription;
+        TextView price,member_size,subscription;
         public PartySearchViewHolder(@NonNull View itemView) {
             super(itemView);
             price = itemView.findViewById(R.id.price);

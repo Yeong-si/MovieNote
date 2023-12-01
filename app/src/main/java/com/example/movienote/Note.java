@@ -2,13 +2,10 @@
 
 package com.example.movienote;
 
-import java.io.File;
-import java.util.Calendar;
-
 public class Note {
     private String writer; // 작성자
+    private String genre; // 장르
     private String movieTitle; // 영화 제목
-    private Calendar calendar; // 일시
     private float rating; // 평점
     private boolean visible; // 공개 여부
     private String noteTitle; // 감상문 제목
@@ -17,15 +14,23 @@ public class Note {
 
     public Note() {}
 
-    public Note(String writer, String movieTitle, Calendar calendar, float rating, boolean visible, String noteTitle, String comment, String note) {
+    public Note(String writer, String movieTitle, float rating, boolean visible, String noteTitle, String comment, String note) {
         this.writer = writer;
         this.movieTitle = movieTitle;
-        this.calendar = calendar;
         this.rating = rating;
         this.visible = visible;
         this.noteTitle = noteTitle;
         this.comment = comment;
         this.note = note;
+        this.genre = genre;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public String getWriter() {
@@ -40,13 +45,6 @@ public class Note {
     }
     public void setMovieTitle(String movieTitle) {
         this.movieTitle = movieTitle;
-    }
-
-    public Calendar getCalendar() {
-        return calendar;
-    }
-    public void setCalendar(Calendar calendar) {
-        this.calendar = calendar;
     }
 
     public float getRating() {

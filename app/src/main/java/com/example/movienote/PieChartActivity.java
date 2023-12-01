@@ -38,6 +38,8 @@ public class PieChartActivity extends AppCompatActivity {
 
     public static String format_Month = "M";
     Date currentTime = Calendar.getInstance().getTime();
+    ArrayList<Note> noteArrayList;
+
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -181,43 +183,47 @@ public class PieChartActivity extends AppCompatActivity {
         spannableString2.setSpan(new ForegroundColorSpan(Color.parseColor("#F765A3")), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         binding.othermovie.setText(spannableString2);
 
-        BottomNavigationView navigationBarView = findViewById(R.id.bottom_navigation);
-        navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
+//        BottomNavigationView navigationBarView = findViewById(R.id.bottom_navigation);
+//        navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                int itemId = item.getItemId();
+//
+//                    if (itemId == R.id.page_1) {
+//                        // Respond to navigation item 1 click
+//                        Intent intent = new Intent(PieChartActivity.this, MainActivity.class);
+//                        startActivity(intent);
+//                        return true;
+//                    }
+//
+//                if (itemId == R.id.page_2) {
+//                    // Respond to navigation item 2 click
+//                    Intent intent = new Intent(PieChartActivity.this, PieChartActivity.class);
+//                    startActivity(intent);
+//                    return true;
+//                }
+//
+//                    if (itemId == R.id.page_3) {
+//                        // Respond to navigation item 3 click
+//                        Intent intent = new Intent(PieChartActivity.this, BaseActivity.class);
+//                        startActivity(intent);
+//                        return true;
+//                    }
+//
+//                if (itemId == R.id.page_4) {
+//                    // Respond to navigation item 4 click
+//                    Intent intent = new Intent(PieChartActivity.this, GoogleSignInActivity.class);
+//                    startActivity(intent);
+//                    return true;
+//                }
+//
+//                return false;
+//            }
+//        });
 
-                    if (itemId == R.id.page_1) {
-                        // Respond to navigation item 1 click
-                        Intent intent = new Intent(PieChartActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        return true;
-                    }
 
-                if (itemId == R.id.page_2) {
-                    // Respond to navigation item 2 click
-                    Intent intent = new Intent(PieChartActivity.this, PieChartActivity.class);
-                    startActivity(intent);
-                    return true;
-                }
-
-                    if (itemId == R.id.page_3) {
-                        // Respond to navigation item 3 click
-                        Intent intent = new Intent(PieChartActivity.this, BaseActivity.class);
-                        startActivity(intent);
-                        return true;
-                    }
-
-                if (itemId == R.id.page_4) {
-                    // Respond to navigation item 4 click
-                    Intent intent = new Intent(PieChartActivity.this, GoogleSignInActivity.class);
-                    startActivity(intent);
-                    return true;
-                }
-
-                return false;
-            }
-        });
-
+    }
+    public int getItemCount() {
+        return noteArrayList.size();
     }
 }

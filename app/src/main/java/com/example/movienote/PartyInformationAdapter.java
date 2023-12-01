@@ -213,7 +213,8 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
 
         ImageView ott_icon;
         GridLayout gridLayout;
-        Button id,password,price,accountNumber,accountHolderName,subscription,bankName;
+        TextView subscription;
+        Button id,password,price,accountNumber,accountHolderName,bankName;
 
         public PartyInformationViewHolder(@NonNull View itemView) {
 
