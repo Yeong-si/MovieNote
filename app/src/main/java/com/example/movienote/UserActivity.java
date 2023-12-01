@@ -51,6 +51,8 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
     private void openWebPage(String url) {
