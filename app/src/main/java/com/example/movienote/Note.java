@@ -5,6 +5,7 @@ package com.example.movienote;
 import java.util.List;
 
 public class Note {
+    private String uid; // userId
     private String writer; // 작성자
     private String movieTitle; // 영화 제목
     private String calendar; //캘린더
@@ -16,8 +17,9 @@ public class Note {
 
     public Note() {}
 
-    public Note(String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note) {
+    public Note(String uid,String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note) {
         this.writer = writer;
+        this.uid = uid;
         this.movieTitle = movieTitle;
         this.calendar = calendar;
         this.rating = rating;
@@ -25,6 +27,22 @@ public class Note {
         this.noteTitle = noteTitle;
         this.comment = comment;
         this.note = note;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getCalendar() {
+        return calendar;
+    }
+
+    public void setCalendar(String calendar) {
+        this.calendar = calendar;
     }
 
     public String getWriter() {

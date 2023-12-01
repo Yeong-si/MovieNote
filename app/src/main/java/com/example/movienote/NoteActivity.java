@@ -99,7 +99,7 @@ public class NoteActivity extends AppCompatActivity {
                 }else {
                     visible =false;
                 }
-                note = new Note(currentUser.getDisplayName(),binding.moviename.getText().toString(),binding.date.getText().toString(),
+                note = new Note(currentUser.getUid(),currentUser.getDisplayName(),binding.moviename.getText().toString(),binding.date.getText().toString(),
                         binding.ratingStar.getRating(),visible,binding.noteTitle.getText().toString(),
                         binding.comment.getText().toString(),binding.note.getText().toString());
 
@@ -107,13 +107,14 @@ public class NoteActivity extends AppCompatActivity {
                 //note.set
                 noteReference = FirebaseFirestore.getInstance().collection("Note");
                 Map<String, Object> data1 = new HashMap<>();
+                data1.put("uid",currentUser.getUid());
                 data1.put("writer", note.getWriter());
                 data1.put("movieTitle", note.getMovieTitle());
                 data1.put("note", note.getNote());
                 data1.put("noteTitle", note.getNoteTitle());
-                data1.put("regions", Arrays.asList("west_coast", "norcal"));
                 data1.put("comment",note.getComment());
                 data1.put("rating",note.getRating());
+                data1.put("calendar",note.getCalendar());
                 data1.put("invisible",note.isVisible());
 
                 noteReference.document(currentUser.getDisplayName()).set(data1);
