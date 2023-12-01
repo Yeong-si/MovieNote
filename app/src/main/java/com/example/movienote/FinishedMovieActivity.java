@@ -89,6 +89,7 @@ public class FinishedMovieActivity extends AppCompatActivity {
 
     private void EventChangeListener() {
 
+        //db.collection("Note").whereEqualTo("uid",user.getUid())
         db.collection("Note").orderBy("note", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override

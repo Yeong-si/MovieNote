@@ -2,6 +2,9 @@
 
 package com.example.movienote;
 
+import androidx.annotation.NonNull;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Note {
@@ -16,9 +19,11 @@ public class Note {
     private String note; // 본문
     private String genre; //장르
 
+    private @NonNull LocalDateTime timestamp;
+
     public Note() {}
 
-    public Note(String uid,String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note, String genre) {
+    public Note(String uid,String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note,@NonNull LocalDateTime timestamp,String genre) {
         this.writer = writer;
         this.uid = uid;
         this.movieTitle = movieTitle;
@@ -28,7 +33,17 @@ public class Note {
         this.noteTitle = noteTitle;
         this.comment = comment;
         this.note = note;
+        this.timestamp = timestamp;
         this.genre = genre;
+    }
+
+    @NonNull
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(@NonNull LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getUid() {
@@ -95,6 +110,7 @@ public class Note {
     public void setNote(String note) {
         this.note = note;
     }
-
-    public String getGenre(){ return genre; }
+    public String getGenre(){
+        return genre;
+    }
 }
