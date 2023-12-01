@@ -27,7 +27,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // 버튼이 클릭되면 구글 홈페이지로 이동
-                openWebPage("https://github.com/Yeong-si/MovieNote");
+                openWebPage("https://github.com/Yeong-si/UI_MovieNote");
             }
         });
 
@@ -43,15 +43,13 @@ public class UserActivity extends AppCompatActivity {
         spannableString.setSpan(new RelativeSizeSpan(1.3f), start, end+1, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
         binding.username.setText(spannableString);
 
-         binding.logoutbtn.setOnClickListener(new View.OnClickListener() {
+        binding.logoutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signOut();
                 finish();
             }
         });
-
-
 
     }
 

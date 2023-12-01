@@ -61,7 +61,7 @@ public class GoogleSignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // 버튼이 클릭되면 구글 홈페이지로 이동
-                openWebPage("https://github.com/Yeong-si/MovieNote");
+                openWebPage("https://github.com/Yeong-si/UI_MovieNote");
             }
         });
     }
