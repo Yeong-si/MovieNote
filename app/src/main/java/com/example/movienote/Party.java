@@ -13,7 +13,7 @@ public class Party {
     private Long accountNumber; // 계좌번호
     private String bankName; // 이체할 은행이름
     private String accountHolderName; // 수취인
-    private Long price; // 가격
+    private Long price; // 월 청구액
     private String id; // 공유하는 아이디
     private String password; // 공유하는 비밀번호
 

@@ -10,22 +10,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.MovieNoteViewHolder> {
-
-    Context context;
     ArrayList<Note> noteArrayList;
 
-    public MovieNoteAdapter(Context context, ArrayList<Note> noteArrayList) {
-        this.context = context;
+    public MovieNoteAdapter(Context context,ArrayList<Note> noteArrayList) {
         this.noteArrayList = noteArrayList;
+    }
+
+    public void filterList(ArrayList<Note> filteredList) {
+        this.noteArrayList = filteredList;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public MovieNoteAdapter.MovieNoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.item_movie_note,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie_note,parent,false);
 
         return new MovieNoteViewHolder(view);
     }
@@ -35,8 +38,8 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
 
         Note note = noteArrayList.get(position);
 
-        holder.note_title.setText(note.getNoteTitle());
-        holder.review.setText(note.getNote());
+        holder.movieTitle.setText(note.getMovieTitle());
+        holder.note.setText(note.getNote());
     }
 
     @Override
@@ -45,13 +48,11 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
     }
 
     public static class MovieNoteViewHolder extends RecyclerView.ViewHolder{
-
-        TextView note_title,review;
-
+        private final TextView movieTitle,note;
         public MovieNoteViewHolder(@NonNull View itemView) {
             super(itemView);
-            note_title = itemView.findViewById(R.id.note_title);
-            review = itemView.findViewById(R.id.review);
+            movieTitle = itemView.findViewById(R.id.movieTitle);
+            note = itemView.findViewById(R.id.note);
         }
     }
 }
