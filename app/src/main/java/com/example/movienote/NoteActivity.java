@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.RatingBar;
@@ -122,11 +123,14 @@ public class NoteActivity extends AppCompatActivity {
 
                             // 선택한 항목을 기반으로 genre 텍스트 업데이트
                             if (selectedPosition >= 0 && selectedPosition < genres.length) {
-                                binding.genre.setText(genres[selectedPosition]);
+                                binding.genreChoicebtn.setText(genres[selectedPosition]);
+                                Log.d("MyApp", "Genre updated: " + genres[selectedPosition]);
+                            } else {
+                                Log.e("MyApp", "Invalid position: " + selectedPosition);
                             }
 
                             // 다이얼로그 닫기
-                            dialog.dismiss();
+                            listDialog.dismiss();
                         }
                     })
                     .setNegativeButton("취소", null)

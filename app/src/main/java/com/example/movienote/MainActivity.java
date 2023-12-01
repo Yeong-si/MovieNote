@@ -11,18 +11,24 @@ import android.view.View;
 import com.example.movienote.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
+    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
+
+        binding.startTitle.setText(currentUser.getDisplayName()+" 님이 보고싶은 영화");
+        binding.finishTitle.setText(currentUser.getDisplayName()+" 님이 본 영화");
 
         binding.finishedMoviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
