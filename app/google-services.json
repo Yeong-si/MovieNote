@@ -12,7 +12,20 @@
           "package_name": "com.example.movienote"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "848459953568-eg2pvl1noeq38tvqma9vn16jndke4lmo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.movienote",
+            "certificate_hash": "2a7b4bb4860ee1d8b9a3ee5528103b3665ba8915"
+          }
+        },
+        {
+          "client_id": "848459953568-m24eae02cbcivec037unvbvu2v7m5kli.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyApjmJxZsn1kNVqIc-NwQasqxgcsIDwX6o"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "848459953568-m24eae02cbcivec037unvbvu2v7m5kli.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
