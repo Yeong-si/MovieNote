@@ -36,12 +36,14 @@ public class FinishedMovieActivity extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseUser user;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ActivityFinishedMovieBinding binding = ActivityFinishedMovieBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
 
+        binding.title.setText(user.getDisplayName()+"님이 본 영화");
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         binding.title.setText("어쩌고"+"님이 본 영화");

@@ -94,6 +94,7 @@ public class MovieNoteSearchActivity extends AppCompatActivity {
             }
         });
         return true;
+        //return super.onCreateOptionsMenu(menu);
     }
 
     private void filter(String text) {
