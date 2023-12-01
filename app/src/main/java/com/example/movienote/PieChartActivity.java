@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -59,8 +60,7 @@ public class PieChartActivity extends AppCompatActivity {
     ArrayList<Note> noteArrayList;
 
     private FirebaseFirestore db;
-    public int fieldValueCount[] = new int[7];
-
+    private int romance = 0, action = 0,animation = 0, sf = 0, horror = 0,drama = 0,comedy = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -77,21 +77,22 @@ public class PieChartActivity extends AppCompatActivity {
         binding.pieChart.setUsePercentValues(true);
 
         db = FirebaseFirestore.getInstance();
+        String userUid = FirebaseAuth.getInstance().getUid().toString(); // replace with the actual user UID
+        fetchUserNotes(userUid);
+
         //통계내기
-        calculateStatistics("Note","genre");
-
-
+        calculateUserStatistics();
 
 
         // 넣고 싶은 데이터 설정
         List<PieEntry> dataList = new ArrayList<>();
-        dataList.add(new PieEntry(fieldValueCount[0], "로맨스"));
-        dataList.add(new PieEntry(fieldValueCount[1], "액션"));
-        dataList.add(new PieEntry(fieldValueCount[2], "애니메이션"));
-        dataList.add(new PieEntry(fieldValueCount[3], "드라마"));
-        dataList.add(new PieEntry(fieldValueCount[4], "코미디"));
-        dataList.add(new PieEntry(fieldValueCount[5], "호러"));
-        dataList.add(new PieEntry(fieldValueCount[6], "SF"));
+        dataList.add(new PieEntry(romance, "로맨스"));
+        dataList.add(new PieEntry(action, "액션"));
+        dataList.add(new PieEntry(animation, "애니메이션"));
+        dataList.add(new PieEntry(drama, "드라마"));
+        dataList.add(new PieEntry(comedy, "코미디"));
+        dataList.add(new PieEntry(horror, "호러"));
+        dataList.add(new PieEntry(sf, "SF"));
 
 
         // 값에 따른 색상 지정
@@ -266,24 +267,25 @@ public class PieChartActivity extends AppCompatActivity {
 
     }
 
-    public void calculateStatistics(String collectionPath, String field) {
-        db.collection(collectionPath)
+    private void fetchUserNotes(String userUid) {
+        db.collection("Note") // replace with your actual notes collection name
+                .whereEqualTo("uid", userUid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            int totalDocuments = task.getResult().size();
-
-                            // 각 문서에서 필드 값을 가져와 통계를 계산
+                            noteArrayList = new ArrayList<>();
                             for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                Object fieldValue = document.get(field);
-
-                                // 필드 값이 존재하면 특정 값의 개수를 증가
-                                updateFieldValueCount(fieldValue);
+                                Note note = document.toObject(Note.class);
+                                if (note != null) {
+                                    noteArrayList.add(note);
+                                }
                             }
+
+                            // Calculate genre-based statistics for the user's notes
+                            calculateUserStatistics();
                         } else {
-                            // 에러 처리
                             Exception exception = task.getException();
                             if (exception != null) {
                                 exception.printStackTrace();
@@ -293,15 +295,35 @@ public class PieChartActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateFieldValueCount(Object fieldValue) {
-        // 필드 값이 null이 아닌 경우에만 특정 값의 개수를 증가
-        if (fieldValue != null) {
-            String[] genres = {"로맨스", "액션", "애니메이션", "드라마", "코미디", "호러", "SF"};
-            for (int i = 0; i < genres.length; i++) {
-                if (fieldValue.equals(genres[i])) {
-                    fieldValueCount[i]++;
-                    break; // 필드 값이 일치하면 루프 중단
-                }
+
+    private void calculateUserStatistics() {
+        for (Note note : noteArrayList) {
+            String genre = note.getGenre(); // Replace with the actual method to get the genre from your Note object
+
+            // Increment the count based on the genre
+            switch (genre) {
+                case "로맨스":
+                    romance++;
+                    break;
+                case "액션":
+                    action++;
+                    break;
+                case "애니메이션":
+                    animation++;
+                    break;
+                case "SF":
+                    sf++;
+                    break;
+                case "호러":
+                    horror++;
+                    break;
+                case "드라마":
+                    drama++;
+                    break;
+                case "코미디":
+                    comedy++;
+                    break;
+                // Add more cases for other genres if needed
             }
         }
     }
