@@ -55,6 +55,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                         Intent intent = new Intent(v.getContext(), NoteActivity.class);
                         intent.putExtra("title", item.getTitle());
                         intent.putExtra("image", item.getImage());
+                        Log.d("LSY","이게 먼저되는 거?");
 
                         v.getContext().startActivity(intent);//onClickListener.onC
                     }
