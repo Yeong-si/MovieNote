@@ -50,9 +50,11 @@ public class FinishedMovieActivity extends AppCompatActivity {
         binding.plusmovieBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(FinishedMovieActivity.this, MovieSearchActivity.class);
                 intent.putExtra("what","Finished");
                 startActivity(intent);
+
             }
         });
 
@@ -61,23 +63,6 @@ public class FinishedMovieActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         db = FirebaseFirestore.getInstance();
-
-        db.collection("Note")
-                .whereEqualTo("uid", true)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("", document.getId() + " => " + document.getData());
-                                //noteArrayList.add(document.getData().get(""));
-                            }
-                        } else {
-                            Log.d("", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
 
         noteArrayList = new ArrayList<Note>();
         movieNoteAdapter = new MovieNoteAdapter(FinishedMovieActivity.this,noteArrayList);
@@ -89,7 +74,7 @@ public class FinishedMovieActivity extends AppCompatActivity {
 
     private void EventChangeListener() {
 
-        db.collection("Note").orderBy("note", Query.Direction.ASCENDING)
+        db.collection("Note").whereEqualTo("uid",user.getUid())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
