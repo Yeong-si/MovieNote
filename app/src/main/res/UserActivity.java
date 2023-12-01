@@ -1,4 +1,4 @@
-package com.example.movienote;
+package com.example.test;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -11,7 +11,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.movienote.databinding.UserBinding;
+import com.example.test.databinding.UserBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class UserActivity extends AppCompatActivity {
