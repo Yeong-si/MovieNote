@@ -50,6 +50,7 @@ public class FinishedMovieActivity extends AppCompatActivity {
         binding.plusmovieBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(FinishedMovieActivity.this, MovieSearchActivity.class);
                 intent.putExtra("what","Finished");
                 startActivity(intent);
@@ -89,8 +90,8 @@ public class FinishedMovieActivity extends AppCompatActivity {
 
     private void EventChangeListener() {
 
-        //db.collection("Note").whereEqualTo("uid",user.getUid())
-        db.collection("Note").orderBy("note", Query.Direction.ASCENDING)
+        //db.collection("Note").orderBy("note", Query.Direction.ASCENDING)
+        db.collection("Note").whereEqualTo("uid",user.getUid())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
