@@ -12,6 +12,7 @@ import android.widget.RatingBar;
 import com.bumptech.glide.Glide;
 import com.example.movienote.databinding.ActivityNoteBinding;
 import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
@@ -24,7 +25,7 @@ import java.util.Map;
 
 public class NoteActivity extends AppCompatActivity {
 
-    FirebaseUser currentUser;
+    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     CollectionReference noteReference;
     FirebaseFirestore db;
 
@@ -99,7 +100,7 @@ public class NoteActivity extends AppCompatActivity {
                 }else {
                     visible =false;
                 }
-                note = new Note(currentUser.getUid(),currentUser.getDisplayName(),binding.moviename.getText().toString(),binding.date.getText().toString(),
+                note = new Note(currentUser.getUid().toString(),currentUser.getDisplayName(),binding.moviename.getText().toString(),binding.date.getText().toString(),
                         binding.ratingStar.getRating(),visible,binding.noteTitle.getText().toString(),
                         binding.comment.getText().toString(),binding.note.getText().toString());
 
