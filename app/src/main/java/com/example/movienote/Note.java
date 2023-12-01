@@ -2,8 +2,11 @@
 
 package com.example.movienote;
 
+import java.util.List;
+
 public class Note {
     private String writer; // 작성자
+    private List<Note> noteList;
     private String genre; // 장르
     private String movieTitle; // 영화 제목
     private float rating; // 평점
