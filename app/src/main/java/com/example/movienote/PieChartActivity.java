@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.movienote.databinding.ActivityChartBinding;
+import com.github.mikephil.*;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
