@@ -1,8 +1,12 @@
 package com.example.movienote;
 
+import static android.content.Context.MODE_PRIVATE;
+import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +25,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     List<MovieItem> array;
     Context context;
+    String fromActivity;
     private OnClickListener onClickListener;
 
-    public MovieAdapter(List<MovieItem> array, Context context){
+
+
+    public MovieAdapter(List<MovieItem> array, Context context,String fromActivity){
         this.array = array;
         this.context = context;
+        this.fromActivity = fromActivity;
     }
+
 
     @NonNull
     @Override
@@ -50,13 +59,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             public void onClick(View v) {
                 try {
                     if (onClickListener != null) {
-                        Log.d("LSY", "널이다");
+                        //Log.d("LSY", "널이다");
                         onClickListener.onClick(position, item);
-                        Intent intent = new Intent(v.getContext(), NoteActivity.class);
+                        Intent intent=null;
+
+                        if ("toStart".equals(fromActivity)){
+                            intent = new Intent(v.getContext(), ToStartMovieActivity.class);
+                        }else{
+                            intent = new Intent(v.getContext(), NoteActivity.class);
+                        }
                         intent.putExtra("title", item.getTitle());
                         intent.putExtra("image", item.getImage());
-                        Log.d("LSY","이게 먼저되는 거?");
-
                         v.getContext().startActivity(intent);//onClickListener.onC
                     }
                 } catch (Exception e) {
