@@ -15,6 +15,11 @@ public class MovieItem {
         //this.director = director;
         // , String director
     }
+
+    public MovieItem() {
+
+    }
+
     // Getter for title
     public String getTitle() {
         return title;

@@ -26,9 +26,16 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
+        binding.startTitle.setText("회원 님이 보고싶은 영화");
+        binding.finishTitle.setText("회원 님이 본 영화");
 
-        binding.startTitle.setText(currentUser.getDisplayName()+" 님이 보고싶은 영화");
-        binding.finishTitle.setText(currentUser.getDisplayName()+" 님이 본 영화");
+        /*if (currentUser.getDisplayName() == null){
+            binding.startTitle.setText("회원 님이 보고싶은 영화");
+            binding.finishTitle.setText("회원 님이 본 영화");
+        }else{
+            binding.startTitle.setText(currentUser.getDisplayName()+" 님이 보고싶은 영화");
+            binding.finishTitle.setText(currentUser.getDisplayName()+" 님이 본 영화");
+        }*/
 
         binding.finishedMoviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ToStartMovieActivity.class));
             }
         });
+
         BottomNavigationView navigationBarView = findViewById(R.id.bottom_navigation);
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

@@ -180,10 +180,8 @@ public class NoteActivity extends AppCompatActivity {
 
 
     }
-    public void addNote(String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note){
-
-
-    }
+    //public void addNote(String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note){
+    //}
         //Note note = new Note();
 
     private void showToast(String message) {

@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
@@ -33,17 +34,29 @@ public class MovieSearchActivity extends AppCompatActivity {
     MovieAdapter adapter;
     final String[] title = new String[1];
 
+    private NoteDBHelper helper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivityMovieSearchBinding.inflate(getLayoutInflater());
-
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
 
         recyclerView = binding.recyclerMovie;
         manager = new LinearLayoutManager(this);
         array = new ArrayList<MovieItem>();
-        adapter = new MovieAdapter(array, this);
+
+        helper = new NoteDBHelper(MovieSearchActivity.this);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String fromActivity = getIntent().getStringExtra("what");
+        if ("toStart".equals(fromActivity)){
+            adapter = new MovieAdapter(array, this,"toStart");
+        } else if ("Finished".equals(fromActivity)) {
+            adapter = new MovieAdapter(array, this,"Finished");
+        }
+
+
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -78,9 +91,12 @@ public class MovieSearchActivity extends AppCompatActivity {
             @Override
             public void onClick(int position, MovieItem model) {
                 Log.d("LSY", "클릭 완료");
+
+
                 // 클릭된 아이템의 정보를 가져와서 NoteActivity로 전환하는 Intent를 생성
                 String title = array.get(position).getTitle();
                 String image = array.get(position).getImage();
+                db.execSQL("insert into tb_memo (title,poster) values (?,?)", new String[]{title,image});
                 //Log.d("LSY", title);
                 //Log.d("LSY", image);
 

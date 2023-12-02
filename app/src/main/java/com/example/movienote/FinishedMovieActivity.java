@@ -44,13 +44,18 @@ public class FinishedMovieActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        binding.title.setText(user.getDisplayName()+"님이 본 영화");
 
+        binding.title.setText("회원 님이 본 영화");
+
+        /*if (user.getDisplayName() == null){
+            binding.title.setText("회원 님이 본 영화");
+        }else{
+            binding.title.setText(user.getDisplayName()+"님이 본 영화");
+        }*/
 
         binding.plusmovieBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(FinishedMovieActivity.this, MovieSearchActivity.class);
                 intent.putExtra("what","Finished");
                 startActivity(intent);
