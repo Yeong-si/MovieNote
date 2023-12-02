@@ -31,7 +31,6 @@ import java.util.ArrayList;
 public class MovieNoteSearchActivity extends AppCompatActivity {
 
     ActivityMovieNoteSearchBinding binding;
-
     RecyclerView recyclerView;
     SearchView searchView;
     ArrayList<Note> noteArrayList;
@@ -52,7 +51,7 @@ public class MovieNoteSearchActivity extends AppCompatActivity {
         progressDialog.setMessage("Fetching Data...");
         progressDialog.show();
 
-        recyclerView = findViewById(R.id.movieNoteSearchRecyclerView);
+        recyclerView = binding.movieNoteSearchRecyclerView;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -65,13 +64,16 @@ public class MovieNoteSearchActivity extends AppCompatActivity {
         binding.noteSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventChangeListener();
                 String text = binding.noteSearchBar.getText().toString();
+                int i=0;
                 for (Note output : noteArrayList){
                     //노트가 공개이고, comment에 text관련이 쓰여있다면
-                    if (output.isVisible() == true && output.getComment().contains(text)){
-
+                    if (output.isVisible() == true && output.getNote().contains(text)){
+                        noteArrayList.set(i++,output);
                     }
                 }
+                movieNoteAdapter.notifyDataSetChanged();
             }
         });
 
@@ -96,8 +98,6 @@ public class MovieNoteSearchActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
 
         EventChangeListener();
     }
@@ -168,11 +168,11 @@ public class MovieNoteSearchActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                             }
 
-                            Log.e("FireStore error",error.getMessage());
+                            Log.e("FireStore error", error.getMessage());
                             return;
                         }
 
-                        for(DocumentChange dc: value.getDocumentChanges()) {
+                        for (DocumentChange dc : value.getDocumentChanges()) {
 
                             if (dc.getType() == DocumentChange.Type.ADDED) {
                                 noteArrayList.add(dc.getDocument().toObject(Note.class));
@@ -185,5 +185,6 @@ public class MovieNoteSearchActivity extends AppCompatActivity {
                         }
                     }
                 });
+
     }
 }
