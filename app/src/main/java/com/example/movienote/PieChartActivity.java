@@ -1,3 +1,13 @@
+// 장르 개수 세기
+//CollectionReference collection = db.collection("Note");
+// 노트 컬렉션 가져오기
+//Query query = collection.whereEqualto("genre","romance");
+// 로맨스인 것만 쿼리로 가져오기
+//AggregateQuerySnapshot snapshot = query.aggregate(sum("genre")).get().get();
+// 쿼리에서 장르 필드가 있는 합, 79번째 줄처럼 integer로 할 필요 없음, 여기서는 Note 클래스에서 스트링이라 개수일듯
+//System.out.println("Sum: " + snapshot.get(sum("genre")));
+// 장르 합 반환
+
 package com.example.movienote;
 
 import android.app.Person;
