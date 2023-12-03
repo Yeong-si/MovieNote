@@ -57,6 +57,7 @@ public class ToStartMovieActivity extends AppCompatActivity {
             temp.setImage(cursor.getString(1));
             array.add(temp);
         }
+        cursor.close();
         db.close();
 
         adapter.notifyDataSetChanged();
