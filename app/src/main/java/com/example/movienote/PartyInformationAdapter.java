@@ -199,11 +199,11 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
             }
         });
 
-        for (int i=0;i<party.getMember().size();i++){
-            TextView textView = new TextView(context);
-            textView.setText(party.getMember().get(i));
-            holder.gridLayout.addView(textView);
-        }
+//        for (int i=0;i<party.getMember().size();i++){
+//            TextView textView = new TextView(context);
+//            textView.setText(party.getMember().get(i));
+//            holder.gridLayout.addView(textView);
+//        } 오류나서 주석처리함
     }
 
     @Override

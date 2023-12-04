@@ -10,6 +10,9 @@
 
 package com.example.movienote;
 
+import static com.google.firebase.firestore.AggregateField.count;
+import static com.google.firebase.firestore.AggregateField.sum;
+
 import android.app.Person;
 import android.content.Intent;
 import android.graphics.Color;
@@ -38,11 +41,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.AggregateQuerySnapshot;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -92,36 +98,28 @@ public class PieChartActivity extends AppCompatActivity {
         // 백분율로 표시하여 파이 차트의 전체 합이 100%가 되도록 보여준다.
         binding.pieChart.setUsePercentValues(true);
 
-        db = FirebaseFirestore.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            String userUid = user.getUid();
-            fetchUserNotes(userUid);
-        }
-        noteArrayList = new ArrayList<Note>();
 
-        db.collection("Note").whereEqualTo("uid",user.getUid())
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+        // 장르 개수 세기
+        // 노트 컬렉션 가져오기
+        CollectionReference collection = db.collection("Note");
+        // 로맨스인 것만 쿼리로 가져오기
+        Query query = collection.whereEqualTo("genre", "로맨스"); // Ensure the correct string for "로맨스"
 
-                        if (error != null) {
-                            Log.e("FireStore error",error.getMessage());
-                            return;
-                        }
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    int romanceCount = task.getResult().size();
+                    // Now you have the count of documents with genre "로맨스"
+                    Log.d("Firestore", "Romance count: " + romanceCount);
 
-                        for(DocumentChange dc: value.getDocumentChanges()) {
-
-                            if (dc.getType() == DocumentChange.Type.ADDED) {
-                                noteArrayList.add(dc.getDocument().toObject(Note.class));
-                            }
-
-                        }
-                    }
-                });
-
-        //통계내기
-        calculateUserStatistics();
+                    // 여기서 변수에 할당하거나 다른 작업 수행
+                    romance = romanceCount;
+                } else {
+                    Log.e("Firestore", "Error getting documents: ", task.getException());
+                }
+            }
+        });
 
 
         // 넣고 싶은 데이터 설정
