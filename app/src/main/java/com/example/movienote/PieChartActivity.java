@@ -82,7 +82,7 @@ public class PieChartActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     ArrayList<Note> noteArrayList;
 
-    private float romance, action = 0,animation = 0, sf = 0, horror = 0,drama = 0,comedy = 0;
+    private float romance = 0, action = 0, animation = 0, sf = 0, horror = 0, drama = 0, comedy = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -216,7 +216,7 @@ public class PieChartActivity extends AppCompatActivity {
 
 
 
-
+        Log.d("ekdms", "SF count: " + sf);
         // 넣고 싶은 데이터 설정
         List<PieEntry> dataList = new ArrayList<>();
         dataList.add(new PieEntry(romance, "로맨스"));
@@ -239,7 +239,7 @@ public class PieChartActivity extends AppCompatActivity {
         colors.add(ContextCompat.getColor(this, R.color.graph7));
 
 
-        PieDataSet dataSet = new PieDataSet(dataList, "");
+        PieDataSet dataSet = new PieDataSet(dataList,"");
         dataSet.setColors(colors);
 
         // pieChart 안에 들어갈 텍스트 크기
@@ -257,7 +257,7 @@ public class PieChartActivity extends AppCompatActivity {
         binding.pieChart.setRotationEnabled(true); // 차트 회전 활성화
         binding.pieChart.setDrawEntryLabels(false); // 차트 label 비활성
         binding.pieChart.setEntryLabelColor(Color.BLACK); // label 색상
-        binding.pieChart.animateY(1400, Easing.EaseInOutQuad); // 1.4초 동안 애니메이션 설정
+        binding.pieChart.animateY(1400, Easing.EaseInOutQuad); // 1.4초 동안 애니메이션 설정 1400, Easing.EaseInOutQuad
         binding.pieChart.animate();
 
         // Gson 객체 생성
