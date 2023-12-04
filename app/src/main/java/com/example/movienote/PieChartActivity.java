@@ -82,7 +82,7 @@ public class PieChartActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     ArrayList<Note> noteArrayList;
 
-    private int romance = 10, action = 0,animation = 0, sf = 0, horror = 0,drama = 0,comedy = 0;
+    private float romance, action = 0,animation = 0, sf = 0, horror = 0,drama = 0,comedy = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -99,13 +99,15 @@ public class PieChartActivity extends AppCompatActivity {
         binding.pieChart.setUsePercentValues(true);
 
 
+        db = FirebaseFirestore.getInstance();
+
         // 장르 개수 세기
         // 노트 컬렉션 가져오기
         CollectionReference collection = db.collection("Note");
         // 로맨스인 것만 쿼리로 가져오기
-        Query query = collection.whereEqualTo("genre", "로맨스"); // Ensure the correct string for "로맨스"
+        Query query1 = collection.whereEqualTo("genre", "로맨스"); // Ensure the correct string for "로맨스"
 
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        query1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -120,6 +122,99 @@ public class PieChartActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Query query2 = collection.whereEqualTo("genre", "액션");
+        query2.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    int actionCount = task.getResult().size();
+                    Log.d("Firestore", "action count: " + actionCount);
+
+                    // 여기서 변수에 할당하거나 다른 작업 수행
+                    action = actionCount;
+                } else {
+                    Log.e("Firestore", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+        Query query3 = collection.whereEqualTo("genre", "애니메이션");
+        query3.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    int animationCount = task.getResult().size();
+                    Log.d("Firestore", "animation count: " + animationCount);
+
+                    // 여기서 변수에 할당하거나 다른 작업 수행
+                    animation = animationCount;
+                    Log.d("Firestore", "애니메이션 count: " + animation);
+                } else {
+                    Log.e("Firestore", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+        Query query4 = collection.whereEqualTo("genre", "드라마");
+        query4.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    int dramaCount = task.getResult().size();
+                    Log.d("Firestore", "drama count: " + dramaCount);
+
+                    // 여기서 변수에 할당하거나 다른 작업 수행
+                    drama = dramaCount;
+                } else {
+                    Log.e("Firestore", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+        Query query5 = collection.whereEqualTo("genre", "코미디");
+        query5.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    int comedyCount = task.getResult().size();
+                    Log.d("Firestore", "comedy count: " + comedyCount);
+
+                    // 여기서 변수에 할당하거나 다른 작업 수행
+                    comedy = comedyCount;
+                } else {
+                    Log.e("Firestore", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+        Query query6 = collection.whereEqualTo("genre", "호러");
+        query6.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    int horrorCount = task.getResult().size();
+                    Log.d("Firestore", "horror count: " + horrorCount);
+
+                    // 여기서 변수에 할당하거나 다른 작업 수행
+                    horror = horrorCount;
+                } else {
+                    Log.e("Firestore", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+        Query query7 = collection.whereEqualTo("genre", "SF");
+        query7.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    int SFCount = task.getResult().size();
+                    sf = SFCount;
+                    Log.d("Firestore", "SF count: " + SFCount);
+                    Log.d("Firestore", "SF count: " + sf);
+                } else {
+                    Log.e("Firestore", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+
 
 
         // 넣고 싶은 데이터 설정

@@ -59,7 +59,9 @@ public class MovieSearchActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
 
         binding.searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
