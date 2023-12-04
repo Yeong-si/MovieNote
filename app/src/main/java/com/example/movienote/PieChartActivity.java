@@ -13,6 +13,7 @@ package com.example.movienote;
 import static com.google.firebase.firestore.AggregateField.count;
 import static com.google.firebase.firestore.AggregateField.sum;
 
+
 import android.app.Person;
 import android.content.Intent;
 import android.graphics.Color;
@@ -73,6 +74,7 @@ import java.util.concurrent.Executors;
 
 public class PieChartActivity extends AppCompatActivity {
 
+    private ActivityChartBinding binding;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     Executor executor = Executors.newSingleThreadExecutor();
@@ -87,7 +89,7 @@ public class PieChartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        ActivityChartBinding binding = ActivityChartBinding.inflate(getLayoutInflater());
+        binding = ActivityChartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         SimpleDateFormat format = new SimpleDateFormat(format_Month, Locale.getDefault());
@@ -100,6 +102,7 @@ public class PieChartActivity extends AppCompatActivity {
 
 
         db = FirebaseFirestore.getInstance();
+
 
         // 장르 개수 세기
         // 노트 컬렉션 가져오기
@@ -117,6 +120,7 @@ public class PieChartActivity extends AppCompatActivity {
 
                     // 여기서 변수에 할당하거나 다른 작업 수행
                     romance = romanceCount;
+                    updateChart();
                 } else {
                     Log.e("Firestore", "Error getting documents: ", task.getException());
                 }
@@ -133,6 +137,7 @@ public class PieChartActivity extends AppCompatActivity {
 
                     // 여기서 변수에 할당하거나 다른 작업 수행
                     action = actionCount;
+                    updateChart();
                 } else {
                     Log.e("Firestore", "Error getting documents: ", task.getException());
                 }
@@ -148,6 +153,7 @@ public class PieChartActivity extends AppCompatActivity {
 
                     // 여기서 변수에 할당하거나 다른 작업 수행
                     animation = animationCount;
+                    updateChart();
                     Log.d("Firestore", "애니메이션 count: " + animation);
                 } else {
                     Log.e("Firestore", "Error getting documents: ", task.getException());
@@ -164,6 +170,7 @@ public class PieChartActivity extends AppCompatActivity {
 
                     // 여기서 변수에 할당하거나 다른 작업 수행
                     drama = dramaCount;
+                    updateChart();
                 } else {
                     Log.e("Firestore", "Error getting documents: ", task.getException());
                 }
@@ -179,6 +186,7 @@ public class PieChartActivity extends AppCompatActivity {
 
                     // 여기서 변수에 할당하거나 다른 작업 수행
                     comedy = comedyCount;
+                    updateChart();
                 } else {
                     Log.e("Firestore", "Error getting documents: ", task.getException());
                 }
@@ -194,6 +202,7 @@ public class PieChartActivity extends AppCompatActivity {
 
                     // 여기서 변수에 할당하거나 다른 작업 수행
                     horror = horrorCount;
+                    updateChart();
                 } else {
                     Log.e("Firestore", "Error getting documents: ", task.getException());
                 }
@@ -206,6 +215,7 @@ public class PieChartActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     int SFCount = task.getResult().size();
                     sf = SFCount;
+                    updateChart();
                     Log.d("Firestore", "SF count: " + SFCount);
                     Log.d("Firestore", "SF count: " + sf);
                 } else {
@@ -416,9 +426,6 @@ public class PieChartActivity extends AppCompatActivity {
                                 }
                             }
 
-                            // Calculate genre-based statistics for the user's notes
-                            calculateUserStatistics();
-
                         } else {
                             Exception exception = task.getException();
                             if (exception != null) {
@@ -430,39 +437,8 @@ public class PieChartActivity extends AppCompatActivity {
     }
 
 
-    private void calculateUserStatistics() {
-        for (Note note : noteArrayList) {
-            String genre = note.getGenre(); // Replace with the actual method to get the genre from your Note object
-
-            // Increment the count based on the genre
-            switch (genre) {
-                case "로맨스":
-                    romance++;
-                    break;
-                case "액션":
-                    action++;
-                    break;
-                case "애니메이션":
-                    animation++;
-                    break;
-                case "SF":
-                    sf++;
-                    break;
-                case "호러":
-                    horror++;
-                    break;
-                case "드라마":
-                    drama++;
-                    break;
-                case "코미디":
-                    comedy++;
-                    break;
-                // Add more cases for other genres if needed
-            }
-        }
-    }
-
     private String parseJson(String jsonData) {
+        String [] output = new String[3];
         String movies = "";
 
         if (jsonData != null) {
@@ -481,12 +457,17 @@ public class PieChartActivity extends AppCompatActivity {
                     //Log.d("title",title);
                     String posterUrl = resultObject.get("posters").getAsString();
                     String[] poster = posterUrl.split("\\|");
-                    MovieItem movie;
-                    if (poster[0].length()==0){
-                        return "https://ifh.cc/g/MJ7jPL.png";
-                    }else{
-                        return poster[0];
-                    }
+                    if (poster[0].length() != 0) {
+
+                        Glide.with(this)
+                                .load(poster[0])
+                                .into(binding.recommend1);
+//                        String mo = "https://ifh.cc/g/MJ7jPL.png";
+                    } else if(poster[0].length() == 0){
+                        Glide.with(this)
+                                .load(poster[0])
+                                .into(binding.recommend1);
+                }
 
                 }
             } catch (JsonParseException e) {
@@ -501,4 +482,49 @@ public class PieChartActivity extends AppCompatActivity {
 
         return movies;
     }
+
+    private void updateChart() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // 기존의 binding 객체를 사용하도록 수정
+                ActivityChartBinding binding = ActivityChartBinding.inflate(getLayoutInflater());
+
+                Log.d("update","지금 실행됨");
+                // 넣고 싶은 데이터 설정
+                List<PieEntry> dataList = new ArrayList<>();
+                dataList.add(new PieEntry(romance, "로맨스"));
+                dataList.add(new PieEntry(action, "액션"));
+                dataList.add(new PieEntry(animation, "애니메이션"));
+                dataList.add(new PieEntry(drama, "드라마"));
+                dataList.add(new PieEntry(comedy, "코미디"));
+                dataList.add(new PieEntry(horror, "호러"));
+                dataList.add(new PieEntry(sf, "SF"));
+
+                // 값에 따른 색상 지정
+                List<Integer> colors = new ArrayList<>();
+                colors.add(ContextCompat.getColor(PieChartActivity.this, R.color.graph1));
+                colors.add(ContextCompat.getColor(PieChartActivity.this, R.color.graph2));
+                colors.add(ContextCompat.getColor(PieChartActivity.this, R.color.graph3));
+                colors.add(ContextCompat.getColor(PieChartActivity.this, R.color.graph4));
+                colors.add(ContextCompat.getColor(PieChartActivity.this, R.color.graph5));
+                colors.add(ContextCompat.getColor(PieChartActivity.this, R.color.graph6));
+                colors.add(ContextCompat.getColor(PieChartActivity.this, R.color.graph7));
+
+                PieDataSet dataSet = new PieDataSet(dataList, "");
+
+                dataSet.setColors(colors);
+                dataSet.setValueTextSize(16F);
+                dataSet.setDrawValues(false);
+
+                PieData pieData = new PieData(dataSet);
+
+                binding.pieChart.setData(pieData);
+                binding.pieChart.invalidate(); // 차트를 갱신
+            }
+        });
+    }
+
+
+
 }
