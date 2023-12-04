@@ -2,17 +2,22 @@
 
 package com.example.movienote;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.movienote.databinding.ActivityPartyBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -34,12 +39,13 @@ public class PartyActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         CollectionReference party = db.collection("Party");
+        CollectionReference subscription = db.collection("Subscription");
 
         data = new HashMap<>();
         binding.subscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final CharSequence[] items = { "넷플릭스", "티빙", "라프텔 프리미엄", "웨이브" };
+                final CharSequence[] items = { "넷플릭스 프리미엄", "티빙 프리미엄", "라프텔 프리미엄", "웨이브 프리미엄","왓챠 프리미엄","디즈니+ 프리미엄" };
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         PartyActivity.this);
 
@@ -51,6 +57,28 @@ public class PartyActivity extends AppCompatActivity {
                                                 int id) {
 
                                 data.put("subscription",items[id].toString());
+                                subscription.document(items[id].toString())
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document != null) {
+                                                data.put("price",Integer.toString(
+                                                        Integer.parseInt(document.getString("price"))
+                                                        /Integer.parseInt(document.getString("max"))
+                                                        )
+                                                );
+                                                Log.i("LOGGER","success putting price field");
+                                            } else {
+                                                Log.d("LOGGER", "No such document");
+                                            }
+                                        } else {
+                                            Log.d("LOGGER", "get failed with ", task.getException());
+                                        }
+                                    }
+                                });
 
                                 // 프로그램을 종료한다
                                 Toast.makeText(getApplicationContext(),
