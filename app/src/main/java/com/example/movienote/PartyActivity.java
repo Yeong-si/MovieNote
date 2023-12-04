@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.example.movienote.databinding.ActivityPartyBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -29,6 +31,7 @@ public class PartyActivity extends AppCompatActivity {
     ActivityPartyBinding binding;
     FirebaseFirestore db;
     Map<String,Object> data;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class PartyActivity extends AppCompatActivity {
         CollectionReference subscription = db.collection("Subscription");
 
         data = new HashMap<>();
+        user = FirebaseAuth.getInstance().getCurrentUser();
         binding.subscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
