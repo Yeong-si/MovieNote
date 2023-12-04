@@ -65,7 +65,7 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                     public void run() {
                         holder.id.setText(originalText);
                     }
-                }, 3000);  // 5000 밀리초(5초) 후에 실행
+                }, 3000);  // 3000 밀리초(3초) 후에 실행
             }
         });
         holder.password.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +91,7 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                     public void run() {
                         holder.password.setText(originalText);
                     }
-                }, 3000);  // 5000 밀리초(5초) 후에 실행
+                }, 3000);  // 3000 밀리초(3초) 후에 실행
             }
         });
         holder.accountNumber.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +117,7 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                     public void run() {
                         holder.accountNumber.setText(originalText);
                     }
-                }, 3000);  // 5000 밀리초(5초) 후에 실행
+                }, 3000);  // 3000 밀리초(3초) 후에 실행
             }
         });
         holder.accountHolderName.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +143,7 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                     public void run() {
                         holder.accountHolderName.setText(originalText);
                     }
-                }, 3000);  // 5000 밀리초(5초) 후에 실행
+                }, 3000);  // 3000 밀리초(3초) 후에 실행
             }
         });
         holder.price.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +169,7 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                     public void run() {
                         holder.price.setText(originalText);
                     }
-                }, 3000);  // 5000 밀리초(5초) 후에 실행
+                }, 3000);  // 3000 밀리초(3초) 후에 실행
             }
         });
         holder.bankName.setOnClickListener(new View.OnClickListener() {
@@ -195,15 +195,41 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                     public void run() {
                         holder.bankName.setText(originalText);
                     }
-                }, 3000);  // 5000 밀리초(5초) 후에 실행
+                }, 3000);  // 3000 밀리초(3초) 후에 실행
             }
         });
 
-//        for (int i=0;i<party.getMember().size();i++){
-//            TextView textView = new TextView(context);
-//            textView.setText(party.getMember().get(i));
-//            holder.gridLayout.addView(textView);
-//        } 오류나서 주석처리함
+        switch (party.getSubscription()) {
+            case "넷플릭스 프리미엄" :
+                holder.ott_icon.setImageResource(R.drawable.netflix);
+                break;
+            case "디즈니+ 프리미엄" :
+                holder.ott_icon.setImageResource(R.drawable.disney);
+                break;
+            case "티빙 프리미엄" :
+                holder.ott_icon.setImageResource(R.drawable.tving);
+                break;
+            case "웨이브 프리미엄" :
+                holder.ott_icon.setImageResource(R.drawable.wavve);
+                break;
+            case "왓챠 프리미엄" :
+                holder.ott_icon.setImageResource(R.drawable.watcha);
+                break;
+            case "라프텔 프리미엄" :
+                holder.ott_icon.setImageResource(R.drawable.laftel);
+                break;
+            default:
+                holder.ott_icon.setImageResource(R.drawable.ott_icon);
+                break;
+        }
+
+        holder.subscription.setText(party.getSubscription());
+
+        for (int i=0;i<party.getMember().size();i++){
+            TextView textView = new TextView(context);
+            textView.setText(party.getMember().get(i).toString());
+            holder.gridLayout.addView(textView);
+        }
     }
 
     @Override
@@ -234,5 +260,3 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
         }
     }
 }
-
-

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +24,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PartyActivity extends AppCompatActivity {
@@ -132,8 +135,19 @@ public class PartyActivity extends AppCompatActivity {
         binding.complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                data.put("timestamp", FieldValue.serverTimestamp());
-                party.document(FieldValue.serverTimestamp().toString()).set(data);
+                if (data.containsValue("id")&&data.containsValue("password")&&data.containsValue("accountHolderName") &&data.containsValue("bankName")
+                        &&data.containsValue("accountNumber")&&data.containsValue("subscription") &&data.containsValue("price")){
+                    List<FirebaseUser> member = new ArrayList<>();
+                    member.add(user);
+                    data.put("member",member);
+                    data.put("timestamp", FieldValue.serverTimestamp());
+                    party.document(FieldValue.serverTimestamp().toString()).set(data);
+                    Intent intent = new Intent(getApplicationContext(), PartyInformationActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "양식을 완성해주세요.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
