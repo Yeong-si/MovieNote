@@ -84,7 +84,7 @@ public class PieChartActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     ArrayList<Note> noteArrayList;
 
-    private float romance = 0, action = 0, animation = 0, sf = 0, horror = 0, drama = 0, comedy = 0;
+    private float romance = 10, action = 0, animation = 0, sf = 0, horror = 0, drama = 0, comedy = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -120,7 +120,6 @@ public class PieChartActivity extends AppCompatActivity {
 
                     // 여기서 변수에 할당하거나 다른 작업 수행
                     romance = romanceCount;
-                    updateChart();
                 } else {
                     Log.e("Firestore", "Error getting documents: ", task.getException());
                 }
@@ -137,7 +136,6 @@ public class PieChartActivity extends AppCompatActivity {
 
                     // 여기서 변수에 할당하거나 다른 작업 수행
                     action = actionCount;
-                    updateChart();
                 } else {
                     Log.e("Firestore", "Error getting documents: ", task.getException());
                 }
@@ -153,7 +151,6 @@ public class PieChartActivity extends AppCompatActivity {
 
                     // 여기서 변수에 할당하거나 다른 작업 수행
                     animation = animationCount;
-                    updateChart();
                     Log.d("Firestore", "애니메이션 count: " + animation);
                 } else {
                     Log.e("Firestore", "Error getting documents: ", task.getException());
@@ -170,7 +167,6 @@ public class PieChartActivity extends AppCompatActivity {
 
                     // 여기서 변수에 할당하거나 다른 작업 수행
                     drama = dramaCount;
-                    updateChart();
                 } else {
                     Log.e("Firestore", "Error getting documents: ", task.getException());
                 }
@@ -186,7 +182,6 @@ public class PieChartActivity extends AppCompatActivity {
 
                     // 여기서 변수에 할당하거나 다른 작업 수행
                     comedy = comedyCount;
-                    updateChart();
                 } else {
                     Log.e("Firestore", "Error getting documents: ", task.getException());
                 }
@@ -202,7 +197,6 @@ public class PieChartActivity extends AppCompatActivity {
 
                     // 여기서 변수에 할당하거나 다른 작업 수행
                     horror = horrorCount;
-                    updateChart();
                 } else {
                     Log.e("Firestore", "Error getting documents: ", task.getException());
                 }
@@ -215,7 +209,6 @@ public class PieChartActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     int SFCount = task.getResult().size();
                     sf = SFCount;
-                    updateChart();
                     Log.d("Firestore", "SF count: " + SFCount);
                     Log.d("Firestore", "SF count: " + sf);
                 } else {
@@ -356,7 +349,7 @@ public class PieChartActivity extends AppCompatActivity {
         binding.othermovie.setText(spannableString2);
 
         executor.execute(() -> {
-            String movies = Movie.MovieSearch(selectedDataList.get(0).getLabel());
+            String movies = Genre.MovieSearch(selectedDataList.get(0).getLabel());
             runOnUiThread(() -> {
                 if (movies != null) {
                     String posterUrl = parseJson(movies);
@@ -369,76 +362,46 @@ public class PieChartActivity extends AppCompatActivity {
             });
         });
 
-//        BottomNavigationView navigationBarView = findViewById(R.id.bottom_navigation);
-//        navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                int itemId = item.getItemId();
-//
-//                    if (itemId == R.id.page_1) {
-//                        // Respond to navigation item 1 click
-//                        Intent intent = new Intent(PieChartActivity.this, MainActivity.class);
-//                        startActivity(intent);
-//                        return true;
-//                    }
-//
-//                if (itemId == R.id.page_2) {
-//                    // Respond to navigation item 2 click
-//                    Intent intent = new Intent(PieChartActivity.this, PieChartActivity.class);
-//                    startActivity(intent);
-//                    return true;
-//                }
-//
-//                    if (itemId == R.id.page_3) {
-//                        // Respond to navigation item 3 click
-//                        Intent intent = new Intent(PieChartActivity.this, BaseActivity.class);
-//                        startActivity(intent);
-//                        return true;
-//                    }
-//
-//                if (itemId == R.id.page_4) {
-//                    // Respond to navigation item 4 click
-//                    Intent intent = new Intent(PieChartActivity.this, GoogleSignInActivity.class);
-//                    startActivity(intent);
-//                    return true;
-//                }
-//
-//                return false;
-//            }
-//        });
+        BottomNavigationView navigationBarView = findViewById(R.id.bottom_navigation);
+        navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
 
-
-    }
-
-    private void fetchUserNotes(String userUid) {
-        db.collection("Note")
-                .whereEqualTo("uid", userUid)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            noteArrayList = new ArrayList<>();
-                            for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                                Note note = document.toObject(Note.class);
-                                if (note != null) {
-                                    noteArrayList.add(note);
-                                }
-                            }
-
-                        } else {
-                            Exception exception = task.getException();
-                            if (exception != null) {
-                                exception.printStackTrace();
-                            }
-                        }
+                    if (itemId == R.id.page_1) {
+                        // Respond to navigation item 1 click
+                        Intent intent = new Intent(PieChartActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        return true;
                     }
-                });
-    }
 
+                if (itemId == R.id.page_2) {
+
+                }
+
+                    if (itemId == R.id.page_3) {
+                        // Respond to navigation item 3 click
+                        Intent intent = new Intent(PieChartActivity.this, BaseActivity.class);
+                        startActivity(intent);
+                        return true;
+                    }
+
+                if (itemId == R.id.page_4) {
+                    // Respond to navigation item 4 click
+                    Intent intent = new Intent(PieChartActivity.this, GoogleSignInActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+
+                return false;
+            }
+        });
+
+
+    }
 
     private String parseJson(String jsonData) {
-        String [] output = new String[3];
+        int retryCount = 0;
         String movies = "";
 
         if (jsonData != null) {
@@ -449,26 +412,22 @@ public class PieChartActivity extends AppCompatActivity {
 
                 JsonObject dataParsing = data.get(0).getAsJsonObject();
                 JsonArray result = dataParsing.getAsJsonArray("Result");
-                //Log.d("result", String.valueOf(result));
 
-                for (JsonElement element : result) {
-                    JsonObject resultObject = element.getAsJsonObject();
-
-                    //Log.d("title",title);
+                if (result.size() > 0) {
+                    JsonObject resultObject = result.get(0).getAsJsonObject();
                     String posterUrl = resultObject.get("posters").getAsString();
                     String[] poster = posterUrl.split("\\|");
+
                     if (poster[0].length() != 0) {
-
-                        Glide.with(this)
-                                .load(poster[0])
-                                .into(binding.recommend1);
+                        movies = poster[0];
 //                        String mo = "https://ifh.cc/g/MJ7jPL.png";
-                    } else if(poster[0].length() == 0){
-                        Glide.with(this)
-                                .load(poster[0])
-                                .into(binding.recommend1);
-                }
-
+                    } else {
+                        if (retryCount < 3) {
+                            retryCount++;
+                            parseJson(jsonData); // 새로운 검색을 수행하는 메서드를 호출
+                        }
+                        movies = "https://ifh.cc/g/MJ7jPL.png";
+                    }
                 }
             } catch (JsonParseException e) {
                 e.printStackTrace();
@@ -482,49 +441,4 @@ public class PieChartActivity extends AppCompatActivity {
 
         return movies;
     }
-
-    private void updateChart() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                // 기존의 binding 객체를 사용하도록 수정
-                ActivityChartBinding binding = ActivityChartBinding.inflate(getLayoutInflater());
-
-                Log.d("update","지금 실행됨");
-                // 넣고 싶은 데이터 설정
-                List<PieEntry> dataList = new ArrayList<>();
-                dataList.add(new PieEntry(romance, "로맨스"));
-                dataList.add(new PieEntry(action, "액션"));
-                dataList.add(new PieEntry(animation, "애니메이션"));
-                dataList.add(new PieEntry(drama, "드라마"));
-                dataList.add(new PieEntry(comedy, "코미디"));
-                dataList.add(new PieEntry(horror, "호러"));
-                dataList.add(new PieEntry(sf, "SF"));
-
-                // 값에 따른 색상 지정
-                List<Integer> colors = new ArrayList<>();
-                colors.add(ContextCompat.getColor(PieChartActivity.this, R.color.graph1));
-                colors.add(ContextCompat.getColor(PieChartActivity.this, R.color.graph2));
-                colors.add(ContextCompat.getColor(PieChartActivity.this, R.color.graph3));
-                colors.add(ContextCompat.getColor(PieChartActivity.this, R.color.graph4));
-                colors.add(ContextCompat.getColor(PieChartActivity.this, R.color.graph5));
-                colors.add(ContextCompat.getColor(PieChartActivity.this, R.color.graph6));
-                colors.add(ContextCompat.getColor(PieChartActivity.this, R.color.graph7));
-
-                PieDataSet dataSet = new PieDataSet(dataList, "");
-
-                dataSet.setColors(colors);
-                dataSet.setValueTextSize(16F);
-                dataSet.setDrawValues(false);
-
-                PieData pieData = new PieData(dataSet);
-
-                binding.pieChart.setData(pieData);
-                binding.pieChart.invalidate(); // 차트를 갱신
-            }
-        });
-    }
-
-
-
 }

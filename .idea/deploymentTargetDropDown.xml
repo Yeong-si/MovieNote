@@ -2,9 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="BaseActivity">
-        <State />
-      </entry>
       <entry key="GoogleSignInActivity">
         <State />
       </entry>
@@ -25,6 +22,9 @@
         </State>
       </entry>
       <entry key="MovieSearchActivity">
+        <State />
+      </entry>
+      <entry key="PieChartActivity">
         <State />
       </entry>
       <entry key="app">
