@@ -10,11 +10,6 @@
 
 package com.example.movienote;
 
-import static com.google.firebase.firestore.AggregateField.count;
-import static com.google.firebase.firestore.AggregateField.sum;
-
-
-import android.app.Person;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -25,13 +20,11 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.movienote.databinding.ActivityChartBinding;
-import com.github.mikephil.*;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -42,18 +35,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.AggregateQuerySnapshot;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
@@ -71,6 +58,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.Random;
 
 public class PieChartActivity extends AppCompatActivity {
 
@@ -84,7 +72,7 @@ public class PieChartActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     ArrayList<Note> noteArrayList;
 
-    private float romance = 10, action = 0, animation = 0, sf = 0, horror = 0, drama = 0, comedy = 0;
+    private float romance = 0, action = 0, animation = 0, sf = 10, horror = 0, drama = 0, comedy = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -402,6 +390,9 @@ public class PieChartActivity extends AppCompatActivity {
 
     private String parseJson(String jsonData) {
         int retryCount = 0;
+        int min = 1;
+        int max = 100;
+        int randomNum = new Random().nextInt(max - min + 1) + min;
         String movies = "";
 
         if (jsonData != null) {
@@ -420,11 +411,10 @@ public class PieChartActivity extends AppCompatActivity {
 
                     if (poster[0].length() != 0) {
                         movies = poster[0];
-//                        String mo = "https://ifh.cc/g/MJ7jPL.png";
                     } else {
                         if (retryCount < 3) {
                             retryCount++;
-                            parseJson(jsonData); // 새로운 검색을 수행하는 메서드를 호출
+                            Genre.MovieSearch(jsonData); // 새로운 검색을 수행하는 메서드를 호출
                         }
                         movies = "https://ifh.cc/g/MJ7jPL.png";
                     }
