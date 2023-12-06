@@ -41,6 +41,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
@@ -72,7 +73,7 @@ public class PieChartActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     ArrayList<Note> noteArrayList;
 
-    private float romance = 0, action = 0, animation = 0, sf = 10, horror = 0, drama = 0, comedy = 0;
+    private float romance = 10, action = 0, animation = 0, sf = 0, horror = 0, drama = 0, comedy = 20;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -337,7 +338,7 @@ public class PieChartActivity extends AppCompatActivity {
         binding.othermovie.setText(spannableString2);
 
         executor.execute(() -> {
-            String movies = Genre.MovieSearch(selectedDataList.get(0).getLabel());
+            String movies = Genre.movieSearch(selectedDataList.get(0).getLabel());
             runOnUiThread(() -> {
                 if (movies != null) {
                     String posterUrl = parseJson(movies);
@@ -358,34 +359,24 @@ public class PieChartActivity extends AppCompatActivity {
 
                     if (itemId == R.id.page_1) {
                         // Respond to navigation item 1 click
-                        Intent intent = new Intent(PieChartActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        startActivity(new Intent(PieChartActivity.this, MainActivity.class));
                         return true;
                     }
 
                 if (itemId == R.id.page_2) {
-
+                        return true;
                 }
 
                     if (itemId == R.id.page_3) {
                         // Respond to navigation item 3 click
-                        Intent intent = new Intent(PieChartActivity.this, BaseActivity.class);
-                        startActivity(intent);
+                        startActivity(new Intent(PieChartActivity.this, BaseActivity.class));
                         return true;
                     }
 
                 if (itemId == R.id.page_4) {
                     // Respond to navigation item 4 click
-                    if(user == null){
-                    Intent intent = new Intent(PieChartActivity.this, GoogleSignInActivity.class);
-                    startActivity(intent);
-                    return true;
-                    }
-                    else {
-                        Intent intent = new Intent(PieChartActivity.this, UserActivity.class);
-                        startActivity(intent);
+                        startActivity(new Intent(PieChartActivity.this, GoogleSignInActivity.class));
                         return true;
-                    }
                 }
 
                 return false;
@@ -407,30 +398,38 @@ public class PieChartActivity extends AppCompatActivity {
                 JsonObject jsonObject = jsonParser.parse(jsonData).getAsJsonObject();
                 JsonArray data = jsonObject.getAsJsonArray("Data");
 
-                JsonObject dataParsing = data.get(0).getAsJsonObject();
-                JsonArray result = dataParsing.getAsJsonArray("Result");
+                if (data.size() > 0) {
+                    JsonObject dataParsing = data.get(0).getAsJsonObject();
+                    JsonArray result = dataParsing.getAsJsonArray("Result");
 
-                if (result.size() > 0) {
-                    JsonObject resultObject = result.get(0).getAsJsonObject();
-                    String posterUrl = resultObject.get("posters").getAsString();
-                    String[] poster = posterUrl.split("\\|");
 
-                    if (poster[0].length() != 0) {
-                        movies = poster[0];
-                    } else {
-                        if (retryCount < 3) {
-                            retryCount++;
-                            Genre.MovieSearch(jsonData); // 새로운 검색을 수행하는 메서드를 호출
+                    if (result.size() > 0) {
+                        max = result.size();
+                        for (JsonElement element : result) {
+                            JsonObject resultObject = element.getAsJsonObject();
+//                        JsonObject resultObject = result.get(0).getAsJsonObject();
+                            String posterUrl = resultObject.get("posters").getAsString();
+
+                            // Check if posters are available
+                            if (!posterUrl.isEmpty()) {
+                                String[] poster = posterUrl.split("\\|");
+
+                                if (poster.length > 0 && !poster[0].isEmpty()) {
+                                    Log.d("KDE", poster[0]);
+                                    movies = poster[0];
+                                } else {
+                                    movies = "https://ifh.cc/g/MJ7jPL.png";
+                                }
+                            }
                         }
-                        movies = "https://ifh.cc/g/MJ7jPL.png";
                     }
                 }
             } catch (JsonParseException e) {
                 e.printStackTrace();
-                Log.e("LSY", "JsonParseException: " + e.getMessage());
+                Log.e("KDE", "JsonParseException: " + e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("LSY", "Exception: " + e.getMessage());
+                Log.e("KDE", "Exception: " + e.getMessage());
             }}else {
             Log.e("MovieSearchActivity", "JSON data is null");
         }

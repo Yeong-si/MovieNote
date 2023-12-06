@@ -46,21 +46,30 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (cursor.moveToFirst()) {
-                binding.text1.setText(cursor.getString(0));
-
+            String temp1 = cursor.getString(0);
+            String temp2 = cursor.getString(1);
+            if (cursor.moveToNext()){
+                binding.text2.setText(temp1);
                 Glide.with(this)
-                        .load(cursor.getString(1))
-                        .into(binding.image1);
+                        .load(temp2)
+                        .into(binding.image2);
                 Log.d("LSY", "데이터2 읽음");
 
                 // 여기에서 커서에서 데이터를 읽어와서 dataList에 추가하는 작업을 수행
-                // 예시: dataList.add(new YourDataType(cursor.getString(cursor.getColumnIndex("column_name"))));
-            cursor.moveToNext();
-            Log.d("LSY", "데이터3 읽음");
-            binding.text2.setText(cursor.getString(0));
-            Glide.with(this)
-                    .load(cursor.getString(1))
-                    .into(binding.image2);
+                Log.d("LSY", "데이터3 읽음");
+                binding.text1.setText(cursor.getString(0));
+                Glide.with(this)
+                        .load(cursor.getString(1))
+                        .into(binding.image1);
+            }else{
+                binding.text1.setText(temp1);
+                Glide.with(this)
+                        .load(temp2)
+                        .into(binding.image1);
+
+            }
+
+
         }
         cursor.close();
         db.close();
