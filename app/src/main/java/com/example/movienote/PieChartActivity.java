@@ -73,6 +73,8 @@ public class PieChartActivity extends AppCompatActivity {
 
     private int romance = 0, action = 0, animation = 0, sf = 0, horror = 0, drama = 0, comedy = 0;
 
+    private int romanceAll,actionAll,animationAll,sfAll,horrorAll,dramaAll,comedyAll;
+
     private void fetchDataAndUpdateUI() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collection = db.collection("Note");
@@ -333,12 +335,38 @@ public class PieChartActivity extends AppCompatActivity {
                 Log.e("KDE", "JsonParseException: " + e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("KDE", "poster Exception: " + e.getMessage());
+                Log.e("KDE", "favorite poster Exception: " + e.getMessage());
             }
         } else {
             Log.e("MovieSearchActivity", "JSON data is null");
         }
 
+        return movies;
+    }
+
+    private String parserankingJson(String jsonData) {
+        String movies = "";
+
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = jsonParser.parse(jsonData).getAsJsonObject();
+        JsonArray data = jsonObject.getAsJsonArray("Data");
+
+        JsonObject dataParsing = data.get(0).getAsJsonObject();
+        JsonArray result = dataParsing.getAsJsonArray("Result");
+
+        JsonObject resultObject = data.get(0).getAsJsonObject();
+        String title = resultObject.get("title").getAsString();
+
+        String posterUrl = resultObject.get("posters").getAsString();
+        String[] poster = posterUrl.split("\\|");
+
+        if (poster[0].length()==0){
+            String mo = "https://ifh.cc/g/MJ7jPL.png";
+            Log.d("poster", mo);
+        }else{
+            movies = poster[0];
+            Log.d("poster", poster[0]);
+        }
         return movies;
     }
 
@@ -472,6 +500,12 @@ public class PieChartActivity extends AppCompatActivity {
 
         executor.execute(() -> {
             String movies = Genre.movieSearch(selectedDataList.get(0).getLabel());
+            String[] movieRank = Rank.movieRanking();
+            String firstMovie = Movie.MovieSearch(movieRank[0]);
+            String secondMovie = Movie.MovieSearch(movieRank[1]);
+            String thirdMovie = Movie.MovieSearch(movieRank[2]);
+
+
             runOnUiThread(() -> {
                 if (movies != null) {
                     List<String> posterUrl = parseJson(movies);
@@ -490,7 +524,34 @@ public class PieChartActivity extends AppCompatActivity {
                             .load(posterUrl.get(randomNum3))
                             .into(binding.recommend3);
                 } else {
-                    Log.e("MovieSearchActivity", "검색 결과가 null입니다.");
+                    Log.e("KDE", "장르검색 결과가 null입니다.");
+                }
+            });
+        });
+
+        executor.execute( () -> {
+            String[] movieRank = Rank.movieRanking();
+            String firstMovie = Movie.MovieSearch(movieRank[0]);
+            String secondMovie = Movie.MovieSearch(movieRank[1]);
+            String thirdMovie = Movie.MovieSearch(movieRank[2]);
+            String posterurl1 = parserankingJson(firstMovie);
+        Log.d("KDE", posterurl1);
+            String posterurl2 = parserankingJson(secondMovie);
+            String posterurl3 = parserankingJson(thirdMovie);
+
+            runOnUiThread(() -> {
+                if (movieRank != null) {
+                Glide.with(this)
+                        .load(posterurl1)
+                        .into(binding.other1);
+                Glide.with(this)
+                        .load(posterurl2)
+                        .into(binding.other2);
+                Glide.with(this)
+                        .load(posterurl3)
+                        .into(binding.other3);
+                }else {
+                    Log.e("KDE", "순위검색 결과가 null입니다.");
                 }
             });
         });

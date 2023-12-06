@@ -240,7 +240,7 @@
                 android:textSize="24dp"
                 android:layout_below="@+id/recommend"
                 android:layout_marginTop="80dp"
-                android:text="다른 사람들은 \n이런 영화를 많이 봤어요"
+                android:text="다른 사람들이 \n많이 보고있는 영화예요"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"/>
 
