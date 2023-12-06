@@ -235,7 +235,11 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
 
         holder.subscription.setText(party.getSubscription());
 
-        FirebaseFirestore.getInstance().collection("Member").document(party.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseFirestore.getInstance()
+                .collection("Member")
+                .document(party.getId())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
