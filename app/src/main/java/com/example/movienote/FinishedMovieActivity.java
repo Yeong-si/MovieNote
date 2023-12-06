@@ -118,4 +118,10 @@ public class FinishedMovieActivity extends AppCompatActivity {
                 });
     }
 
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(FinishedMovieActivity.this, MainActivity.class));
+        super.onBackPressed();
+    }
+
 }
