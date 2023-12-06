@@ -338,7 +338,7 @@ public class PieChartActivity extends AppCompatActivity {
         binding.othermovie.setText(spannableString2);
 
         executor.execute(() -> {
-            String movies = Genre.MovieSearch(selectedDataList.get(0).getLabel());
+            String movies = Genre.movieSearch(selectedDataList.get(0).getLabel());
             runOnUiThread(() -> {
                 if (movies != null) {
                     String posterUrl = parseJson(movies);
@@ -398,33 +398,38 @@ public class PieChartActivity extends AppCompatActivity {
                 JsonObject jsonObject = jsonParser.parse(jsonData).getAsJsonObject();
                 JsonArray data = jsonObject.getAsJsonArray("Data");
 
-                JsonObject dataParsing = data.get(0).getAsJsonObject();
-                JsonArray result = dataParsing.getAsJsonArray("Result");
+                if (data.size() > 0) {
+                    JsonObject dataParsing = data.get(0).getAsJsonObject();
+                    JsonArray result = dataParsing.getAsJsonArray("Result");
 
 
                     if (result.size() > 0) {
                         max = result.size();
-                        JsonObject resultObject = result.get(0).getAsJsonObject();
-                        String posterUrl = resultObject.get("posters").getAsString();
-                        String[] poster = posterUrl.split("\\|");
+                        for (JsonElement element : result) {
+                            JsonObject resultObject = element.getAsJsonObject();
+//                        JsonObject resultObject = result.get(0).getAsJsonObject();
+                            String posterUrl = resultObject.get("posters").getAsString();
 
-                        if (poster[0].length() != 0) {
-                            Log.d("KDE", poster[0]);
-                            movies = poster[0];
-                        } else {
-                            if (retryCount < 3) {
-                                retryCount++;
-                            } else {
-                                movies = "https://ifh.cc/g/MJ7jPL.png";
+                            // Check if posters are available
+                            if (!posterUrl.isEmpty()) {
+                                String[] poster = posterUrl.split("\\|");
+
+                                if (poster.length > 0 && !poster[0].isEmpty()) {
+                                    Log.d("KDE", poster[0]);
+                                    movies = poster[0];
+                                } else {
+                                    movies = "https://ifh.cc/g/MJ7jPL.png";
+                                }
                             }
                         }
                     }
+                }
             } catch (JsonParseException e) {
                 e.printStackTrace();
-                Log.e("LSY", "JsonParseException: " + e.getMessage());
+                Log.e("KDE", "JsonParseException: " + e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("LSY", "Exception: " + e.getMessage());
+                Log.e("KDE", "Exception: " + e.getMessage());
             }}else {
             Log.e("MovieSearchActivity", "JSON data is null");
         }

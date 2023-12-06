@@ -23,49 +23,59 @@ import java.util.List;
 
 public class Genre extends Fragment {
 
-    public static String MovieSearch(String input) {
-
+    public static String movieSearch(String input) {
         if (input == null) {
             return null;
         }
-        try {
-            StringBuilder urlBuilder = new StringBuilder("http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=");
-            urlBuilder.append(URLEncoder.encode("V40N5WM77MESM46PM90Y", "UTF-8"));/*Service Key*/
-            urlBuilder.append("&&" + URLEncoder.encode("query", "UTF-8") + "=" + URLEncoder.encode("genre", "UTF-8") + "=" + URLEncoder.encode("\"", "UTF-8") + URLEncoder.encode(input, "UTF-8") + URLEncoder.encode("\"", "UTF-8"));
-            URL url = null;
-            try {
-                url = new URL(urlBuilder.toString());
-                Log.d("KDE",url.toString());
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
 
+        try {
+            // API 엔드포인트 및 파라미터 설정
+            String apiUrl = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp";
+            String apiKey = "V40N5WM77MESM46PM90Y";
+            String queryParam = URLEncoder.encode("genre", "UTF-8") + "=" + URLEncoder.encode(input, "UTF-8");
+
+            // URL 생성
+            URL url = new URL(apiUrl + "?collection=kmdb_new2&ServiceKey=" + apiKey + "&query=" + queryParam);
+            Log.d("KDE", url.toString());
+
+            // HTTP 연결 설정
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
-            BufferedReader rd;
 
-
+            // 응답 코드 확인
             if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-                rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                // 응답 데이터 읽기
+                try (BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = rd.readLine()) != null) {
+                        sb.append(line);
+                    }
+
+                    // 입력 문자열 수정
+                    String sbString = sb.toString();
+                    sbString = sbString.replace("\"" + input + "\"", input);
+
+                    return sbString;
+                }
             } else {
-                rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                // 에러 응답 처리
+                try (BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()))) {
+                    StringBuilder errorResponse = new StringBuilder();
+                    String line;
+                    while ((line = rd.readLine()) != null) {
+                        errorResponse.append(line);
+                    }
+
+                    Log.e("MovieSearchActivity", "Error response: " + errorResponse.toString());
+                }
             }
-
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = rd.readLine()) != null) {
-                sb.append(line);
-            }
-            rd.close();
-            conn.disconnect();
-
-            return sb.toString();
-
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+
+        return null;
     }
 
     private String parseJson(String jsonData) {
