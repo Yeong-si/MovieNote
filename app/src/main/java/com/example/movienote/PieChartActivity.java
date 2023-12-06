@@ -41,6 +41,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
@@ -72,7 +73,7 @@ public class PieChartActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     ArrayList<Note> noteArrayList;
 
-    private float romance = 0, action = 0, animation = 0, sf = 10, horror = 0, drama = 0, comedy = 0;
+    private float romance = 10, action = 0, animation = 0, sf = 0, horror = 0, drama = 0, comedy = 20;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -400,21 +401,24 @@ public class PieChartActivity extends AppCompatActivity {
                 JsonObject dataParsing = data.get(0).getAsJsonObject();
                 JsonArray result = dataParsing.getAsJsonArray("Result");
 
-                if (result.size() > 0) {
-                    JsonObject resultObject = result.get(0).getAsJsonObject();
-                    String posterUrl = resultObject.get("posters").getAsString();
-                    String[] poster = posterUrl.split("\\|");
 
-                    if (poster[0].length() != 0) {
-                        movies = poster[0];
-                    } else {
-                        if (retryCount < 3) {
-                            retryCount++;
-                            Genre.MovieSearch(jsonData); // 새로운 검색을 수행하는 메서드를 호출
+                    if (result.size() > 0) {
+                        max = result.size();
+                        JsonObject resultObject = result.get(0).getAsJsonObject();
+                        String posterUrl = resultObject.get("posters").getAsString();
+                        String[] poster = posterUrl.split("\\|");
+
+                        if (poster[0].length() != 0) {
+                            Log.d("KDE", poster[0]);
+                            movies = poster[0];
+                        } else {
+                            if (retryCount < 3) {
+                                retryCount++;
+                            } else {
+                                movies = "https://ifh.cc/g/MJ7jPL.png";
+                            }
                         }
-                        movies = "https://ifh.cc/g/MJ7jPL.png";
                     }
-                }
             } catch (JsonParseException e) {
                 e.printStackTrace();
                 Log.e("LSY", "JsonParseException: " + e.getMessage());

@@ -31,10 +31,11 @@ public class Genre extends Fragment {
         try {
             StringBuilder urlBuilder = new StringBuilder("http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=");
             urlBuilder.append(URLEncoder.encode("V40N5WM77MESM46PM90Y", "UTF-8"));/*Service Key*/
-            urlBuilder.append("&" + URLEncoder.encode("genre", "UTF-8") + "=" + URLEncoder.encode(input, "UTF-8"));
+            urlBuilder.append("&&" + URLEncoder.encode("query", "UTF-8") + "=" + URLEncoder.encode("genre", "UTF-8") + "=" + URLEncoder.encode("\"", "UTF-8") + URLEncoder.encode(input, "UTF-8") + URLEncoder.encode("\"", "UTF-8"));
             URL url = null;
             try {
                 url = new URL(urlBuilder.toString());
+                Log.d("KDE",url.toString());
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
