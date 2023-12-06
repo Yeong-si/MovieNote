@@ -2,14 +2,14 @@
 
 package com.example.movienote;
 
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.util.Log;
 
 import com.example.movienote.databinding.ActivityPartyInformationBinding;
 import com.google.firebase.firestore.DocumentChange;
