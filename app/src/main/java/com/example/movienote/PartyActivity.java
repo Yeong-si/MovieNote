@@ -58,7 +58,7 @@ public class PartyActivity extends AppCompatActivity {
         subscriptionReference = db.collection("Subscription");
         memberReference = db.collection("Member");
 
-        data = new HashMap<>();
+        data = new HashMap<String,Object>();
         binding.subscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,8 +178,12 @@ public class PartyActivity extends AppCompatActivity {
                     member.setMember1(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     member.setMember_size(Integer.toString(1));
 
+                    Party party = new Party(data.get("subscription").toString(),data.get("accountNumber").toString()
+                            ,data.get("bankName").toString(),data.get("accountHolderName").toString()
+                            ,data.get("price").toString(),data.get("id").toString(),data.get("password").toString());
+
                     memberReference.document(dateTime.toString()).set(member);
-                    partyReference.document(dateTime.toString()).set(data);
+                    partyReference.document(dateTime.toString()).set(party);
 
                     Intent intent = new Intent(getApplicationContext(), PartyInformationActivity.class);
                     startActivity(intent);
