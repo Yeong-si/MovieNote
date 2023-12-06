@@ -7,6 +7,10 @@
     android:orientation="vertical"
     tools:context=".MovieNoteSearchActivity">
 
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 <!--    <LinearLayout-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
@@ -37,7 +41,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_below="@id/noteSearch_bar"
         android:layout_margin="10dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

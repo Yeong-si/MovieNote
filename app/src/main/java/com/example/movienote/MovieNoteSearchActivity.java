@@ -99,7 +99,7 @@ public class MovieNoteSearchActivity extends AppCompatActivity {
 //            }
 //        });
 
-        EventChangeListener();
+//        EventChangeListener();
     }
 
     @Override
@@ -159,35 +159,35 @@ public class MovieNoteSearchActivity extends AppCompatActivity {
         }
     }
 
-    private void EventChangeListener() {
-
-        db.collection("Note").orderBy("note", Query.Direction.ASCENDING)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-
-                        if (error != null) {
-
-                            if (progressDialog.isShowing()) {
-                                progressDialog.dismiss();
-                            }
-
-                            Log.e("FireStore error", error.getMessage());
-                            return;
-                        }
-
-                        for (DocumentChange dc : value.getDocumentChanges()) {
-
-                            if (dc.getType() == DocumentChange.Type.ADDED) {
-                                noteArrayList.add(dc.getDocument().toObject(Note.class));
-                            }
-
-                            movieNoteAdapter.notifyDataSetChanged();
-                            if (progressDialog.isShowing()) {
-                                progressDialog.dismiss();
-                            }
-                        }
-                    }
-                });
-    }
+//    private void EventChangeListener() {
+//
+//        db.collection("Note").orderBy("note", Query.Direction.ASCENDING)
+//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//
+//                        if (error != null) {
+//
+//                            if (progressDialog.isShowing()) {
+//                                progressDialog.dismiss();
+//                            }
+//
+//                            Log.e("FireStore error", error.getMessage());
+//                            return;
+//                        }
+//
+//                        for (DocumentChange dc : value.getDocumentChanges()) {
+//
+//                            if (dc.getType() == DocumentChange.Type.ADDED) {
+//                                noteArrayList.add(dc.getDocument().toObject(Note.class));
+//                            }
+//
+//                            movieNoteAdapter.notifyDataSetChanged();
+//                            if (progressDialog.isShowing()) {
+//                                progressDialog.dismiss();
+//                            }
+//                        }
+//                    }
+//                });
+//    }
 }

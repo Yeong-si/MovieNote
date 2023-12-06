@@ -27,7 +27,7 @@
     <android.widget.Button
         android:id="@+id/MovieNoteSearchButton"
         android:layout_width="250dp"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         android:layout_marginTop="95dp"
         android:layout_marginBottom="529dp"
         android:background="@drawable/edgecolor"

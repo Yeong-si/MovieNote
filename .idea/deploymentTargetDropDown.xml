@@ -2,10 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="GoogleSignInActivity">
-        <State />
-      </entry>
-      <entry key="MainActivity">
+      <entry key="app">
         <State>
           <targetSelectedWithDropDown>
             <Target>
@@ -13,22 +10,13 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\user\.android\avd\Pixel_3_API_34.avd" />
+                  <value value="C:\Users\amazo\.android\avd\Pixel_2_API_30.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2023-12-06T11:09:37.205256100Z" />
+          <timeTargetWasSelectedWithDropDown value="2023-12-06T15:05:20.827331Z" />
         </State>
-      </entry>
-      <entry key="MovieSearchActivity">
-        <State />
-      </entry>
-      <entry key="PieChartActivity">
-        <State />
-      </entry>
-      <entry key="app">
-        <State />
       </entry>
     </value>
   </component>
