@@ -110,4 +110,56 @@ public class Rank {
 
         return topMovies;
     }
+
+    public static String movieSearch(String input) {
+        if (input == null) {
+            return null;
+        }
+
+        try {
+            // API 엔드포인트 및 파라미터 설정
+            StringBuilder urlBuilder = new StringBuilder("http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=");
+            urlBuilder.append(URLEncoder.encode("V40N5WM77MESM46PM90Y", "UTF-8"));/*Service Key*/
+            urlBuilder.append("&" + URLEncoder.encode("title", "UTF-8") + "=" + URLEncoder.encode(input, "UTF-8"));
+            URL url = null;
+
+            // URL 생성
+            url = new URL(urlBuilder.toString());
+            Log.d("KDE", "ranking url : " + url.toString());
+
+            // HTTP 연결 설정
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-type", "application/json");
+
+            // 응답 코드 확인
+            if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+                // 응답 데이터 읽기
+                try (BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = rd.readLine()) != null) {
+                        sb.append(line);
+                    }
+
+                    return sb.toString();
+                }
+            } else {
+                // 에러 응답 처리
+                try (BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()))) {
+                    StringBuilder errorResponse = new StringBuilder();
+                    String line;
+                    while ((line = rd.readLine()) != null) {
+                        errorResponse.append(line);
+                    }
+
+                    Log.e("MovieSearchActivity", "Error response: " + errorResponse.toString());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

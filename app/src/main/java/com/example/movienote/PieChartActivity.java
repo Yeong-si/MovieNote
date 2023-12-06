@@ -264,6 +264,35 @@ public class PieChartActivity extends AppCompatActivity {
         spannableString2.setSpan(new ForegroundColorSpan(Color.parseColor("#F765A3")), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         binding.othermovie.setText(spannableString2);
 
+//        executor.execute(() -> {
+//                    String[] movieRank = Rank.movieRanking();
+//                    Log.d("KDE", "movieRank[0] : " + movieRank[0]);
+//                    String firstMovie = Rank.movieSearch(movieRank[0]);
+//                    Log.d("KDE","firstMovie : " + firstMovie);
+//                    String secondMovie = Movie.MovieSearch(movieRank[1]);
+//                    String thirdMovie = Movie.MovieSearch(movieRank[2]);
+//                    String posterurl1 = parserankingJson(firstMovie);
+//                    Log.d("KDE", "poster first : " + posterurl1);
+//                    String posterurl2 = parserankingJson(secondMovie);
+//                    String posterurl3 = parserankingJson(thirdMovie);
+//
+//
+//                    if (movieRank != null) {
+//                        Glide.with(this)
+//                                .load(posterurl1)
+//                                .into(binding.other1);
+//                        Glide.with(this)
+//                                .load(posterurl2)
+//                                .into(binding.other2);
+//                        Glide.with(this)
+//                                .load(posterurl3)
+//                                .into(binding.other3);
+//                    } else {
+//                        Log.e("KDE", "순위검색 결과가 null입니다.");
+//                    }
+//                });
+
+
         BottomNavigationView navigationBarView = findViewById(R.id.bottom_navigation);
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -347,28 +376,47 @@ public class PieChartActivity extends AppCompatActivity {
     private String parserankingJson(String jsonData) {
         String movies = "";
 
-        JsonParser jsonParser = new JsonParser();
-        JsonObject jsonObject = jsonParser.parse(jsonData).getAsJsonObject();
-        JsonArray data = jsonObject.getAsJsonArray("Data");
+        if (jsonData != null) {
+            try {
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jsonObject = jsonParser.parse(jsonData).getAsJsonObject();
+                JsonArray data = jsonObject.getAsJsonArray("Data");
 
-        JsonObject dataParsing = data.get(0).getAsJsonObject();
-        JsonArray result = dataParsing.getAsJsonArray("Result");
+                if (data.size() > 0) {
+                    JsonObject dataParsing = data.get(0).getAsJsonObject();
+                    JsonArray result = dataParsing.getAsJsonArray("Result");
 
-        JsonObject resultObject = data.get(0).getAsJsonObject();
-        String title = resultObject.get("title").getAsString();
+                    if (result.size() > 0) {
+                        for (JsonElement element : result) {
+                            JsonObject resultObject = element.getAsJsonObject();
+                            String posterUrl = resultObject.get("posters").getAsString();
 
-        String posterUrl = resultObject.get("posters").getAsString();
-        String[] poster = posterUrl.split("\\|");
+                            // Check if posters are available
+                            if (!posterUrl.isEmpty()) {
+                                String[] poster = posterUrl.split("\\|");
 
-        if (poster[0].length()==0){
-            String mo = "https://ifh.cc/g/MJ7jPL.png";
-            Log.d("poster", mo);
-        }else{
-            movies = poster[0];
-            Log.d("poster", poster[0]);
+                                if (poster.length > 0 && !poster[0].isEmpty()) {
+//                                    Log.d("KDE", "poster url : " + poster[0]);
+                                    movies = poster[0];
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (JsonParseException e) {
+                e.printStackTrace();
+                Log.e("KDE", "JsonParseException: " + e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e("KDE", "other poster Exception: " + e.getMessage());
+            }
+        } else {
+            Log.e("MovieSearchActivity", "JSON data is null");
         }
+
         return movies;
     }
+
 
     private void updateUI(int romance, int action, int animation, int drama, int comedy, int horror, int sf) {
         List<PieEntry> dataList = new ArrayList<>();
@@ -500,11 +548,16 @@ public class PieChartActivity extends AppCompatActivity {
 
         executor.execute(() -> {
             String movies = Genre.movieSearch(selectedDataList.get(0).getLabel());
-            String[] movieRank = Rank.movieRanking();
-            String firstMovie = Movie.MovieSearch(movieRank[0]);
-            String secondMovie = Movie.MovieSearch(movieRank[1]);
-            String thirdMovie = Movie.MovieSearch(movieRank[2]);
 
+
+            String[] movieRank = Rank.movieRanking();
+            Log.d("KDE", "movieRank[0] : " + movieRank[0]);
+            String firstMovie = Rank.movieSearch(movieRank[0]);
+            Log.d("KDE", "firstMovie : " + firstMovie);
+            String secondMovie = Movie.MovieSearch(movieRank[1]);
+            String thirddMovie = Movie.MovieSearch(movieRank[2]);
+//            String posterurl1 = parserankingJson(firstMovie);
+//            Log.d("KDE", "poster first : " + posterurl1);
 
             runOnUiThread(() -> {
                 if (movies != null) {
@@ -513,6 +566,15 @@ public class PieChartActivity extends AppCompatActivity {
                     int randomNum1 = new Random().nextInt(max - min + 1) + min;
                     int randomNum2 = new Random().nextInt(max - min + 1) + min;
                     int randomNum3 = new Random().nextInt(max - min + 1) + min;
+
+                    String posterurl1 = parserankingJson(firstMovie);
+                    Log.d("KDE", "poster first : " + posterurl1);
+                    String posterurl2 = parserankingJson(secondMovie);
+                    Log.d("KDE", "poster second : " + posterurl2);
+                    String posterurl3 = parserankingJson(thirddMovie);
+                    Log.d("KDE", "poster second : " + posterurl3);
+
+
 
                     Glide.with(this)
                             .load(posterUrl.get(randomNum1))
@@ -523,38 +585,22 @@ public class PieChartActivity extends AppCompatActivity {
                     Glide.with(this)
                             .load(posterUrl.get(randomNum3))
                             .into(binding.recommend3);
+                    Glide.with(this)
+                            .load(posterurl1)
+                            .into(binding.other1);
+                    Glide.with(this)
+                            .load(posterurl2)
+                            .into(binding.other2);
+                    Glide.with(this)
+                            .load(posterurl3)
+                            .into(binding.other3);
                 } else {
                     Log.e("KDE", "장르검색 결과가 null입니다.");
                 }
             });
         });
 
-        executor.execute( () -> {
-            String[] movieRank = Rank.movieRanking();
-            String firstMovie = Movie.MovieSearch(movieRank[0]);
-            String secondMovie = Movie.MovieSearch(movieRank[1]);
-            String thirdMovie = Movie.MovieSearch(movieRank[2]);
-            String posterurl1 = parserankingJson(firstMovie);
-        Log.d("KDE", posterurl1);
-            String posterurl2 = parserankingJson(secondMovie);
-            String posterurl3 = parserankingJson(thirdMovie);
 
-            runOnUiThread(() -> {
-                if (movieRank != null) {
-                Glide.with(this)
-                        .load(posterurl1)
-                        .into(binding.other1);
-                Glide.with(this)
-                        .load(posterurl2)
-                        .into(binding.other2);
-                Glide.with(this)
-                        .load(posterurl3)
-                        .into(binding.other3);
-                }else {
-                    Log.e("KDE", "순위검색 결과가 null입니다.");
-                }
-            });
-        });
     }
 
 }

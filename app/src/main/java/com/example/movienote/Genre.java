@@ -32,11 +32,11 @@ public class Genre extends Fragment {
             // API 엔드포인트 및 파라미터 설정
             String apiUrl = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp";
             String apiKey = "V40N5WM77MESM46PM90Y";
-            String queryParam = URLEncoder.encode("genre", "UTF-8") + "=" + URLEncoder.encode("\"", "UTF-8") + URLEncoder.encode(input, "UTF-8") + URLEncoder.encode("\"", "UTF-8");
+            String queryParam = URLEncoder.encode("genre", "UTF-8") + "="  + URLEncoder.encode("\"", "UTF-8") + URLEncoder.encode(input, "UTF-8") + URLEncoder.encode("\"", "UTF-8");
 
             // URL 생성
-            URL url = new URL(apiUrl + "?collection=kmdb_new2&listCount=1000&ServiceKey=" + apiKey + "&query=" + queryParam);
-            Log.d("KDE", "url : " + url.toString());
+            URL url = new URL(apiUrl + "?collection=kmdb_new2&listCount=800&ServiceKey=" + apiKey + "&query=" + queryParam);
+//            Log.d("KDE", "url : " + url.toString());
 
             // HTTP 연결 설정
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
