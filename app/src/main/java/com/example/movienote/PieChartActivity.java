@@ -358,32 +358,28 @@ public class PieChartActivity extends AppCompatActivity {
 
                     if (itemId == R.id.page_1) {
                         // Respond to navigation item 1 click
-                        Intent intent = new Intent(PieChartActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        startActivity(new Intent(PieChartActivity.this, MainActivity.class));
                         return true;
                     }
 
                 if (itemId == R.id.page_2) {
-
+                        return true;
                 }
 
                     if (itemId == R.id.page_3) {
                         // Respond to navigation item 3 click
-                        Intent intent = new Intent(PieChartActivity.this, BaseActivity.class);
-                        startActivity(intent);
+                        startActivity(new Intent(PieChartActivity.this, BaseActivity.class));
                         return true;
                     }
 
                 if (itemId == R.id.page_4) {
                     // Respond to navigation item 4 click
                     if(user == null){
-                    Intent intent = new Intent(PieChartActivity.this, GoogleSignInActivity.class);
-                    startActivity(intent);
-                    return true;
+                        startActivity(new Intent(PieChartActivity.this, GoogleSignInActivity.class));
+                        return true;
                     }
                     else {
-                        Intent intent = new Intent(PieChartActivity.this, UserActivity.class);
-                        startActivity(intent);
+                        startActivity(new Intent(PieChartActivity.this, UserActivity.class));
                         return true;
                     }
                 }
