@@ -36,12 +36,12 @@ public class BottomNavigationActivity extends AppCompatActivity{
 //                        return true;
 //                    }
 
-                    if (itemId == R.id.page_2) {
-                        // Respond to navigation item 2 click
-                        Intent intent = new Intent(BottomNavigationActivity.this, PieChartActivity.class);
-                        startActivity(intent);
-                        return true;
-                    }
+//                    if (itemId == R.id.page_2) {
+//                        // Respond to navigation item 2 click
+//                        Intent intent = new Intent(BottomNavigationActivity.this, PieChartActivity.class);
+//                        startActivity(intent);
+//                        return true;
+//                    }
 
 //                    if (itemId == R.id.page_3) {
 //                        // Respond to navigation item 3 click

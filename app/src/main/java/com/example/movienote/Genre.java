@@ -32,11 +32,11 @@ public class Genre extends Fragment {
             // API 엔드포인트 및 파라미터 설정
             String apiUrl = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp";
             String apiKey = "V40N5WM77MESM46PM90Y";
-            String queryParam = URLEncoder.encode("genre", "UTF-8") + "=" + URLEncoder.encode(input, "UTF-8");
+            String queryParam = URLEncoder.encode("genre", "UTF-8") + "=" + URLEncoder.encode("\"", "UTF-8") + URLEncoder.encode(input, "UTF-8") + URLEncoder.encode("\"", "UTF-8");
 
             // URL 생성
-            URL url = new URL(apiUrl + "?collection=kmdb_new2&ServiceKey=" + apiKey + "&query=" + queryParam);
-            Log.d("KDE", url.toString());
+            URL url = new URL(apiUrl + "?collection=kmdb_new2&listCount=1000&ServiceKey=" + apiKey + "&query=" + queryParam);
+            Log.d("KDE", "url : " + url.toString());
 
             // HTTP 연결 설정
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -76,45 +76,5 @@ public class Genre extends Fragment {
         }
 
         return null;
-    }
-
-    private String parseJson(String jsonData) {
-        String movies = "";
-
-        if (jsonData != null) {
-            try {
-                JsonParser jsonParser = new JsonParser();
-                JsonObject jsonObject = jsonParser.parse(jsonData).getAsJsonObject();
-                JsonArray data = jsonObject.getAsJsonArray("Data");
-
-                JsonObject dataParsing = data.get(0).getAsJsonObject();
-                JsonArray result = dataParsing.getAsJsonArray("Result");
-                //Log.d("result", String.valueOf(result));
-
-                for (JsonElement element : result) {
-                    JsonObject resultObject = element.getAsJsonObject();
-
-                    //Log.d("title",title);
-                    String posterUrl = resultObject.get("posters").getAsString();
-                    String[] poster = posterUrl.split("\\|");
-                    MovieItem movie;
-                    if (poster[0].length()==0){
-                        return "https://ifh.cc/g/MJ7jPL.png";
-                    }else{
-                        return poster[0];
-                    }
-
-                }
-            } catch (JsonParseException e) {
-                e.printStackTrace();
-                Log.e("LSY", "JsonParseException: " + e.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e("LSY", "Exception: " + e.getMessage());
-            }}else {
-            Log.e("MovieSearchActivity", "JSON data is null");
-        }
-
-        return movies;
     }
 }
