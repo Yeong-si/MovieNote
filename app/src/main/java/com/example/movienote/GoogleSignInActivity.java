@@ -94,7 +94,6 @@ public class GoogleSignInActivity extends AppCompatActivity {
 
                 if (itemId == R.id.page_4) {
                     // Respond to navigation item 4 click
-                    startActivity(new Intent(GoogleSignInActivity.this, GoogleSignInActivity.class));
                     return true;
                 }
                 return false;

@@ -376,9 +376,16 @@ public class PieChartActivity extends AppCompatActivity {
 
                 if (itemId == R.id.page_4) {
                     // Respond to navigation item 4 click
+                    if(user == null){
                     Intent intent = new Intent(PieChartActivity.this, GoogleSignInActivity.class);
                     startActivity(intent);
                     return true;
+                    }
+                    else {
+                        Intent intent = new Intent(PieChartActivity.this, UserActivity.class);
+                        startActivity(intent);
+                        return true;
+                    }
                 }
 
                 return false;

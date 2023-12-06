@@ -7,11 +7,15 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.movienote.databinding.UserBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class UserActivity extends AppCompatActivity {
@@ -50,6 +54,38 @@ public class UserActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        BottomNavigationView navigationBarView = findViewById(R.id.bottom_navigation);
+        navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.page_1) {
+                    startActivity(new Intent(UserActivity.this, MainActivity.class));
+                    return true;
+                }
+
+                if (itemId == R.id.page_2) {
+                    // Respond to navigation item 2 click
+                    startActivity(new Intent(UserActivity.this, PieChartActivity.class));
+                    return true;
+                }
+
+                if (itemId == R.id.page_3) {
+                    // Respond to navigation item 3 click
+                    startActivity(new Intent(UserActivity.this, BaseActivity.class));
+                    return true;
+                }
+
+                if (itemId == R.id.page_4) {
+                    // Respond to navigation item 4 click
+                    return true;
+                }
+                return false;
+            }
+        });
+        navigationBarView.getMenu().findItem(R.id.page_4).setChecked(true);
 
     }
 
