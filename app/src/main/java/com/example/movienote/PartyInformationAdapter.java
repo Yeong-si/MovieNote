@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Handler;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +17,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 
 public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformationAdapter.PartyInformationViewHolder> {
 
     Context context;
     ArrayList<Party> partyArrayList;
+    ArrayList<Member> memberArrayList;
 
-    public PartyInformationAdapter(Context context,ArrayList<Party> partyArrayList) {
+    public PartyInformationAdapter(Context context,ArrayList<Party> partyArrayList,ArrayList<Member> memberArrayList) {
         this.context = context;
         this.partyArrayList = partyArrayList;
+        this.memberArrayList = memberArrayList;
     }
 
     @NonNull
@@ -225,11 +235,37 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
 
         holder.subscription.setText(party.getSubscription());
 
-        for (int i=0;i<party.getMember().size();i++){
-            TextView textView = new TextView(context);
-            textView.setText(party.getMember().get(i).toString());
-            holder.gridLayout.addView(textView);
-        }
+        FirebaseFirestore.getInstance().collection("Member").document(party.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // 문서의 필드 값을 가져옵니다.
+                        TextView textView1 = new TextView(context);
+                        textView1.setText(document.getString("member1"));
+                        holder.gridLayout.addView(textView1);
+
+                        TextView textView2 = new TextView(context);
+                        textView2.setText(document.getString("member2"));
+                        holder.gridLayout.addView(textView2);
+
+                        TextView textView3 = new TextView(context);
+                        textView3.setText(document.getString("member3"));
+                        holder.gridLayout.addView(textView1);
+
+                        TextView textView4 = new TextView(context);
+                        textView4.setText(document.getString("member4"));
+                        holder.gridLayout.addView(textView4);
+                    } else {
+                        Log.d("TAG", "No such document");
+                    }
+                } else {
+                    Log.d("TAG", "get failed with ", task.getException());
+                }
+            }
+        });
+
     }
 
     @Override

@@ -11,7 +11,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.movienote.databinding.ActivityPartyBinding;
@@ -20,21 +23,28 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.model.ServerTimestamps;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import io.grpc.Server;
 
 public class PartyActivity extends AppCompatActivity {
 
     ActivityPartyBinding binding;
     FirebaseFirestore db;
     Map<String,Object> data;
-    FirebaseUser user;
+    CollectionReference partyReference;
+    CollectionReference memberReference;
+    CollectionReference subscriptionReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +54,11 @@ public class PartyActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         db = FirebaseFirestore.getInstance();
 
-        CollectionReference party = db.collection("Party");
-        CollectionReference subscription = db.collection("Subscription");
+        partyReference = db.collection("Party");
+        subscriptionReference = db.collection("Subscription");
+        memberReference = db.collection("Member");
 
         data = new HashMap<>();
-        user = FirebaseAuth.getInstance().getCurrentUser();
         binding.subscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,9 +72,9 @@ public class PartyActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int id) {
-
+                                binding.subscription.setText(items[id].toString());
                                 data.put("subscription",items[id].toString());
-                                subscription.document(items[id].toString())
+                                subscriptionReference.document(items[id].toString())
                                         .get()
                                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
@@ -102,46 +112,75 @@ public class PartyActivity extends AppCompatActivity {
                 alertDialog2.show();
             }
         });
-        binding.id.setOnClickListener(new View.OnClickListener() {
+
+        binding.id.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                data.put("id",binding.id.getText().toString());
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE ||
+                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    data.put("id",binding.id.getText());
+                    return true;
+                }
+                return false;
             }
         });
-        binding.password.setOnClickListener(new View.OnClickListener() {
+        binding.password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                data.put("password",binding.password.getText().toString());
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE ||
+                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    data.put("password",binding.password.getText());
+                    return true;
+                }
+                return false;
             }
         });
-        binding.accountHolderName.setOnClickListener(new View.OnClickListener() {
+        binding.accountHolderName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                data.put("accountHolderName",binding.accountHolderName.getText().toString());
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE ||
+                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    data.put("accountHolderName",binding.accountHolderName.getText());
+                    return true;
+                }
+                return false;
             }
         });
-        binding.bankName.setOnClickListener(new View.OnClickListener() {
+        binding.bankName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                data.put("bankName",binding.bankName.getText().toString());
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE ||
+                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    data.put("bankName",binding.bankName.getText());
+                    return true;
+                }
+                return false;
             }
         });
-        binding.accountNumber.setOnClickListener(new View.OnClickListener() {
+        binding.accountNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                data.put("accountNumber",binding.accountNumber.getText().toString());
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE ||
+                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    data.put("accountNumber",binding.accountNumber.getText());
+                    return true;
+                }
+                return false;
             }
         });
         binding.complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (data.containsValue("id")&&data.containsValue("password")&&data.containsValue("accountHolderName") &&data.containsValue("bankName")
-                        &&data.containsValue("accountNumber")&&data.containsValue("subscription") &&data.containsValue("price")){
-                    List<FirebaseUser> member = new ArrayList<>();
-                    member.add(user);
-                    data.put("member",member);
-                    data.put("timestamp", FieldValue.serverTimestamp());
-                    party.document(FieldValue.serverTimestamp().toString()).set(data);
+                if (data.containsKey("id") & data.containsKey("password")&data.containsKey("accountHolderName") &data.containsKey("bankName")
+                        &data.containsKey("accountNumber")&data.containsKey("subscription") &data.containsKey("price")){
+                    LocalDateTime dateTime = LocalDateTime.now();
+                    Member member = new Member();
+                    member.setMember1(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    member.setMember_size(Integer.toString(1));
+
+                    memberReference.document(dateTime.toString()).set(member);
+                    partyReference.document(dateTime.toString()).set(data);
+
                     Intent intent = new Intent(getApplicationContext(), PartyInformationActivity.class);
                     startActivity(intent);
                 }

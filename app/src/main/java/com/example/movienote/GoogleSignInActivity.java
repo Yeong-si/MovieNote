@@ -56,7 +56,9 @@ public class GoogleSignInActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("sign","click successs");
                 signIn();
+                Log.d("sign","All success");
             }
         });
 

@@ -3,6 +3,7 @@ package com.example.movienote;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Telephony;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -22,7 +27,7 @@ public class PartySearchAdapter extends RecyclerView.Adapter<PartySearchAdapter.
 
     Context context;
     ArrayList<Party> partyArrayList;
-    FirebaseUser user;
+    String user;
 
     public PartySearchAdapter(Context context,ArrayList<Party> partyArrayList) {
         this.context = context;
@@ -43,16 +48,31 @@ public class PartySearchAdapter extends RecyclerView.Adapter<PartySearchAdapter.
 
         Party party = partyArrayList.get(position);
 
-        holder.member_size.setText(party.getMember().size());
+        FirebaseFirestore.getInstance().collection("Member").document(party.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        holder.member_size.setText(document.getString("member_size"));
+                    } else {
+                        Log.d("TAG", "No such document");
+                    }
+                } else {
+                    Log.d("TAG", "get failed with ", task.getException());
+                }
+            }
+        });
+
         holder.price.setText(party.getPrice());
         holder.subscription.setText(party.getSubscription());
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        user = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                party.getMember().add(user);
+//                party.getMember().set(user);
                 Intent intent = new Intent(v.getContext(), PartyInformationActivity.class);
                 v.getContext().startActivity(intent);
             }

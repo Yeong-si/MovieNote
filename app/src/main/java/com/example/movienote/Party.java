@@ -6,43 +6,32 @@ import androidx.annotation.NonNull;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Party {
     private String subscription; // 구독할 요금제 종류
-    private List<FirebaseUser> member; // 현재 멤버
     private String accountNumber; // 계좌번호
     private String bankName; // 이체할 은행이름
     private String accountHolderName; // 수취인
     private String price; // 월 청구액
     private String id; // 공유하는 아이디
     private String password; // 공유하는 비밀번호
-    private @ServerTimestamp Timestamp timestamp; // 문서 사이를 구분하기 위한 필드
-
 
     public Party() {}
 
-    public Party(String subscription, List<FirebaseUser> member, String accountNumber, String bankName, String accountHolderName, String price, String id, String password,Timestamp timestamp) {
+    public Party(String subscription, String accountNumber, String bankName, String accountHolderName, String price, String id, String password) {
         this.subscription = subscription;
-        this.member = member;
         this.accountNumber = accountNumber;
         this.bankName = bankName;
         this.accountHolderName = accountHolderName;
         this.price = price;
         this.id = id;
         this.password = password;
-        this.timestamp = timestamp;
-    }
-
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
     }
 
     public String getSubscription() {
@@ -51,14 +40,6 @@ public class Party {
 
     public void setSubscription(String subscription) {
         this.subscription = subscription;
-    }
-
-    public List<FirebaseUser> getMember() {
-        return member;
-    }
-
-    public void setMember(List<FirebaseUser> member) {
-        this.member = member;
     }
 
     public String getAccountNumber() {
