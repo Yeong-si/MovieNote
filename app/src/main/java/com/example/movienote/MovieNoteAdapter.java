@@ -45,28 +45,28 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
         holder.movieTitle.setText(note.getMovieTitle());
         holder.note.setText(note.getNote());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    if (onClickListener != null) {
-
-                        onClickListener.onClick(position, note);
-                        Intent intent = new Intent(v.getContext(), ViewNoteFragment.class);
-                        //데이터 넘겨주기
-
-                        //intent.putExtra("note",note);
-                        //intent.putExtra("title", item.getTitle());
-                        //intent.putExtra("image", item.getImage());
-
-                        v.getContext().startActivity(intent);//onClickListener.onC
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.d("LSY", "처리안됨");
-                }
-            }
-        });
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                try {
+//                    if (onClickListener != null) {
+//
+//                        onClickListener.onClick(position, note);
+//                        Intent intent = new Intent(v.getContext(), ViewNoteFragment.class);
+//                        //데이터 넘겨주기
+//
+//                        //intent.putExtra("note",note);
+//                        //intent.putExtra("title", item.getTitle());
+//                        //intent.putExtra("image", item.getImage());
+//
+//                        v.getContext().startActivity(intent);//onClickListener.onC
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    Log.d("LSY", "처리안됨");
+//                }
+//            }
+//        });
 
     }
 
