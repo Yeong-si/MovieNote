@@ -2,8 +2,10 @@ package com.example.movienote;
 
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -25,6 +27,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,6 +68,39 @@ public class GoogleSignInActivity extends AppCompatActivity {
                 openWebPage("https://github.com/Yeong-si/MovieNote");
             }
         });
+
+        BottomNavigationView navigationBarView = findViewById(R.id.bottom_navigation);
+        navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.page_1) {
+                    startActivity(new Intent(GoogleSignInActivity.this, MainActivity.class));
+                    return true;
+                }
+
+                if (itemId == R.id.page_2) {
+                    // Respond to navigation item 2 click
+                    startActivity(new Intent(GoogleSignInActivity.this, PieChartActivity.class));
+                    return true;
+                }
+
+                if (itemId == R.id.page_3) {
+                    // Respond to navigation item 3 click
+                    startActivity(new Intent(GoogleSignInActivity.this, BaseActivity.class));
+                    return true;
+                }
+
+                if (itemId == R.id.page_4) {
+                    // Respond to navigation item 4 click
+                    startActivity(new Intent(GoogleSignInActivity.this, GoogleSignInActivity.class));
+                    return true;
+                }
+                return false;
+            }
+        });
+        navigationBarView.getMenu().findItem(R.id.page_4).setChecked(true);
     }
 
     private void openWebPage(String url) {

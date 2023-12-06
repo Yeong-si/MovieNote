@@ -6,15 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
     <TextView
         android:id="@+id/startTitle"
         android:layout_width="match_parent"
@@ -30,40 +21,42 @@
             <RelativeLayout
                 android:id="@+id/startMoive"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp">
+                android:layout_height="0dp"
+                android:layout_margin="15dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="#EEEEEE">
 
                 <ImageView
                     android:id="@+id/image1"
                     android:layout_width="100dp"
                     android:layout_height="120dp"
-                    android:src="@drawable/changeicon" />
+                    android:background="#EEEEEE"/>
                 <TextView
                     android:id="@+id/text1"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:layout_toRightOf="@id/image1"
-                    android:text="보고싶은 영화를 이렇게나 많이 봤따"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:background="#EEEEEE"/>
 
                 <ImageView
                     android:id="@+id/image2"
                     android:layout_width="100dp"
                     android:layout_height="120dp"
-                    android:src="@drawable/changeicon"
-                    android:layout_below="@+id/image1"/>
+                    android:layout_below="@+id/image1"
+                    android:background="#EEEEEE"/>
 
                 <TextView
                     android:id="@+id/text2"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:layout_toRightOf="@id/image2"
-                    android:text="보고싶은 영화를 이렇게나 많이 봤따"
                     android:layout_below="@id/text1"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:background="#EEEEEE"/>
 
             </RelativeLayout>
-
 
 
     <View
@@ -83,16 +76,45 @@
         android:background="#EEEEEE"
         android:textColor="@color/black" />
 
-    <android.widget.Button
-        android:id="@+id/finishedMoviewBtn"
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        android:background="#EEEEEE"
-        tools:ignore="SpeakableTextPresentCheck"/>
-        </LinearLayout>
-    </FrameLayout>
+        <RelativeLayout
+            android:id="@+id/FinishedMovie"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="#EEEEEE">
+
+            <ImageView
+                android:id="@+id/image11"
+                android:layout_width="100dp"
+                android:layout_height="120dp"
+                android:background="#EEEEEE"/>
+            <TextView
+                android:id="@+id/text11"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_toRightOf="@id/image11"
+                android:gravity="center"
+                android:background="#EEEEEE"/>
+
+            <ImageView
+                android:id="@+id/image22"
+                android:layout_width="100dp"
+                android:layout_height="120dp"
+                android:layout_below="@+id/image11"
+                android:background="#EEEEEE"/>
+
+            <TextView
+                android:id="@+id/text22"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_toRightOf="@id/image22"
+                android:layout_below="@id/text11"
+                android:gravity="center"
+                android:background="#EEEEEE"/>
+
+        </RelativeLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -100,10 +122,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_navigation_menu" />
-
-
-
-
+        app:menu="@menu/bottom_navigation_menu"
+        android:background="#4A4A4A"/>
 
 </LinearLayout>

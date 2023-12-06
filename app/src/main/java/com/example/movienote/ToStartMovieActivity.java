@@ -95,7 +95,10 @@ public class ToStartMovieActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
+    }
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(ToStartMovieActivity.this, MainActivity.class));
+        super.onBackPressed();
     }
 }

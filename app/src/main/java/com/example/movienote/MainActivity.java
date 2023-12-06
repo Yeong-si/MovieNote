@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ import com.google.gson.JsonParser;
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+    SharedPreferences shDb;
+    //SharedPreferences.Editor editor = shDb.edit();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,25 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("LSY", "데이터 읽음");
 
-        /*if (cursor.moveToFirst()) {
-            Log.d("LSY", "데이터1 읽음");
-            do {
-                binding.text1.setText(cursor.getString(0));
-
-                Glide.with(this)
-                        .load(cursor.getString(1))
-                        .into(binding.image1);
-                Log.d("LSY", "데이터2 읽음");
-
-                // 여기에서 커서에서 데이터를 읽어와서 dataList에 추가하는 작업을 수행
-                // 예시: dataList.add(new YourDataType(cursor.getString(cursor.getColumnIndex("column_name"))));
-            } while (cursor.moveToNext());
-            Log.d("LSY", "데이터3 읽음");
-            binding.text2.setText(cursor.getString(0));
-            Glide.with(this)
-                    .load(cursor.getString(1))
-                    .into(binding.image2);
-        }*/
 
         if (cursor.moveToFirst()) {
                 binding.text1.setText(cursor.getString(0));
@@ -81,15 +65,33 @@ public class MainActivity extends AppCompatActivity {
         cursor.close();
         db.close();
 
-        /*if (currentUser.getDisplayName() == null){
-            binding.startTitle.setText("회원 님이 보고싶은 영화");
-            binding.finishTitle.setText("회원 님이 본 영화");
-        }else{
-            binding.startTitle.setText(currentUser.getDisplayName()+" 님이 보고싶은 영화");
-            binding.finishTitle.setText(currentUser.getDisplayName()+" 님이 본 영화");
-        }*/
+        shDb = getSharedPreferences("FinishedNote",MODE_PRIVATE);
 
-        binding.finishedMoviewBtn.setOnClickListener(new View.OnClickListener() {
+
+        //1번이 비어있으면 = 아무것도 없다는 소리 -> 1번에 넣고 끝내기
+        //2번만 비어있으면 = 2번에 넣으면 됨
+        // 둘 다 안 비어있다면 2번을 1번으로 넘기고 새로 업로드할 것을 2번에 넣기
+        String data1Title = shDb.getString("data1Title", "none");
+        String data1Image = shDb.getString("data1Image", "none");
+        String data2Title = shDb.getString("data2Title","none");
+        String data2Image = shDb.getString("data2Image", "none");
+
+        Log.d("LSY", data1Title);
+        if (data1Title.equals("none")){
+        } else if (data2Title.equals("none")) {
+            binding.text11.setText(data1Title);
+            Glide.with(this)
+                    .load(data1Image)
+                    .into(binding.image11);
+        } else {
+            binding.text22.setText(data1Title);
+            Glide.with(this)
+                    .load(data1Image)
+                    .into(binding.image22);
+        }
+
+
+        binding.FinishedMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, FinishedMovieActivity.class));
@@ -102,14 +104,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*binding.tostratMoviewBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ToStartMovieActivity.class));
-            }
-        });*/
-
         BottomNavigationView navigationBarView = findViewById(R.id.bottom_navigation);
+
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -117,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if (itemId == R.id.page_1) {
                     // Respond to navigation item 1 click
-                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    //Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                    startActivity(new Intent(MainActivity.this, MainActivity.class));
                     return true;
                 }
 
@@ -147,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        navigationBarView.getMenu().findItem(R.id.page_1).setChecked(true);
 
     }
 }

@@ -6,6 +6,8 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +36,8 @@ public class NoteActivity extends AppCompatActivity {
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     CollectionReference noteReference;
     FirebaseFirestore db;
+    SharedPreferences shDb;
+    SharedPreferences.Editor editor;
 
     private AlertDialog listDialog;
     private DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
@@ -146,6 +150,44 @@ public class NoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean visible;
+                shDb = getSharedPreferences("FinishedNote",MODE_PRIVATE);
+                editor = shDb.edit();
+
+                //1번이 비어있으면 = 아무것도 없다는 소리 -> 1번에 넣고 끝내기
+                //2번만 비어있으면 = 2번에 넣으면 됨
+                // 둘 다 안 비어있다면 2번을 1번으로 넘기고 새로 업로드할 것을 2번에 넣기
+                String data1Title = shDb.getString("data1Title", "none");
+                String data1Image = shDb.getString("data1Image", "none");
+                String data2Title = shDb.getString("data2Title","none");
+                String data2Image = shDb.getString("data2Image", "none");
+                if (data1Title.equals("none")){
+                    editor.putString("data1Title",binding.moviename.getText().toString());
+                    editor.putString("data1Image",posterUrl);
+                    Log.d("LSY", "데이터1실행");
+                    Log.d("LSY", shDb.getString("data1Title", "none"));
+
+                } else if (data2Title.equals("none")) {
+                    editor.putString("data2Title",binding.moviename.getText().toString());
+                    editor.putString("data2Image",posterUrl);
+                    Log.d("LSY", "데이터2실행");
+                } else {
+                    editor.putString("data1Title",data2Title);
+                    editor.putString("data1Image",data2Image);
+
+                    editor.putString("data2Title",binding.moviename.getText().toString());
+                    editor.putString("data2Image",posterUrl);
+                    Log.d("LSY", "데이터3실행");
+                    
+                } 
+
+                /*private NoteDBHelper helper;
+
+                helper = new NoteDBHelper(MovieSearchActivity.this);
+                SQLiteDatabase db = helper.getReadableDatabase();
+
+                if ("toStart".equals(fromActivity)){
+                    db.execSQL("insert into tb_memo (title,poster) values (?,?)", new String[]{title,image});
+                }*/
 
                 if (binding.openNote.getVisibility() == View.VISIBLE){
                     visible = true;

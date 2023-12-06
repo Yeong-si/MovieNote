@@ -384,8 +384,7 @@ public class PieChartActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
+        navigationBarView.getMenu().findItem(R.id.page_2).setChecked(true);
     }
 
     private String parseJson(String jsonData) {
