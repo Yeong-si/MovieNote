@@ -1,5 +1,6 @@
 package com.example.movienote;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -44,7 +45,7 @@ public class UserActivity extends AppCompatActivity {
         int start = content.indexOf(userProfile);
         int end = start + content.length() - 1;
         spannableString.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new RelativeSizeSpan(1.3f), start, end+1, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new RelativeSizeSpan(1.3f), start, end + 1, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
         binding.username.setText(spannableString);
 
         binding.logoutbtn.setOnClickListener(new View.OnClickListener() {
@@ -100,3 +101,4 @@ public class UserActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
     }
 }
+
