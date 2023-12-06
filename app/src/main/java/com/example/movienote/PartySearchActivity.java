@@ -2,6 +2,9 @@
 
 package com.example.movienote;
 
+import static androidx.core.app.NotificationCompatJellybean.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,11 +15,16 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.movienote.databinding.ActivityPartySearchBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -56,32 +64,31 @@ public class PartySearchActivity extends AppCompatActivity {
     }
 
     private void EventChangeListener() {
-
-        db.collection("Party").orderBy("subscription", Query.Direction.ASCENDING)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("Subscription")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-
-                        if (error != null) {
-
-                            if (progressDialog.isShowing()) {
-                                progressDialog.dismiss();
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
                             }
-
-                            Log.e("FireStore error",error.getMessage());
-                            return;
+]                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-
-                        for(DocumentChange dc: value.getDocumentChanges()) {
-
-                            if (dc.getType() == DocumentChange.Type.ADDED) {
-                                partyArrayList.add(dc.getDocument().toObject(Party.class));
+                    }
+                });
+        db.collection("Party")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                ArrayList<Party> members = (ArrayList<Party>) document.get("member");
+                                if (members.size() < ) {
+                                }
                             }
-
-                            partySearchAdapter.notifyDataSetChanged();
-                            if (progressDialog.isShowing()) {
-                                progressDialog.dismiss();
-                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
