@@ -63,9 +63,6 @@ public class ToStartMovieActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
 
-        //adapter.notifyDataSetChanged();
-        //adapter.notifyItemInserted(adapter.getItemCount()-1);
-
         binding.plusstartmovieBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

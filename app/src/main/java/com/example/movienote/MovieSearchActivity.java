@@ -98,9 +98,10 @@ public class MovieSearchActivity extends AppCompatActivity {
                 // 클릭된 아이템의 정보를 가져와서 NoteActivity로 전환하는 Intent를 생성
                 String title = array.get(position).getTitle();
                 String image = array.get(position).getImage();
-                db.execSQL("insert into tb_memo (title,poster) values (?,?)", new String[]{title,image});
-                //Log.d("LSY", title);
-                //Log.d("LSY", image);
+
+                if ("toStart".equals(fromActivity)){
+                    db.execSQL("insert into tb_memo (title,poster) values (?,?)", new String[]{title,image});
+                }
 
                 Intent intent = new Intent(MovieSearchActivity.this, NoteActivity.class);
                 //intent.putExtra(NEXT_SCREEN,model);
