@@ -183,8 +183,6 @@ public class PartyActivity extends AppCompatActivity {
                     member = new ArrayList<String>();
                     member.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-
-
                     Party party = new Party(member,data.get("subscription").toString(),data.get("accountNumber").toString()
                             ,data.get("bankName").toString(),data.get("accountHolderName").toString()
                             ,data.get("price").toString(),data.get("id").toString(),data.get("password").toString());

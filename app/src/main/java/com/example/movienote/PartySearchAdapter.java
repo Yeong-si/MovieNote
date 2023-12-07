@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,9 +20,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class PartySearchAdapter extends RecyclerView.Adapter<PartySearchAdapter.PartySearchViewHolder> {
 
@@ -48,21 +55,23 @@ public class PartySearchAdapter extends RecyclerView.Adapter<PartySearchAdapter.
 
         Party party = partyArrayList.get(position);
 
-        FirebaseFirestore.getInstance().collection("Member").document(party.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        holder.member_size.setText(document.getString("member_size"));
-                    } else {
-                        Log.d("TAG", "No such document");
-                    }
-                } else {
-                    Log.d("TAG", "get failed with ", task.getException());
-                }
-            }
-        });
+        holder.member_size.setText(Integer.toString(party.getMember().size()));
+
+//        FirebaseFirestore.getInstance().collection("Member").document(party.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        holder.member_size.setText(document.getString("member_size"));
+//                    } else {
+//                        Log.d("TAG", "No such document");
+//                    }
+//                } else {
+//                    Log.d("TAG", "get failed with ", task.getException());
+//                }
+//            }
+//        });
 
         holder.price.setText(party.getPrice());
         holder.subscription.setText(party.getSubscription());
@@ -72,7 +81,7 @@ public class PartySearchAdapter extends RecyclerView.Adapter<PartySearchAdapter.
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                party.getMember().set(user);
+                party.getMember().add(user);
                 Intent intent = new Intent(v.getContext(), PartyInformationActivity.class);
                 v.getContext().startActivity(intent);
             }
