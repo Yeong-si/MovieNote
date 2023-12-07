@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,11 +51,12 @@ public class NoteActivity extends AppCompatActivity {
             }
         }
     };
-
-
         ActivityNoteBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        NoteDBHelper helper = new NoteDBHelper(this);
+        SQLiteDatabase SQLitedb = helper.getReadableDatabase();
 
         binding = ActivityNoteBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
@@ -63,7 +65,6 @@ public class NoteActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String posterUrl = intent.getStringExtra("image");
         String movieTitle = intent.getStringExtra("title");
-
 
 
         binding.moviename.setText(movieTitle);
@@ -142,6 +143,7 @@ public class NoteActivity extends AppCompatActivity {
 
             listDialog.show();
         });
+        Log.d("LSY","어디서 온 : "+getIntent().getStringExtra("what"));
 
 
         //업로드 후 노트화면으로 가기(업로드부분 짜야함)
@@ -149,6 +151,23 @@ public class NoteActivity extends AppCompatActivity {
             Note note;
             @Override
             public void onClick(View v) {
+                Log.d("LSY","어디서 온 : "+getIntent().getStringExtra("what"));
+
+                //보고싶은 에서 삭제하기
+                /*helper = new NoteDBHelper(MovieSearchActivity.this);
+                SQLiteDatabase db = helper.getReadableDatabase();
+
+                if ("toStart".equals(fromActivity)){
+                    db.execSQL("insert into tb_memo (title,poster) values (?,?)", new String[]{title,image});
+                    intent = new Intent(MovieSearchActivity.this, ToStartMovieActivity.class);
+                }else{
+                    intent = new Intent(MovieSearchActivity.this, NoteActivity.class);
+                }*/
+                //helper.deleteData("tb_memo","title",movieTitle);
+                //helper.deleteData("tb_memo","poster",posterUrl);
+
+                SQLitedb.execSQL("DELETE FROM tb_memo WHERE title=? AND poster=?", new String[]{movieTitle, posterUrl});
+
                 boolean visible;
                 shDb = getSharedPreferences("FinishedNote",MODE_PRIVATE);
                 editor = shDb.edit();
@@ -163,22 +182,28 @@ public class NoteActivity extends AppCompatActivity {
                 if (data1Title.equals("none")){
                     editor.putString("data1Title",binding.moviename.getText().toString());
                     editor.putString("data1Image",posterUrl);
+                    editor.apply();
                     Log.d("LSY", "데이터1실행");
                     Log.d("LSY", shDb.getString("data1Title", "none"));
 
                 } else if (data2Title.equals("none")) {
                     editor.putString("data2Title",binding.moviename.getText().toString());
                     editor.putString("data2Image",posterUrl);
+                    editor.apply();
                     Log.d("LSY", "데이터2실행");
+                    Log.d("LSY", shDb.getString("data1Title", "none"));
+                    Log.d("LSY", shDb.getString("data2Title", "none"));
                 } else {
                     editor.putString("data1Title",data2Title);
                     editor.putString("data1Image",data2Image);
 
                     editor.putString("data2Title",binding.moviename.getText().toString());
                     editor.putString("data2Image",posterUrl);
+                    editor.apply();
                     Log.d("LSY", "데이터3실행");
                     
-                } 
+                }
+
 
                 /*private NoteDBHelper helper;
 

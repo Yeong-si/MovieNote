@@ -69,6 +69,7 @@ public class ToStartMovieActivity extends AppCompatActivity {
                 Intent intent = new Intent(ToStartMovieActivity.this, MovieSearchActivity.class);
                 intent.putExtra("what","toStart");
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -90,12 +91,17 @@ public class ToStartMovieActivity extends AppCompatActivity {
 
                 // NoteActivity 시작
                 startActivity(intent);
+                finish();
             }
         });
+
     }
-    @Override
-    public void onBackPressed(){
-        startActivity(new Intent(ToStartMovieActivity.this, MainActivity.class));
-        super.onBackPressed();
-    }
+     @Override
+        public void onBackPressed(){
+            super.onBackPressed();
+            Intent intent0 = new Intent(ToStartMovieActivity.this, MainActivity.class);
+            startActivity(intent0);
+            //finish();
+        }
+
 }

@@ -36,6 +36,12 @@ public class FinishedMovieActivity extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseUser user;
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        startActivity(new Intent(FinishedMovieActivity.this, MainActivity.class));
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,7 @@ public class FinishedMovieActivity extends AppCompatActivity {
                 Intent intent = new Intent(FinishedMovieActivity.this, MovieSearchActivity.class);
                 intent.putExtra("what","Finished");
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -118,10 +125,6 @@ public class FinishedMovieActivity extends AppCompatActivity {
                 });
     }
 
-    @Override
-    public void onBackPressed(){
-        startActivity(new Intent(FinishedMovieActivity.this, MainActivity.class));
-        super.onBackPressed();
-    }
+
 
 }

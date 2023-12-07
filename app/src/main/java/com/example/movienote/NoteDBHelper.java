@@ -26,4 +26,15 @@ public class NoteDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
+        // ...
+
+        public void deleteData(String tableName, String conditionColumn, String conditionValue) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            String whereClause = conditionColumn + " = ?";
+            String[] whereArgs = {conditionValue};
+            db.delete(tableName, whereClause, whereArgs);
+            db.close();
+        }
+
 }

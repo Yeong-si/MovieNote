@@ -92,6 +92,7 @@ public class MovieSearchActivity extends AppCompatActivity {
         adapter.setOnClickListener(new MovieAdapter.OnClickListener() {
             @Override
             public void onClick(int position, MovieItem model) {
+                Intent intent;
                 Log.d("LSY", "클릭 완료");
 
 
@@ -101,9 +102,12 @@ public class MovieSearchActivity extends AppCompatActivity {
 
                 if ("toStart".equals(fromActivity)){
                     db.execSQL("insert into tb_memo (title,poster) values (?,?)", new String[]{title,image});
+                    intent = new Intent(MovieSearchActivity.this, ToStartMovieActivity.class);
+                }else{
+                    intent = new Intent(MovieSearchActivity.this, NoteActivity.class);
+                    Log.d("LSY","아직 데이터 넘기기 전");
                 }
 
-                Intent intent = new Intent(MovieSearchActivity.this, NoteActivity.class);
                 //intent.putExtra(NEXT_SCREEN,model);
                 intent.putExtra("title", title);
                 intent.putExtra("image", image);
@@ -111,6 +115,7 @@ public class MovieSearchActivity extends AppCompatActivity {
 
                 // NoteActivity 시작
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -162,5 +167,23 @@ public class MovieSearchActivity extends AppCompatActivity {
         }
 
         return movies;
+    }
+    @Override
+    public void onBackPressed(){
+        String fromActivity = getIntent().getStringExtra("what");
+        Intent intent0;
+
+        super.onBackPressed();
+        if ("toStart".equals(fromActivity)){
+            //intent0 = new Intent(MovieSearchActivity.this, ToStartMovieActivity.class);
+            intent0 = new Intent(MovieSearchActivity.this, MainActivity.class);
+            //intent0.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }else{
+            //intent0 = new Intent(MovieSearchActivity.this, FinishedMovieActivity.class);
+            intent0 = new Intent(MovieSearchActivity.this, MainActivity.class);
+            //intent0.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+        startActivity(intent0);
+        finish();
     }
 }

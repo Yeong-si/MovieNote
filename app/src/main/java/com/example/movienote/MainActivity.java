@@ -38,67 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("LSY", "데이터 읽기 전");
 
-        NoteDBHelper helper = new NoteDBHelper(this);
-        SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select title, poster from tb_memo order by _id DESC LIMIT 2 ",null);
-
-        Log.d("LSY", "데이터 읽음");
-
-
-        if (cursor.moveToFirst()) {
-            String temp1 = cursor.getString(0);
-            String temp2 = cursor.getString(1);
-            if (cursor.moveToNext()){
-                binding.text2.setText(temp1);
-                Glide.with(this)
-                        .load(temp2)
-                        .into(binding.image2);
-                Log.d("LSY", "데이터2 읽음");
-
-                // 여기에서 커서에서 데이터를 읽어와서 dataList에 추가하는 작업을 수행
-                Log.d("LSY", "데이터3 읽음");
-                binding.text1.setText(cursor.getString(0));
-                Glide.with(this)
-                        .load(cursor.getString(1))
-                        .into(binding.image1);
-            }else{
-                binding.text1.setText(temp1);
-                Glide.with(this)
-                        .load(temp2)
-                        .into(binding.image1);
-
-            }
-
-
-        }
-        cursor.close();
-        db.close();
-
-        shDb = getSharedPreferences("FinishedNote",MODE_PRIVATE);
-
-
-        //1번이 비어있으면 = 아무것도 없다는 소리 -> 1번에 넣고 끝내기
-        //2번만 비어있으면 = 2번에 넣으면 됨
-        // 둘 다 안 비어있다면 2번을 1번으로 넘기고 새로 업로드할 것을 2번에 넣기
-        String data1Title = shDb.getString("data1Title", "none");
-        String data1Image = shDb.getString("data1Image", "none");
-        String data2Title = shDb.getString("data2Title","none");
-        String data2Image = shDb.getString("data2Image", "none");
-
-        Log.d("LSY", data1Title);
-        if (data1Title.equals("none")){
-        } else if (data2Title.equals("none")) {
-            binding.text11.setText(data1Title);
-            Glide.with(this)
-                    .load(data1Image)
-                    .into(binding.image11);
-        } else {
-            binding.text22.setText(data1Title);
-            Glide.with(this)
-                    .load(data1Image)
-                    .into(binding.image22);
-        }
-
 
         binding.FinishedMovie.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,4 +94,76 @@ public class MainActivity extends AppCompatActivity {
         navigationBarView.getMenu().findItem(R.id.page_1).setChecked(true);
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("LSY","onStart");
+        NoteDBHelper helper = new NoteDBHelper(this);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select title, poster from tb_memo order by _id DESC LIMIT 2 ",null);
+
+        Log.d("LSY", "데이터 읽음");
+
+        Log.d("LSY","oncreate");
+
+
+        if (cursor.moveToFirst()) {
+            String temp1 = cursor.getString(0);
+            String temp2 = cursor.getString(1);
+            if (cursor.moveToNext()){
+                binding.text1.setText(temp1);
+                Glide.with(this)
+                        .load(temp2)
+                        .into(binding.image1);
+                Log.d("LSY", "데이터2 읽음");
+
+                // 여기에서 커서에서 데이터를 읽어와서 dataList에 추가하는 작업을 수행
+                Log.d("LSY", "데이터3 읽음");
+                binding.text2.setText(cursor.getString(0));
+                Glide.with(this)
+                        .load(cursor.getString(1))
+                        .into(binding.image2);
+            }else{
+                binding.text1.setText(temp1);
+                Glide.with(this)
+                        .load(temp2)
+                        .into(binding.image1);
+
+            }
+        }
+        cursor.close();
+        db.close();
+
+        shDb = getSharedPreferences("FinishedNote",MODE_PRIVATE);
+
+        //1번이 비어있으면 = 아무것도 없다는 소리 -> 1번에 넣고 끝내기
+        //2번만 비어있으면 = 2번에 넣으면 됨
+        // 둘 다 안 비어있다면 2번을 1번으로 넘기고 새로 업로드할 것을 2번에 넣기
+        String data1Title = shDb.getString("data1Title", "none");
+        String data1Image = shDb.getString("data1Image", "none");
+        String data2Title = shDb.getString("data2Title","none");
+        String data2Image = shDb.getString("data2Image", "none");
+
+        Log.d("LSY", data1Title);
+        Log.d("LSY",data2Title);
+        if (data1Title.equals("none")){
+        } else if (data2Title.equals("none")) {
+            binding.text11.setText(data1Title);
+            Glide.with(this)
+                    .load(data1Image)
+                    .into(binding.image11);
+        } else {
+            binding.text22.setText(data1Title);
+            Glide.with(this)
+                    .load(data1Image)
+                    .into(binding.image22);
+            binding.text11.setText(data2Title);
+            Glide.with(this)
+                    .load(data2Image)
+                    .into(binding.image11);
+
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -59,18 +60,20 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             public void onClick(View v) {
                 try {
                     if (onClickListener != null) {
-                        //Log.d("LSY", "널이다");
                         onClickListener.onClick(position, item);
                         Intent intent=null;
 
                         if ("toStart".equals(fromActivity)){
                             intent = new Intent(v.getContext(), ToStartMovieActivity.class);
+                            Log.d("LSY","여기서22");
                         }else{
                             intent = new Intent(v.getContext(), NoteActivity.class);
+                            Log.d("LSY", "여기서 11");
                         }
                         intent.putExtra("title", item.getTitle());
                         intent.putExtra("image", item.getImage());
                         v.getContext().startActivity(intent);//onClickListener.onC
+                        //((Activity)v.getContext()).finish();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
