@@ -69,7 +69,6 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
 
         Party party = partyArrayList.get(position);
 
-
         FirebaseFirestore.getInstance().collection("Subscription")
                 .document(party.getSubscription()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -289,7 +288,6 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                     }
                 });
 
-
         switch (party.getSubscription()) {
             case "넷플릭스 프리미엄" :
                 holder.ott_icon.setImageResource(R.drawable.netflix);
@@ -314,75 +312,7 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                 break;
         }
 
-
-//        FirebaseFirestore.getInstance().collection("Party")
-//                .whereArrayContains("member", FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//
-//                        if (error != null) {
-//                            Log.w("TAG", "Listen failed.", error);
-//                            return;
-//                        }
-//
-//                        for (QueryDocumentSnapshot doc : value) {
-//                            if (doc.get("yourArrayField") != null) {
-//                                Log.d("TAG", "Data: " + doc.getData());
-//                                List<String> member = (List<String>) doc.get("member");
-//                                for (int i=0;i < member.size();i++){
-//                                    TextView textView = new TextView(context);
-//                                    textView.setText(member.get(i));
-//                                    textView.setTextColor(Color.BLUE);
-//                                    textView.setWidth();
-//
-//                                    textView.setTextSize(20);
-//                                    holder.gridLayout.addView(textView);
-//                                    Log.d("PartyInformationAdapter","gridLayout");
-//                                }
-//                            }
-//                        }
-//                    }
-//                });
-
-
         holder.subscription.setText(party.getSubscription());
-// member 컬렉션을 사용할때
-//        FirebaseFirestore.getInstance()
-//                .collection("Member")
-//                .document(party.getId())
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        // 문서의 필드 값을 가져옵니다.
-//                        TextView textView1 = new TextView(context);
-//                        textView1.setText(document.getString("member1"));
-//                        holder.gridLayout.addView(textView1);
-//
-//                        TextView textView2 = new TextView(context);
-//                        textView2.setText(document.getString("member2"));
-//                        holder.gridLayout.addView(textView2);
-//
-//                        TextView textView3 = new TextView(context);
-//                        textView3.setText(document.getString("member3"));
-//                        holder.gridLayout.addView(textView1);
-//
-//                        TextView textView4 = new TextView(context);
-//                        textView4.setText(document.getString("member4"));
-//                        holder.gridLayout.addView(textView4);
-//                    } else {
-//                        Log.d("TAG", "No such document");
-//                    }
-//                } else {
-//                    Log.d("TAG", "get failed with ", task.getException());
-//                }
-//            }
-//        });
-
     }
 
     @Override
