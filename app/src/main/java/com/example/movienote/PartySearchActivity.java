@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import com.example.movienote.databinding.ActivityPartySearchBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -41,6 +44,7 @@ public class PartySearchActivity extends AppCompatActivity {
     FirebaseFirestore db;
     ProgressDialog progressDialog;
     String selectedSubscription;
+    NavigationBarView navigationBarView;
 
     ActivityPartySearchBinding binding;
     @Override
@@ -51,6 +55,40 @@ public class PartySearchActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         selectedSubscription = "default";
+
+        navigationBarView = findViewById(R.id.bottom_navigation);
+        navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.page_1) {
+                    startActivity(new Intent(PartySearchActivity.this, MainActivity.class));
+                    return true;
+                }
+
+                if (itemId == R.id.page_2) {
+                    // Respond to navigation item 2 click
+                    startActivity(new Intent(PartySearchActivity.this, PieChartActivity.class));
+                    return true;
+                }
+
+                if (itemId == R.id.page_3) {
+                    // Respond to navigation item 3 click
+                    startActivity(new Intent(PartySearchActivity.this, BaseActivity.class));
+                    return true;
+                }
+
+                if (itemId == R.id.page_4) {
+                    // Respond to navigation item 4 click
+                    startActivity(new Intent(PartySearchActivity.this, GoogleSignInActivity.class));
+                    return true;
+                }
+                return false;
+            }
+        });
+        navigationBarView.getMenu().findItem(R.id.page_3).setChecked(true);
+
 
         binding.subscription.setOnClickListener(new View.OnClickListener() {
             @Override

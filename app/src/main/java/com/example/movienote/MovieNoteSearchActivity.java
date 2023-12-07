@@ -2,6 +2,7 @@
 
 package com.example.movienote;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
@@ -20,6 +21,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.movienote.databinding.ActivityMovieNoteSearchBinding;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,6 +40,7 @@ public class MovieNoteSearchActivity extends AppCompatActivity {
     MovieNoteAdapter movieNoteAdapter;
     FirebaseFirestore db;
     ProgressDialog progressDialog;
+    NavigationBarView navigationBarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,40 @@ public class MovieNoteSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(binding.getRoot());
+
+        navigationBarView = findViewById(R.id.bottom_navigation);
+        navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.page_1) {
+                    startActivity(new Intent(MovieNoteSearchActivity.this, MainActivity.class));
+                    return true;
+                }
+
+                if (itemId == R.id.page_2) {
+                    // Respond to navigation item 2 click
+                    startActivity(new Intent(MovieNoteSearchActivity.this, PieChartActivity.class));
+                    return true;
+                }
+
+                if (itemId == R.id.page_3) {
+                    // Respond to navigation item 3 click
+                    startActivity(new Intent(MovieNoteSearchActivity.this, BaseActivity.class));
+                    return true;
+                }
+
+                if (itemId == R.id.page_4) {
+                    // Respond to navigation item 4 click
+                    startActivity(new Intent(MovieNoteSearchActivity.this, GoogleSignInActivity.class));
+                    return true;
+                }
+                return false;
+            }
+        });
+        navigationBarView.getMenu().findItem(R.id.page_3).setChecked(true);
+
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
