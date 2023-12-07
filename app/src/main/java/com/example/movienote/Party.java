@@ -21,10 +21,11 @@ public class Party {
     private String price; // 월 청구액
     private String id; // 공유하는 아이디
     private String password; // 공유하는 비밀번호
+    private List<String> member;
 
     public Party() {}
 
-    public Party(String subscription, String accountNumber, String bankName, String accountHolderName, String price, String id, String password) {
+    public Party(List<String> member,String subscription, String accountNumber, String bankName, String accountHolderName, String price, String id, String password) {
         this.subscription = subscription;
         this.accountNumber = accountNumber;
         this.bankName = bankName;
@@ -32,6 +33,15 @@ public class Party {
         this.price = price;
         this.id = id;
         this.password = password;
+        this.member = member;
+    }
+
+    public List<String> getMember() {
+        return member;
+    }
+
+    public void setMember(List<String> member) {
+        this.member = member;
     }
 
     public String getSubscription() {

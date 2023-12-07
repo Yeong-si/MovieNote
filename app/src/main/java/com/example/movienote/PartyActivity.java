@@ -43,7 +43,9 @@ public class PartyActivity extends AppCompatActivity {
     FirebaseFirestore db;
     Map<String,Object> data;
     CollectionReference partyReference;
-    CollectionReference memberReference;
+//    CollectionReference memberReference;
+
+    List<String> member;
     CollectionReference subscriptionReference;
 
     @Override
@@ -56,7 +58,7 @@ public class PartyActivity extends AppCompatActivity {
 
         partyReference = db.collection("Party");
         subscriptionReference = db.collection("Subscription");
-        memberReference = db.collection("Member");
+//        memberReference = db.collection("Member");
 
         data = new HashMap<String,Object>();
         binding.subscription.setOnClickListener(new View.OnClickListener() {
@@ -174,15 +176,20 @@ public class PartyActivity extends AppCompatActivity {
                 if (data.containsKey("id") & data.containsKey("password")&data.containsKey("accountHolderName") &data.containsKey("bankName")
                         &data.containsKey("accountNumber")&data.containsKey("subscription") &data.containsKey("price")){
                     LocalDateTime dateTime = LocalDateTime.now();
-                    Member member = new Member();
-                    member.setMember1(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    member.setMember_size(Integer.toString(1));
+//                    Member member = new Member();
+//                    member.setMember1(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                    member.setMember_size(Integer.toString(1));
 
-                    Party party = new Party(data.get("subscription").toString(),data.get("accountNumber").toString()
+                    member = new ArrayList<String>();
+                    member.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+
+
+                    Party party = new Party(member,data.get("subscription").toString(),data.get("accountNumber").toString()
                             ,data.get("bankName").toString(),data.get("accountHolderName").toString()
                             ,data.get("price").toString(),data.get("id").toString(),data.get("password").toString());
 
-                    memberReference.document(dateTime.toString()).set(member);
+//                    memberReference.document(dateTime.toString()).set(member);
                     partyReference.document(dateTime.toString()).set(party);
 
                     Intent intent = new Intent(getApplicationContext(), PartyInformationActivity.class);

@@ -34,7 +34,7 @@ public class PartyInformationActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ArrayList<Party> partyArrayList;
-    ArrayList<Member> memberArrayList;
+//    ArrayList<Member> memberArrayList;
     PartyInformationAdapter partyInformationAdapter;
     FirebaseFirestore db;
     ProgressDialog progressDialog;
@@ -58,7 +58,8 @@ public class PartyInformationActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         partyArrayList = new ArrayList<Party>();
-        partyInformationAdapter = new PartyInformationAdapter(getApplicationContext(),partyArrayList,memberArrayList);
+//        partyInformationAdapter = new PartyInformationAdapter(getApplicationContext(),partyArrayList,memberArrayList);
+        partyInformationAdapter = new PartyInformationAdapter(getApplicationContext(),partyArrayList);
 
         recyclerView.setAdapter(partyInformationAdapter);
 
@@ -69,49 +70,91 @@ public class PartyInformationActivity extends AppCompatActivity {
 
         String currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        db.collection("Member")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Party")
+                .whereArrayContains("member", currentUser)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Map<String, Object> fields = document.getData();
-                                for (Map.Entry<String, Object> field : fields.entrySet()) {
-                                    if ("valueToFind".equals(field.getValue())) {
-                                        Log.d("TAG", "Match found in document with ID: " + document.getId() + ", Field: " + field.getKey());
-                                        // 이제 document를 사용하여 필요한 작업을 수행할 수 있습니다.
-                                        db.collection("Member").whereEqualTo(field.getKey(),currentUser).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    for (QueryDocumentSnapshot documentA : task.getResult()) {
-                                                        // B 컬렉션에서 ID가 일치하는 문서를 찾습니다.
-                                                        db.collection("Party").document(documentA.getId())
-                                                                .get()
-                                                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                                                    @Override
-                                                                    public void onSuccess(DocumentSnapshot documentB) {
-                                                                        if (documentB.exists()) {
-                                                                            partyArrayList.add(documentB.toObject(Party.class));
-                                                                            partyInformationAdapter.notifyDataSetChanged();
-                                                                        }
-                                                                    }
-                                                                });
-                                                    }
-                                                } else {
-                                                    Log.d("TAG", "Error getting documents: ", task.getException());
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                        if (error != null) {
+
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss();
                             }
-                        } else {
-                            Log.d("TAG", "Error getting documents: ", task.getException());
+
+                            Log.e("FireStore error",error.getMessage());
+                            return;
                         }
+
+                        for(DocumentChange dc: value.getDocumentChanges()) {
+
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                partyArrayList.add(dc.getDocument().toObject(Party.class));
+                            }
+
+                            partyInformationAdapter.notifyDataSetChanged();
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss();
+                            }
+                        }
+//                        if (e != null) {
+//                            Log.w("TAG", "Listen failed.", e);
+//                            return;
+//                        }
+//
+//                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+//                            if (doc.get("yourArrayField") != null) {
+//                                Log.d("TAG", "Data: " + doc.getData());
+//                            }
+//                        }
                     }
                 });
+//member 컬렉션을 사용해야 할때
+//        db.collection("Member")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Map<String, Object> fields = document.getData();
+//                                for (Map.Entry<String, Object> field : fields.entrySet()) {
+//                                    if ("valueToFind".equals(field.getValue())) {
+//                                        Log.d("TAG", "Match found in document with ID: " + document.getId() + ", Field: " + field.getKey());
+//                                        // 이제 document를 사용하여 필요한 작업을 수행할 수 있습니다.
+//                                        db.collection("Member").whereEqualTo(field.getKey(),currentUser).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                                            @Override
+//                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                                                if (task.isSuccessful()) {
+//                                                    for (QueryDocumentSnapshot documentA : task.getResult()) {
+//                                                        // B 컬렉션에서 ID가 일치하는 문서를 찾습니다.
+//                                                        db.collection("Party").document(documentA.getId())
+//                                                                .get()
+//                                                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                                                                    @Override
+//                                                                    public void onSuccess(DocumentSnapshot documentB) {
+//                                                                        if (documentB.exists()) {
+//                                                                            partyArrayList.add(documentB.toObject(Party.class));
+//                                                                            partyInformationAdapter.notifyDataSetChanged();
+//                                                                        }
+//                                                                    }
+//                                                                });
+//                                                    }
+//                                                } else {
+//                                                    Log.d("TAG", "Error getting documents: ", task.getException());
+//                                                }
+//                                            }
+//                                        });
+//                                    }
+//                                }
+//                            }
+//                        } else {
+//                            Log.d("TAG", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
 
 //        db.collection("Party").orderBy("subscription", Query.Direction.ASCENDING)
 //                .addSnapshotListener(new EventListener<QuerySnapshot>() {

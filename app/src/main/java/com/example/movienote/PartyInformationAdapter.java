@@ -15,16 +15,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformationAdapter.PartyInformationViewHolder> {
 
@@ -32,10 +39,15 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
     ArrayList<Party> partyArrayList;
     ArrayList<Member> memberArrayList;
 
-    public PartyInformationAdapter(Context context,ArrayList<Party> partyArrayList,ArrayList<Member> memberArrayList) {
+//    public PartyInformationAdapter(Context context,ArrayList<Party> partyArrayList,ArrayList<Member> memberArrayList) {
+//        this.context = context;
+//        this.partyArrayList = partyArrayList;
+//        this.memberArrayList = memberArrayList;
+//    }
+
+    public PartyInformationAdapter(Context context, ArrayList<Party> partyArrayList) {
         this.context = context;
         this.partyArrayList = partyArrayList;
-        this.memberArrayList = memberArrayList;
     }
 
     @NonNull
@@ -233,42 +245,68 @@ public class PartyInformationAdapter extends RecyclerView.Adapter<PartyInformati
                 break;
         }
 
-        holder.subscription.setText(party.getSubscription());
+        FirebaseFirestore.getInstance().collection("Party")
+                .whereArrayContains("member", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
-        FirebaseFirestore.getInstance()
-                .collection("Member")
-                .document(party.getId())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        // 문서의 필드 값을 가져옵니다.
-                        TextView textView1 = new TextView(context);
-                        textView1.setText(document.getString("member1"));
-                        holder.gridLayout.addView(textView1);
+                        if (error != null) {
+                            Log.w("TAG", "Listen failed.", error);
+                            return;
+                        }
 
-                        TextView textView2 = new TextView(context);
-                        textView2.setText(document.getString("member2"));
-                        holder.gridLayout.addView(textView2);
-
-                        TextView textView3 = new TextView(context);
-                        textView3.setText(document.getString("member3"));
-                        holder.gridLayout.addView(textView1);
-
-                        TextView textView4 = new TextView(context);
-                        textView4.setText(document.getString("member4"));
-                        holder.gridLayout.addView(textView4);
-                    } else {
-                        Log.d("TAG", "No such document");
+                        for (QueryDocumentSnapshot doc : value) {
+                            if (doc.get("yourArrayField") != null) {
+                                Log.d("TAG", "Data: " + doc.getData());
+                                List<String> member = (List<String>) doc.get("member");
+                                for (int i=0;i < member.size();i++){
+                                    TextView textView = new TextView(context);
+                                    textView.setText(member.get(i));
+                                    holder.gridLayout.addView(textView);
+                                }
+                            }
+                        }
                     }
-                } else {
-                    Log.d("TAG", "get failed with ", task.getException());
-                }
-            }
-        });
+                });
+
+
+        holder.subscription.setText(party.getSubscription());
+// member 컬렉션을 사용할때
+//        FirebaseFirestore.getInstance()
+//                .collection("Member")
+//                .document(party.getId())
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        // 문서의 필드 값을 가져옵니다.
+//                        TextView textView1 = new TextView(context);
+//                        textView1.setText(document.getString("member1"));
+//                        holder.gridLayout.addView(textView1);
+//
+//                        TextView textView2 = new TextView(context);
+//                        textView2.setText(document.getString("member2"));
+//                        holder.gridLayout.addView(textView2);
+//
+//                        TextView textView3 = new TextView(context);
+//                        textView3.setText(document.getString("member3"));
+//                        holder.gridLayout.addView(textView1);
+//
+//                        TextView textView4 = new TextView(context);
+//                        textView4.setText(document.getString("member4"));
+//                        holder.gridLayout.addView(textView4);
+//                    } else {
+//                        Log.d("TAG", "No such document");
+//                    }
+//                } else {
+//                    Log.d("TAG", "get failed with ", task.getException());
+//                }
+//            }
+//        });
 
     }
 
