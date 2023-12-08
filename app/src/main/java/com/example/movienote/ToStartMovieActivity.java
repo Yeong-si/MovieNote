@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.bumptech.glide.Glide;
 import com.example.movienote.databinding.ActivityToStartMovieBinding;
@@ -36,7 +37,7 @@ public class ToStartMovieActivity extends AppCompatActivity {
         }else{
             binding.title.setText(currentUser.getDisplayName()+"님이 보고싶은 영화");
         }*/
-        adapter = new MovieAdapter(array, this,"Finished");
+        adapter = new MovieAdapter(array, ToStartMovieActivity.this,"Finished");
 
         NoteDBHelper helper = new NoteDBHelper(this);
         SQLiteDatabase db = helper.getReadableDatabase();

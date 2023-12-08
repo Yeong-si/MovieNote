@@ -1,8 +1,11 @@
 package com.example.movienote;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +21,11 @@ import java.util.List;
 public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.MovieNoteViewHolder> {
     ArrayList<Note> noteArrayList;
     private MovieNoteAdapter.OnClickListener onClickListener;
+    Context context;
 
     public MovieNoteAdapter(Context context,ArrayList<Note> noteArrayList) {
         this.noteArrayList = noteArrayList;
+        this.context = context;
     }
 
     public void filterList(ArrayList<Note> filteredList) {
@@ -68,7 +73,10 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
 //            }
 //        });
 
+
     }
+
+
 
     @Override
     public int getItemCount() {

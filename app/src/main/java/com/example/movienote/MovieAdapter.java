@@ -5,8 +5,11 @@ import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,7 +31,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     Context context;
     String fromActivity;
     private OnClickListener onClickListener;
-
 
 
     public MovieAdapter(List<MovieItem> array, Context context,String fromActivity){
@@ -81,6 +83,39 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 }
             }
         });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                //Log.d("LSY", String.valueOf(context));
+                String check = String.valueOf(context);
+                if (check.contains("ToStartMovieActivity")) {
+                    onItemLongClick(holder.getAdapterPosition());
+                }
+                return true;
+            }
+        });
+    }
+
+    public void onItemLongClick(int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("알림")
+                .setMessage("이 항목을 삭제하시겠습니까?")
+                .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String movieTitle = array.get(position).getTitle();
+                        String posterUrl = array.get(position).getImage();
+                        NoteDBHelper helper = new NoteDBHelper(context);
+                        SQLiteDatabase SQLitedb = helper.getReadableDatabase();
+
+                        SQLitedb.execSQL("DELETE FROM tb_memo WHERE title=? AND poster=?", new String[]{movieTitle, posterUrl});
+                        array.remove(position);
+                        notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("취소", null)
+                .show();
     }
 
     @Override

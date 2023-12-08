@@ -205,15 +205,6 @@ public class NoteActivity extends AppCompatActivity {
                 }
 
 
-                /*private NoteDBHelper helper;
-
-                helper = new NoteDBHelper(MovieSearchActivity.this);
-                SQLiteDatabase db = helper.getReadableDatabase();
-
-                if ("toStart".equals(fromActivity)){
-                    db.execSQL("insert into tb_memo (title,poster) values (?,?)", new String[]{title,image});
-                }*/
-
                 if (binding.openNote.getVisibility() == View.VISIBLE){
                     visible = true;
                 }else {
@@ -242,6 +233,7 @@ public class NoteActivity extends AppCompatActivity {
                 noteReference.document(note.getTimestamp().toString()).set(data1);
 
                 startActivity(new Intent(NoteActivity.this, FinishedMovieActivity.class));
+                finish();
             }
         });
 

@@ -51,7 +51,7 @@ public class MovieSearchActivity extends AppCompatActivity {
 
         String fromActivity = getIntent().getStringExtra("what");
         if ("toStart".equals(fromActivity)){
-            adapter = new MovieAdapter(array, this,"toStart");
+            adapter = new MovieAdapter(array, MovieSearchActivity.this,"toStart");
         } else if ("Finished".equals(fromActivity)) {
             adapter = new MovieAdapter(array, this,"Finished");
         }
