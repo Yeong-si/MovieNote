@@ -179,6 +179,8 @@ public class NoteActivity extends AppCompatActivity {
                 String data1Image = shDb.getString("data1Image", "none");
                 String data2Title = shDb.getString("data2Title","none");
                 String data2Image = shDb.getString("data2Image", "none");
+//                String data3Title = shDb.getString("data3Title","none");
+//                String data3Image = shDb.getString("data3Image", "none");
                 if (data1Title.equals("none")){
                     editor.putString("data1Title",binding.moviename.getText().toString());
                     editor.putString("data1Image",posterUrl);
@@ -194,6 +196,9 @@ public class NoteActivity extends AppCompatActivity {
                     Log.d("LSY", shDb.getString("data1Title", "none"));
                     Log.d("LSY", shDb.getString("data2Title", "none"));
                 } else {
+                    /*editor.putString("data3Title",data1Title);
+                    editor.putString("data3Image",data1Image);*/
+
                     editor.putString("data1Title",data2Title);
                     editor.putString("data1Image",data2Image);
 
@@ -201,7 +206,6 @@ public class NoteActivity extends AppCompatActivity {
                     editor.putString("data2Image",posterUrl);
                     editor.apply();
                     Log.d("LSY", "데이터3실행");
-                    
                 }
 
 
