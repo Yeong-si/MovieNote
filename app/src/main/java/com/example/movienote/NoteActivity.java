@@ -81,7 +81,7 @@ public class NoteActivity extends AppCompatActivity {
                 .into(binding.poster);
 
         //어댑터에서 왔을 경우
-        if (check.equals("modify")){
+        if (intent.hasExtra("check") && check.equals("modify")){
             binding.date.setText(calendar);
             binding.ratingStar.setRating(rating);
             if(visible == true){
@@ -233,7 +233,7 @@ public class NoteActivity extends AppCompatActivity {
 
                 }else {*/
 
-                    note = new Note(posterUrl, currentUser.getUid().toString(), currentUser.getDisplayName(), binding.moviename.getText().toString(), binding.date.getText().toString(),
+                    note = new Note( currentUser.getUid().toString(), currentUser.getDisplayName(), binding.moviename.getText().toString(), binding.date.getText().toString(),
                             binding.ratingStar.getRating(), !visible, binding.noteTitle.getText().toString(),
                             binding.comment.getText().toString(), binding.note.getText().toString(), LocalDateTime.now(), binding.genreChoicebtn.getText().toString());
 
@@ -241,7 +241,7 @@ public class NoteActivity extends AppCompatActivity {
                     //note.set
                     noteReference = FirebaseFirestore.getInstance().collection("Note");
                     Map<String, Object> data1 = new HashMap<>();
-                    data1.put("poster", posterUrl);
+                    //data1.put("poster", posterUrl);
                     data1.put("uid", currentUser.getUid());
                     data1.put("writer", note.getWriter());
                     data1.put("movieTitle", note.getMovieTitle());

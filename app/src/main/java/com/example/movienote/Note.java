@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Note {
 
-    private String poster; //포스터
+    //private String poster; //포스터
     private String uid; // userId
     private String writer; // 작성자
     private String movieTitle; // 영화 제목
@@ -25,8 +25,8 @@ public class Note {
 
     public Note() {}
 
-    public Note(String poster,String uid,String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note,@NonNull LocalDateTime timestamp,String genre) {
-        this.poster = poster;
+    public Note(String uid,String writer, String movieTitle, String calendar, float rating, boolean visible, String noteTitle, String comment, String note,@NonNull LocalDateTime timestamp,String genre) {
+        //this.poster = poster;
         this.writer = writer;
         this.uid = uid;
         this.movieTitle = movieTitle;
@@ -49,13 +49,13 @@ public class Note {
         this.timestamp = timestamp;
     }
 
-    public String getPoster() {
+    /*public String getPoster() {
         return poster;
     }
 
     public void setPoster(String poster) {
         this.poster = poster;
-    }
+    }*/
 
     public String getUid() {
         return uid;
