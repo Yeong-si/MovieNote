@@ -3,6 +3,7 @@ package com.example.movienote;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -66,7 +67,7 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*try {
+                try {
                     if (onClickListener != null) {
                         onClickListener.onClick(position, note);
                         Intent intent=null;
@@ -74,22 +75,34 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
 
                         if (check.contains("Finished")){
                             //피니시에서 온경우
-                            intent = new Intent(v.getContext(), ToStartMovieActivity.class);
-                            Log.d("LSY","여기서22");
+                            intent = new Intent(v.getContext(), NoteActivity.class);
+                            intent.putExtra("check","modify");
+                            intent.putExtra("title",note.getMovieTitle());
+                            intent.putExtra("calendar",note.getCalendar());
+                            intent.putExtra("rating",note.getRating());
+                            intent.putExtra("visible",note.isVisible());
+                            intent.putExtra("genre",note.getGenre());
+                            intent.putExtra("image",note.getPoster());
+                            intent.putExtra("NoteTitle",note.getNoteTitle());
+                            intent.putExtra("comment",note.getComment());
+                            intent.putExtra("note",note.getNote());
+
+                            Log.d("LSY","본영화에서 노트클릭");
+                            v.getContext().startActivity(intent);
+
                         }else{
                             //찬민 노트 검색에서 클릭했을 경우
-                            intent = new Intent(v.getContext(), NoteActivity.class);
-                            Log.d("LSY", "여기서 11");
+                            //intent = new Intent(v.getContext(), NoteActivity.class);
+                            //Log.d("LSY", "여기서 11");
                         }
-                        intent.putExtra("title", item.getTitle());
-                        intent.putExtra("image", item.getImage());
-                        v.getContext().startActivity(intent);//onClickListener.onC
+//                        intent.putExtra("title", item.getTitle());
+//                        intent.putExtra("image", item.getImage());
                         //((Activity)v.getContext()).finish();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.d("LSY", "처리안됨");
-                }*/
+                }
             }
         });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -118,8 +131,6 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
                         String movieTitle = noteArrayList.get(position).getMovieTitle();
                         //String posterUrl = noteArrayList.get(position).getImage();
 
-                        //파이어베이스에서 삭제 후 리사이클러뷰 리셋을 여기서 해주나 ..?바로 해줘야할듯
-                        //그래야 개수가 바뀌니까?
                         Query query = collectionReference.whereEqualTo("uid", true)
                                 .whereEqualTo("noteTitle",noteArrayList.get(position).getNoteTitle());
 
@@ -136,13 +147,8 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
                         noteArrayList.remove(position);
                         notifyDataSetChanged();
 
-                        //앱내부 DB에서 삭제하여 main에 변화주기
                         shDb = context.getSharedPreferences("FinishedNote",MODE_PRIVATE);
                         editor = shDb.edit();
-                        //1번이 비어있으면 = 아무것도 없다는 소리 -> 1번에 넣고 끝내기
-                        //2번만 비어있으면 = 2번에 넣으면 됨
-                        // 둘 다 안 비어있다면 2번을 1번으로 넘기고 새로 업로드할 것을 2번에 넣기
-                        // 1번 or 2번에서 지워진 거라면 변화 있지만 아니면 변화 X
 
                         String data1Title = shDb.getString("data1Title", "none");
                         String data1Image = shDb.getString("data1Image", "none");
@@ -153,44 +159,35 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
                             if (getItemCount() == 0){
                                 editor.remove("data1Title");
                                 editor.remove("data1Image");
+                                editor.commit();
                             } else if (getItemCount() == 1) {
                                 editor.putString("data1Title",data2Title);
                                 editor.putString("data1Image",data2Image);
                                 editor.remove("data2Title");
                                 editor.remove("data2Image");
+                                editor.commit();
                             }else {
                                 //2개 이상 남음 , 이 전 포지션 값 갖고오기
                                 editor.putString("data1Title",noteArrayList.get(position-1).getMovieTitle());
                                 //포스터 고쳐야해
                                 editor.putString("data1Image",data2Image);
+                                editor.commit();
                             }
                         }else if (data2Title.equals(movieTitle)){
                             if (getItemCount() == 1){
                                 editor.remove("data2Title");
                                 editor.remove("data2Image");
+                                editor.commit();
                             }else {
                                 editor.putString("data2Title",data1Title);
                                 editor.putString("data2Image",data1Image);
                                 editor.putString("data1Title",noteArrayList.get(position-2).getMovieTitle());
                                 //포스터 고쳐야해
                                 editor.putString("data1Image",data2Image);
+                                editor.commit();
 
                             }
                         }
-//                        int size = getItemCount();
-//                        if (size>1){
-//
-//                        } else if (size == 1) {
-//
-//                        }else {
-//
-//                        }
-
-
-                        //가장최근 위에 거랑 삭제하려는 게 같다면
-
-                        //추가로 봐야할게 파이어베이스에 저장된 노트둘이 지우고 나서도 두개 이상이어야 두개를 보이지. 아니면 그냥 남은 하나 대입하면 끝임
-
 
                     }
                 })
