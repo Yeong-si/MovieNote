@@ -233,7 +233,7 @@ public class NoteActivity extends AppCompatActivity {
 
                 }else {*/
 
-                    note = new Note( currentUser.getUid().toString(), currentUser.getDisplayName(), binding.moviename.getText().toString(), binding.date.getText().toString(),
+                    note = new Note(posterUrl,currentUser.getUid().toString(), currentUser.getDisplayName(), binding.moviename.getText().toString(), binding.date.getText().toString(),
                             binding.ratingStar.getRating(), !visible, binding.noteTitle.getText().toString(),
                             binding.comment.getText().toString(), binding.note.getText().toString(), LocalDateTime.now(), binding.genreChoicebtn.getText().toString());
 

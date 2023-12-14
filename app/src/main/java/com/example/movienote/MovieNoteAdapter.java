@@ -82,7 +82,7 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
                             intent.putExtra("rating",note.getRating());
                             intent.putExtra("visible",note.isVisible());
                             intent.putExtra("genre",note.getGenre());
-                            //intent.putExtra("image",note.getPoster());
+                            intent.putExtra("image",note.getPoster());
                             intent.putExtra("NoteTitle",note.getNoteTitle());
                             intent.putExtra("comment",note.getComment());
                             intent.putExtra("note",note.getNote());
@@ -125,6 +125,8 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
                 .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //String movieTitle = noteArrayList.get(position).getMovieTitle();
+
                         db = FirebaseFirestore.getInstance();
                         collectionReference = db.collection("Note");
                         //삭제하려는 것의 목록
@@ -171,8 +173,8 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
                                 //2개 이상 남음 , 이 전 포지션 값 갖고오기
                                 editor.putString("data1Title",noteArrayList.get(position-1).getMovieTitle());
                                 //포스터 고쳐야해
-                                editor.putString("data1Image",data1Image);
-                                //editor.putString("data1Image",noteArrayList.get(position-1).getPoster());
+                                //editor.putString("data1Image",data1Image);
+                                editor.putString("data1Image",noteArrayList.get(position-1).getPoster());
                                 editor.commit();
                             }
                         }else if (data2Title.equals(movieTitle)){
@@ -185,8 +187,8 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
                                 editor.putString("data2Image",data1Image);
                                 editor.putString("data1Title",noteArrayList.get(position-2).getMovieTitle());
                                 //포스터 고쳐야해
-                                editor.putString("data1Image",data1Image);
-                                //editor.putString("data1Image",noteArrayList.get(position-2).getPoster());
+                                //editor.putString("data1Image",data1Image);
+                                editor.putString("data1Image",noteArrayList.get(position-2).getPoster());
                                 editor.commit();
 
                             }
