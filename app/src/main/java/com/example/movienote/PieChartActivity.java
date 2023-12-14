@@ -73,7 +73,6 @@ public class PieChartActivity extends AppCompatActivity {
 
     private int romance = 0, action = 0, animation = 0, sf = 0, horror = 0, drama = 0, comedy = 0;
 
-    private int romanceAll,actionAll,animationAll,sfAll,horrorAll,dramaAll,comedyAll;
 
     private void fetchDataAndUpdateUI() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -556,14 +555,13 @@ public class PieChartActivity extends AppCompatActivity {
             Log.d("KDE", "firstMovie : " + firstMovie);
             String secondMovie = Movie.MovieSearch(movieRank[1]);
             String thirddMovie = Movie.MovieSearch(movieRank[2]);
-//            String posterurl1 = parserankingJson(firstMovie);
-//            Log.d("KDE", "poster first : " + posterurl1);
 
             runOnUiThread(() -> {
                 if (movies != null) {
                     List<String> posterUrl = parseJson(movies);
                     int min = 0, max = posterUrl.size();
                     int randomNum1 = new Random().nextInt(max - min + 1) + min;
+                    Log.d("KDE", "recommend poster1 : " + posterUrl.get(randomNum1));
                     int randomNum2 = new Random().nextInt(max - min + 1) + min;
                     int randomNum3 = new Random().nextInt(max - min + 1) + min;
 
