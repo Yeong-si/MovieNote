@@ -171,7 +171,8 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
                                 //2개 이상 남음 , 이 전 포지션 값 갖고오기
                                 editor.putString("data1Title",noteArrayList.get(position-1).getMovieTitle());
                                 //포스터 고쳐야해
-                                editor.putString("data1Image",noteArrayList.get(position-1).getPoster());
+                                editor.putString("data1Image",data1Image);
+                                //editor.putString("data1Image",noteArrayList.get(position-1).getPoster());
                                 editor.commit();
                             }
                         }else if (data2Title.equals(movieTitle)){
@@ -184,7 +185,8 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
                                 editor.putString("data2Image",data1Image);
                                 editor.putString("data1Title",noteArrayList.get(position-2).getMovieTitle());
                                 //포스터 고쳐야해
-                                editor.putString("data1Image",noteArrayList.get(position-2).getPoster());
+                                editor.putString("data1Image",data1Image);
+                                //editor.putString("data1Image",noteArrayList.get(position-2).getPoster());
                                 editor.commit();
 
                             }
