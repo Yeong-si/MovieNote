@@ -28,6 +28,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.model.ServerTimestamps;
+import com.google.firebase.firestore.model.Values;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class PartyActivity extends AppCompatActivity {
     CollectionReference partyReference;
 //    CollectionReference memberReference;
 
-    List<String> member;
+    ArrayList<String> member;
     CollectionReference subscriptionReference;
 
     @Override
@@ -84,7 +85,7 @@ public class PartyActivity extends AppCompatActivity {
                                         if (task.isSuccessful()) {
                                             DocumentSnapshot document = task.getResult();
                                             if (document != null) {
-                                                data.put("price",Integer.toString(
+                                                data.put("price",Integer.toString((Integer)
                                                         Integer.parseInt(document.getString("price"))
                                                         /Integer.parseInt(document.getString("max"))
                                                         )
