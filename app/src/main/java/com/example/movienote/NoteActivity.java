@@ -26,6 +26,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -39,6 +40,7 @@ public class NoteActivity extends AppCompatActivity {
     FirebaseFirestore db;
     SharedPreferences shDb;
     SharedPreferences.Editor editor;
+
 
     private AlertDialog listDialog;
     private DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
@@ -63,14 +65,41 @@ public class NoteActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Intent intent = getIntent();
+        String check = intent.getStringExtra("check");
         String posterUrl = intent.getStringExtra("image");
         String movieTitle = intent.getStringExtra("title");
-
+        String calendar = intent.getStringExtra("calendar");
+        float rating = intent.getFloatExtra("rating",0);
+        boolean visible = intent.getBooleanExtra("visible",true);
+        String genre = intent.getStringExtra("genre");
+        String noteTitle = intent.getStringExtra("NoteTitle");
+        String comment = intent.getStringExtra("comment");
+        String note = intent.getStringExtra("note");
 
         binding.moviename.setText(movieTitle);
         Glide.with(this)
                 .load(posterUrl)
                 .into(binding.poster);
+
+        //어댑터에서 왔을 경우
+        if (check.equals("modify")){
+            binding.date.setText(calendar);
+            binding.ratingStar.setRating(rating);
+            if(visible == true){
+                //비공개
+                binding.openNote.setVisibility(View.INVISIBLE);
+                binding.closedNote.setVisibility(View.VISIBLE);
+            }else {
+                //공개
+                binding.openNote.setVisibility(View.VISIBLE);
+                binding.closedNote.setVisibility(View.INVISIBLE);
+            }
+            binding.genreChoicebtn.setText(genre);
+            binding.noteTitle.setText(noteTitle);
+            binding.comment.setText(comment);
+            binding.note.setText(note);
+        }
+
         //평점 변경
         binding.ratingStar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -153,19 +182,6 @@ public class NoteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("LSY","어디서 온 : "+getIntent().getStringExtra("what"));
 
-                //보고싶은 에서 삭제하기
-                /*helper = new NoteDBHelper(MovieSearchActivity.this);
-                SQLiteDatabase db = helper.getReadableDatabase();
-
-                if ("toStart".equals(fromActivity)){
-                    db.execSQL("insert into tb_memo (title,poster) values (?,?)", new String[]{title,image});
-                    intent = new Intent(MovieSearchActivity.this, ToStartMovieActivity.class);
-                }else{
-                    intent = new Intent(MovieSearchActivity.this, NoteActivity.class);
-                }*/
-                //helper.deleteData("tb_memo","title",movieTitle);
-                //helper.deleteData("tb_memo","poster",posterUrl);
-
                 SQLitedb.execSQL("DELETE FROM tb_memo WHERE title=? AND poster=?", new String[]{movieTitle, posterUrl});
 
                 boolean visible;
@@ -184,14 +200,14 @@ public class NoteActivity extends AppCompatActivity {
                 if (data1Title.equals("none")){
                     editor.putString("data1Title",binding.moviename.getText().toString());
                     editor.putString("data1Image",posterUrl);
-                    editor.apply();
+                    editor.commit();
                     Log.d("LSY", "데이터1실행");
                     Log.d("LSY", shDb.getString("data1Title", "none"));
 
                 } else if (data2Title.equals("none")) {
                     editor.putString("data2Title",binding.moviename.getText().toString());
                     editor.putString("data2Image",posterUrl);
-                    editor.apply();
+                    editor.commit();
                     Log.d("LSY", "데이터2실행");
                     Log.d("LSY", shDb.getString("data1Title", "none"));
                     Log.d("LSY", shDb.getString("data2Title", "none"));
@@ -204,7 +220,7 @@ public class NoteActivity extends AppCompatActivity {
 
                     editor.putString("data2Title",binding.moviename.getText().toString());
                     editor.putString("data2Image",posterUrl);
-                    editor.apply();
+                    editor.commit();
                     Log.d("LSY", "데이터3실행");
                 }
 
@@ -215,7 +231,7 @@ public class NoteActivity extends AppCompatActivity {
                     visible =false;
                 }
 
-                note = new Note(currentUser.getUid().toString(),currentUser.getDisplayName(),binding.moviename.getText().toString(),binding.date.getText().toString(),
+                note = new Note(posterUrl,currentUser.getUid().toString(),currentUser.getDisplayName(),binding.moviename.getText().toString(),binding.date.getText().toString(),
                         binding.ratingStar.getRating(),!visible,binding.noteTitle.getText().toString(),
                         binding.comment.getText().toString(),binding.note.getText().toString(), LocalDateTime.now(), binding.genreChoicebtn.getText().toString());
 
@@ -223,6 +239,7 @@ public class NoteActivity extends AppCompatActivity {
                 //note.set
                 noteReference = FirebaseFirestore.getInstance().collection("Note");
                 Map<String, Object> data1 = new HashMap<>();
+                data1.put("poster",posterUrl);
                 data1.put("uid",currentUser.getUid());
                 data1.put("writer", note.getWriter());
                 data1.put("movieTitle", note.getMovieTitle());
@@ -237,7 +254,7 @@ public class NoteActivity extends AppCompatActivity {
                 noteReference.document(note.getTimestamp().toString()).set(data1);
 
                 startActivity(new Intent(NoteActivity.this, FinishedMovieActivity.class));
-                finish();
+                //finish();
             }
         });
 
