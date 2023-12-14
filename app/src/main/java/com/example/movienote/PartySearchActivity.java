@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +34,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PartySearchActivity extends AppCompatActivity {
 
@@ -42,7 +42,6 @@ public class PartySearchActivity extends AppCompatActivity {
     ArrayList<Party> partyArrayList;
     PartySearchAdapter partySearchAdapter;
     FirebaseFirestore db;
-    ProgressDialog progressDialog;
     String selectedSubscription;
     NavigationBarView navigationBarView;
 
@@ -119,11 +118,6 @@ public class PartySearchActivity extends AppCompatActivity {
             }
         });
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Fetching Data...");
-        progressDialog.show();
-
         recyclerView = binding.partySearchRecyclerView;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -139,38 +133,27 @@ public class PartySearchActivity extends AppCompatActivity {
 
     private void EventChangeListener() {
 
-        db.collection("Party").whereEqualTo("subscription",selectedSubscription)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String field = document.getString("subscription");
 
-                                Task<DocumentSnapshot> subscription = db.collection("Subscription").document(field)
-                                        .get()
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                if (documentSnapshot.exists()) {
-                                                    // 여기서 documentSnapshot은 'Collection1'의 문서입니다.
-                                                    // 이 문서의 필드 값을 가져오거나 다른 작업을 수행할 수 있습니다.
-                                                    ArrayList<String> members = (ArrayList<String>) documentSnapshot.get("member");
-                                                    if (members.size() < Integer.parseInt(documentSnapshot.getString("max"))) {
-                                                        // members.size()가 ott의 동시 시청 가능한 사람보다 작을 때만 데이터를 처리합니다.
-                                                        // 이 부분에서 리사이클러뷰 어댑터에 데이터를 추가하고, 어댑터를 업데이트합니다.
-                                                        partyArrayList.add(documentSnapshot.toObject(Party.class));
-                                                    }
-                                                    partySearchAdapter.notifyDataSetChanged();
-                                                }
-                                            }
-                                        });
+        db.collection("Party").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful() ) {
+
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        // DocumentSnapshot에서 리스트 타입의 필드 가져오기
+                        Object memberField = document.get("member");
+
+                        // 만약 필드가 리스트 타입이라면
+                        if (memberField instanceof List) {
+                            List<String> member = (List<String>) memberField;
+                            if(member.size() < 4){
+                                partyArrayList.add(document.toObject(Party.class));
                             }
-                        } else {
-                            Log.d("FireStore", "Error getting documents: ", task.getException());
                         }
+                        partySearchAdapter.notifyDataSetChanged();
                     }
-                });
+                }
+            }
+        });
     }
 }
