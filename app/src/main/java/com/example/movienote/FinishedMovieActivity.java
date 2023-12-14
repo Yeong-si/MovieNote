@@ -104,49 +104,6 @@ public class FinishedMovieActivity extends AppCompatActivity {
 
         EventChangeListener();
 
-        //메인으로 넘길 아이템 2개
-
-        /*String data1Title = shDb.getString("data1Title", "none");
-        String data1Image = shDb.getString("data1Image", "none");
-        String data2Title = shDb.getString("data2Title","none");
-        String data2Image = shDb.getString("data2Image", "none");
-
-        if (noteArrayList.size()==1){
-            editor.putString("data1Title",);
-            editor.putString("data1Image",posterUrl);
-            editor.apply();
-            Log.d("LSY", "데이터1실행");
-            Log.d("LSY", shDb.getString("data1Title", "none"));
-        }
-
-        if (data1Title.equals("none")){
-            editor.putString("data1Title",binding.moviename.getText().toString());
-            editor.putString("data1Image",posterUrl);
-            editor.apply();
-            Log.d("LSY", "데이터1실행");
-            Log.d("LSY", shDb.getString("data1Title", "none"));
-
-        } else if (data2Title.equals("none")) {
-            editor.putString("data2Title",binding.moviename.getText().toString());
-            editor.putString("data2Image",posterUrl);
-            editor.apply();
-            Log.d("LSY", "데이터2실행");
-            Log.d("LSY", shDb.getString("data1Title", "none"));
-            Log.d("LSY", shDb.getString("data2Title", "none"));
-        } else {
-            editor.putString("data3Title",data1Title);
-            editor.putString("data3Image",data1Image);
-
-            editor.putString("data1Title",data2Title);
-            editor.putString("data1Image",data2Image);
-
-            editor.putString("data2Title",binding.moviename.getText().toString());
-            editor.putString("data2Image",posterUrl);
-            editor.apply();
-            Log.d("LSY", "데이터3실행");
-        }*/
-
-
     }
 
 

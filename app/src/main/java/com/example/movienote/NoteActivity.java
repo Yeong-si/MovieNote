@@ -41,7 +41,6 @@ public class NoteActivity extends AppCompatActivity {
     SharedPreferences shDb;
     SharedPreferences.Editor editor;
 
-
     private AlertDialog listDialog;
     private DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
         @Override
@@ -212,8 +211,6 @@ public class NoteActivity extends AppCompatActivity {
                     Log.d("LSY", shDb.getString("data1Title", "none"));
                     Log.d("LSY", shDb.getString("data2Title", "none"));
                 } else {
-                    /*editor.putString("data3Title",data1Title);
-                    editor.putString("data3Image",data1Image);*/
 
                     editor.putString("data1Title",data2Title);
                     editor.putString("data1Image",data2Image);
@@ -231,27 +228,33 @@ public class NoteActivity extends AppCompatActivity {
                     visible =false;
                 }
 
-                note = new Note(posterUrl,currentUser.getUid().toString(),currentUser.getDisplayName(),binding.moviename.getText().toString(),binding.date.getText().toString(),
-                        binding.ratingStar.getRating(),!visible,binding.noteTitle.getText().toString(),
-                        binding.comment.getText().toString(),binding.note.getText().toString(), LocalDateTime.now(), binding.genreChoicebtn.getText().toString());
+                /*if (check.equals("modify")){
 
-                //note.setNoteTitle(binding.moviename1.getText().toString());
-                //note.set
-                noteReference = FirebaseFirestore.getInstance().collection("Note");
-                Map<String, Object> data1 = new HashMap<>();
-                data1.put("poster",posterUrl);
-                data1.put("uid",currentUser.getUid());
-                data1.put("writer", note.getWriter());
-                data1.put("movieTitle", note.getMovieTitle());
-                data1.put("note", note.getNote());
-                data1.put("noteTitle", note.getNoteTitle());
-                data1.put("comment",note.getComment());
-                data1.put("rating",note.getRating());
-                data1.put("calendar",note.getCalendar());
-                data1.put("invisible",note.isVisible());
-                data1.put("genre",note.getGenre());
 
-                noteReference.document(note.getTimestamp().toString()).set(data1);
+                }else {*/
+
+                    note = new Note(posterUrl, currentUser.getUid().toString(), currentUser.getDisplayName(), binding.moviename.getText().toString(), binding.date.getText().toString(),
+                            binding.ratingStar.getRating(), !visible, binding.noteTitle.getText().toString(),
+                            binding.comment.getText().toString(), binding.note.getText().toString(), LocalDateTime.now(), binding.genreChoicebtn.getText().toString());
+
+                    //note.setNoteTitle(binding.moviename1.getText().toString());
+                    //note.set
+                    noteReference = FirebaseFirestore.getInstance().collection("Note");
+                    Map<String, Object> data1 = new HashMap<>();
+                    data1.put("poster", posterUrl);
+                    data1.put("uid", currentUser.getUid());
+                    data1.put("writer", note.getWriter());
+                    data1.put("movieTitle", note.getMovieTitle());
+                    data1.put("note", note.getNote());
+                    data1.put("noteTitle", note.getNoteTitle());
+                    data1.put("comment", note.getComment());
+                    data1.put("rating", note.getRating());
+                    data1.put("calendar", note.getCalendar());
+                    data1.put("invisible", note.isVisible());
+                    data1.put("genre", note.getGenre());
+
+                    noteReference.document(note.getTimestamp().toString()).set(data1);
+
 
                 startActivity(new Intent(NoteActivity.this, FinishedMovieActivity.class));
                 //finish();
