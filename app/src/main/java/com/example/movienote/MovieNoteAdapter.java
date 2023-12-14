@@ -82,7 +82,7 @@ public class MovieNoteAdapter extends RecyclerView.Adapter<MovieNoteAdapter.Movi
                             intent.putExtra("rating",note.getRating());
                             intent.putExtra("visible",note.isVisible());
                             intent.putExtra("genre",note.getGenre());
-                            intent.putExtra("image",note.getPoster());
+                            //intent.putExtra("image",note.getPoster());
                             intent.putExtra("NoteTitle",note.getNoteTitle());
                             intent.putExtra("comment",note.getComment());
                             intent.putExtra("note",note.getNote());
