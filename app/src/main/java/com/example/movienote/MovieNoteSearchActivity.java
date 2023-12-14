@@ -8,8 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.movienote.databinding.ActivityMovieNoteSearchBinding;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,8 +38,8 @@ public class MovieNoteSearchActivity extends AppCompatActivity {
     ArrayList<Note> noteArrayList;
     MovieNoteAdapter movieNoteAdapter;
     FirebaseFirestore db;
-    ProgressDialog progressDialog;
     NavigationBarView navigationBarView;
+    String currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +47,8 @@ public class MovieNoteSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(binding.getRoot());
+
+        currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         navigationBarView = findViewById(R.id.bottom_navigation);
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -83,11 +84,6 @@ public class MovieNoteSearchActivity extends AppCompatActivity {
         navigationBarView.getMenu().findItem(R.id.page_3).setChecked(true);
 
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Fetching Data...");
-        progressDialog.show();
-
         recyclerView = binding.movieNoteSearchRecyclerView;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -98,133 +94,94 @@ public class MovieNoteSearchActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(movieNoteAdapter);
 
-//        binding.noteSearchButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                EventChangeListener();
-//                String text = binding.noteSearchBar.getText().toString();
-//                int i=0;
-//                for (Note output : noteArrayList){
-//                    //노트가 공개이고, comment에 text관련이 쓰여있다면
-//                    if (output.isVisible() == true && output.getNote().contains(text)){
-//                        noteArrayList.set(i++,output);
-//                    }
-//                }
-//                movieNoteAdapter.notifyDataSetChanged();
-//            }
-//        });
+        EventChangeListener();
 
-//        movieNoteAdapter.setOnClickListener(new MovieNoteAdapter.OnClickListener() {
-//            @Override
-//            public void onClick(int position, Note model) {
-//                Log.d("LSY", "클릭 완료");
-//                // 클릭된 아이템의 정보를 가져와서 NoteActivity로 전환하는 Intent를 생성
-//                //이런식으로 리스트에서 포지션에 맞는 각각을 들고오는 것 구현하면 돼
-//                String title = noteArrayList.get(position).getMovieTitle();
-//
-//                //Log.d("LSY", title);
-//                //Log.d("LSY", image);
-//
-//                Intent intent = new Intent(MovieNoteSearchActivity.this, ViewNoteFragment.class);
-//                //intent.putExtra(NEXT_SCREEN,model);
-//                intent.putExtra("title", title);
-//                //intent.putExtra("image", image);
-//                Log.d("LSY", "데이터 넘김");
-//
-//                // NoteActivity 시작
-//                startActivity(intent);
-//            }
-//        });
+        binding.searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = binding.searchBar.getText().toString();
 
-//        EventChangeListener();
+                db.collection("Note")
+                        .whereEqualTo("writer", currentUser)
+                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                                if (error != null) {
+                                    Log.e("FireStore error",error.getMessage());
+                                    return;
+                                }
+
+                                for(DocumentChange dc: value.getDocumentChanges()) {
+
+                                    if (dc.getType() == DocumentChange.Type.ADDED) {
+                                        noteArrayList.add(dc.getDocument().toObject(Note.class));
+                                    }
+                                }
+
+                                ArrayList<Note> tmp = new ArrayList<>();
+
+                                for (Note output : noteArrayList){
+                                    //노트가 공개이고, comment에 text관련이 쓰여있다면
+                                    if (output.isVisible() == false && output.getMovieTitle().contains(text)){
+                                        tmp.add(output);
+                                    }
+                                }
+
+                                noteArrayList.clear();
+                                noteArrayList.addAll(tmp);
+                                movieNoteAdapter.notifyDataSetChanged();
+                            }
+                        });
+            }
+        });
+
+        movieNoteAdapter.setOnClickListener(new MovieNoteAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position, Note model) {
+                Log.d("LSY", "클릭 완료");
+                // 클릭된 아이템의 정보를 가져와서 NoteActivity로 전환하는 Intent를 생성
+                //이런식으로 리스트에서 포지션에 맞는 각각을 들고오는 것 구현하면 돼
+                String title = noteArrayList.get(position).getMovieTitle();
+
+                //Log.d("LSY", title);
+                //Log.d("LSY", image);
+
+                Intent intent = new Intent(MovieNoteSearchActivity.this, ViewNoteFragment.class);
+                //intent.putExtra(NEXT_SCREEN,model);
+                intent.putExtra("title", title);
+                //intent.putExtra("image", image);
+                Log.d("LSY", "데이터 넘김");
+
+                // NoteActivity 시작
+                startActivity(intent);
+            }
+        });
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // below line is to get our inflater
-//        MenuInflater inflater = getMenuInflater();
-//
-//        // inside inflater we are inflating our menu file.
-//        inflater.inflate(R.menu.search_menu, menu);
-//
-//        // below line is to get our menu item.
-//        MenuItem searchItem = menu.findItem(R.id.actionSearch);
-//
-//        // getting search view of our item.
-//        SearchView searchView = (SearchView) searchItem.getActionView();
-//
-//        // below line is to call set on query text listener method.
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                // inside on query text change method we are
-//                // calling a method to filter our recycler view.
-//                filter(newText);
-//                return false;
-//            }
-//        });
-//        return true;
-//    }
+    private void EventChangeListener() {
 
+        db.collection("Note")
+                .whereEqualTo("invisible", false)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
-//    private void filter(String text) {
-//        // creating a new array list to filter our data.
-//        ArrayList<Note> filteredlist = new ArrayList<Note>();
-//
-//        // running a for loop to compare elements.
-//        for (Note item : noteArrayList) {
-//            // checking if the entered string matched with any item of our recycler view.
-//            if (item.getNote().toLowerCase().contains(text.toLowerCase())) {
-//                // if the item is matched we are
-//                // adding it to our filtered list.
-//                filteredlist.add(item);
-//            }
-//        }
-//        if (filteredlist.isEmpty()) {
-//            // if no item is added in filtered list we are
-//            // displaying a toast message as no data found.
-//            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
-//        } else {
-//            // at last we are passing that filtered
-//            // list to our adapter class.
-//            movieNoteAdapter.filterList(filteredlist);
-//        }
-//    }
+                        if (error != null) {
 
-//    private void EventChangeListener() {
-//
-//        db.collection("Note").orderBy("note", Query.Direction.ASCENDING)
-//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//
-//                        if (error != null) {
-//
-//                            if (progressDialog.isShowing()) {
-//                                progressDialog.dismiss();
-//                            }
-//
-//                            Log.e("FireStore error", error.getMessage());
-//                            return;
-//                        }
-//
-//                        for (DocumentChange dc : value.getDocumentChanges()) {
-//
-//                            if (dc.getType() == DocumentChange.Type.ADDED) {
-//                                noteArrayList.add(dc.getDocument().toObject(Note.class));
-//                            }
-//
-//                            movieNoteAdapter.notifyDataSetChanged();
-//                            if (progressDialog.isShowing()) {
-//                                progressDialog.dismiss();
-//                            }
-//                        }
-//                    }
-//                });
-//    }
+                            Log.e("FireStore error",error.getMessage());
+                            return;
+                        }
+
+                        for(DocumentChange dc: value.getDocumentChanges()) {
+
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                noteArrayList.add(dc.getDocument().toObject(Note.class));
+                            }
+                            movieNoteAdapter.notifyDataSetChanged();
+
+                        }
+                    }
+                });
+    }
 }
